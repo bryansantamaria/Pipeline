@@ -1,0 +1,32 @@
+msg-container {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 70px 1fr 30px 30px;
+    grid-template-rows: 30px 1fr;
+
+
+    img {
+        grid-column: 1;
+        grid-row: 1 / 2;
+    }
+
+    p {
+        grid-column: 2;
+        grid-row: 2;
+    }
+
+    span {
+        grid-column: 2;
+        grid-row: 1;
+    }
+
+    edit-btn {
+        grid-column: 3;
+        grid-row: 1;
+    }
+
+    delete-btn {
+        grid-column: 3;
+        grid-row: 1;
+    }
+}
