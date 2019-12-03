@@ -1,3 +1,8 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
 msg-container {
   width: 100%;
   display: -ms-grid;
@@ -62,17 +67,51 @@ msg-container delete-btn {
   background-color: red;
 }
 
-side-bar {
+.row {
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+}
+
+.row side-bar {
+  background: -webkit-gradient(linear, right top, left top, from(#616070), to(#685d74));
+  background: linear-gradient(270deg, #616070 0%, #685d74 100%);
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: auto auto 0.7fr 1fr;
+      grid-template-rows: auto auto 0.7fr 1fr;
   width: 330px;
   border: solid 1px green;
   height: 100vh;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  padding: 30px;
+  padding-left: 20px;
 }
 
-message-root {
-  width: calc(100% - 330px);
+.row side-bar img {
+  width: 100%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin-bottom: -15px;
+}
+
+.row side-bar user-name {
+  -ms-grid-row: 2;
+  grid-row: 2;
+}
+
+.row side-bar public-channels {
+  margin-top: 50px;
+  -ms-grid-row: 3;
+  grid-row: 3;
+}
+
+.row side-bar private-message {
+  -ms-grid-row: 4;
+  grid-row: 4;
+}
+
+.row message-root {
+  width: calc(100vw - 330px);
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
