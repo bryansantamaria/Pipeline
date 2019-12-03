@@ -22,5 +22,5 @@ let chatModule2 = new ChatModule(
     log
 );
 
-chatModule.render(document.querySelector('body'));
-chatModule2.render(document.querySelector('body'));
+chatModule.render(document.querySelector('message-root'));
+chatModule2.render(document.querySelector('message-root'));

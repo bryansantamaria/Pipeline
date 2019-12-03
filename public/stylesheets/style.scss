@@ -1,10 +1,11 @@
 msg-container {
-    width: 100vw;
+    width: 100%;
     display: grid;
     grid-template-columns: 70px auto 1fr 30px 30px;
     grid-template-rows: 30px 1fr;
     border-bottom: 1px solid gray;
     margin-top: 20px;
+    box-sizing: border-box;
 
     img {
         grid-column: 1;
@@ -39,4 +40,17 @@ msg-container {
         grid-row: 1;
         background-color: red;
     }
+}
+
+side-bar {
+    width: 330px;
+    border: solid 1px green;
+    height: 100vh;
+    box-sizing: border-box;
+    padding: 30px;
+}
+
+message-root{
+    width:calc(100% - 330px);
+    box-sizing: border-box;
 }
