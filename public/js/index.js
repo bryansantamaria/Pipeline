@@ -18,5 +18,5 @@ let chatModule2 = new ChatModule(
     '11:26'
 );
 
-chatModule.render(document.querySelector('body'));
-chatModule2.render(document.querySelector('body'));
+chatModule.render(document.querySelector('message-root'));
+chatModule2.render(document.querySelector('message-root'));
