@@ -101,7 +101,7 @@ msg-container {
     height: 100vh;
     box-sizing: border-box;
     padding-left: 20px;
-    
+
     img {
       width: 100%;
       box-sizing: border-box;
@@ -118,10 +118,6 @@ msg-container {
       grid-row: 4;
     }
   }
-  message-root {
-    width: calc(100vw - 330px);
-    box-sizing: border-box;
-  }
 }
 
 login-container{
@@ -137,4 +133,26 @@ login-container{
 #edit-message {
   width: 100%;
 }
+/*
+main-content {
+  display: grid;
+  grid-template-rows: 3;
+  grid-template-columns: auto;
+  width: calc(100vw - 330px);
 
+  message-root {
+    box-sizing: border-box;
+  }
+  is-typing{
+
+  }
+  form{
+    #messageValue{
+
+    }
+    #sendMessage{
+
+    }
+  }
+}
+*/
