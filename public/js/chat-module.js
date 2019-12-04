@@ -6,6 +6,7 @@ export class ChatModule {
             message: document.createElement('p'),
             alias: document.createElement('h1'),
             date: document.createElement('span'),
+            avatarContainer: document.createElement('avatar-container'),
             avatar: document.createElement('img'),
             editBtn: document.createElement('edit-btn'),
             deleteBtn: document.createElement('delete-btn')
@@ -80,7 +81,8 @@ export class ChatModule {
         this.html.editBtn.setAttribute("data-toggle","modal")
         this.html.editBtn.setAttribute("data-target", "#edit-message-modal")
         
-        this.html.container.appendChild(this.html.avatar);
+        this.html.avatarContainer.appendChild(this.html.avatar);
+        this.html.container.appendChild(this.html.avatarContainer);
         this.html.container.appendChild(this.html.message);
         this.html.container.appendChild(this.html.date);
         this.html.container.appendChild(this.html.alias);
