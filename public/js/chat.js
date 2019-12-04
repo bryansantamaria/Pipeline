@@ -80,6 +80,21 @@ $("form").submit(function(e){
 //     });
 // })
 
+/*     //Genererar dagens datum och tid, convertar från millisekunder.
+    function getTodaysDate() {
+        var rightNow = new Date();
+        var dd = String(rightNow.getDate()).padStart(2, '0');
+        var mm = String(rightNow.getMonth() + 1).padStart(2, '0');
+        var h = rightNow.getHours();
+        var m = rightNow.getMinutes();
+
+        var yyyy = rightNow.getFullYear();
+        h = (h < 10) ? "0" + h : h;
+        m = (m < 10) ? "0" + m : m;
+        rightNow = yyyy + '-' + mm + '-' + dd + ' kl ' + h + ":" + m;
+        return rightNow;
+    }*/
+
 chatModule.render(document.querySelector('message-root'));
 chatModule2.render(document.querySelector('message-root'));
 chatModule3.render(document.querySelector('message-root'));
