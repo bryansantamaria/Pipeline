@@ -6,6 +6,7 @@ export class ChatModule {
             message: document.createElement('p'),
             alias: document.createElement('h1'),
             date: document.createElement('span'),
+            avatarContainer: document.createElement('avatar-container'),
             avatar: document.createElement('img'),
             editBtn: document.createElement('edit-btn'),
             deleteBtn: document.createElement('delete-btn')
@@ -37,16 +38,20 @@ export class ChatModule {
         });
     }
 
+
+    //Runs on confirmed edit
     delete() {
-        this.html.container.classList.add('removed');
+        this.html.container.classList.add('removed-msg');
 
         setTimeout(() => {
             this.html.container.parentNode.removeChild(this.html.container);
-        }, 500)
+        }, 600)
 
         //HTTP till server för att ta bort meddelande
     }
 
+
+    //Runs on confirmed edit
     edit(newText) {
         this.html.message.innerText = newText;
         this.content.message = newText;
@@ -80,7 +85,8 @@ export class ChatModule {
         this.html.editBtn.setAttribute("data-toggle","modal")
         this.html.editBtn.setAttribute("data-target", "#edit-message-modal")
         
-        this.html.container.appendChild(this.html.avatar);
+        this.html.avatarContainer.appendChild(this.html.avatar);
+        this.html.container.appendChild(this.html.avatarContainer);
         this.html.container.appendChild(this.html.message);
         this.html.container.appendChild(this.html.date);
         this.html.container.appendChild(this.html.alias);
