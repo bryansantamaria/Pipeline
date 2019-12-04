@@ -47,9 +47,11 @@ msg-container {
     background-color: red;
   }
 }
+
+
 .row {
   flex-wrap: nowrap;
-  
+  color:white;
   side-bar {
     background: linear-gradient(270deg, #616070 0%, #685d74 100%);
     display: grid;
@@ -59,6 +61,7 @@ msg-container {
     height: 100vh;
     box-sizing: border-box;
     padding-left: 20px;
+    
     img {
       width: 100%;
       box-sizing: border-box;
