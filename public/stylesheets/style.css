@@ -115,4 +115,13 @@ msg-container delete-btn {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
+
+login-container form {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  border: solid 1px purple;
+  padding: 50px;
+  margin: auto;
+  width: 50vw;
+}
 /*# sourceMappingURL=style.css.map */

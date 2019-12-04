@@ -49,7 +49,7 @@ msg-container {
 }
 .row {
   flex-wrap: nowrap;
-
+  
   side-bar {
     background: linear-gradient(270deg, #616070 0%, #685d74 100%);
     display: grid;
@@ -80,3 +80,14 @@ msg-container {
     box-sizing: border-box;
   }
 }
+
+login-container{
+  form{
+    box-sizing:border-box;
+    border: solid 1px purple;
+    padding: 50px;
+    margin:auto;
+    width: 50vw;
+  }
+}
+
