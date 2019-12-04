@@ -97,6 +97,7 @@ msg-container .removed {
 .row {
   -ms-flex-wrap: nowrap;
       flex-wrap: nowrap;
+  color: white;
   margin: 0;
   padding: 0;
 }
