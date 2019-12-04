@@ -1,5 +1,5 @@
 import { ChatModule } from "./chat-module.js";
-
+let chatMessages = [];
 let chatModule = new ChatModule(
     'Aliquam elit eros, suscipit quis semper eget, consectetur eget nisi. Donec consectetur quis nibh eget viverra. Aenean pulvinar mollis arcu, porta faucibus nibh pellentesque sit amet. Ut non tristique lorem, ut maximus mi. Quisque iaculis elit sed risus ultrices, blandit iaculis neque scelerisque.',
     'Fabian Johansson',
@@ -60,9 +60,17 @@ let chatModule3 = new ChatModule(
 var socket = io();
 $("form").submit(function(e){
   e.preventDefault();
-  socket.emit("chat message", $("#messageValue").val());
-  $('message-root').append($("<p>"+ $("#messageValue").val() +"</p>"));
-  $("#messageValue").val('');
+  //let thisDate = new Date();
+  //let thisHour = thisDate.getHour();
+  //let chatMessage = new ChatModule(
+  //  $("#messageValue").val(),
+  //  "Testing 123",
+  //  'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
+
+  //);
+  //socket.emit("chat message", $("#messageValue").val());
+  //$('message-root').append($("<p>"+ $("#messageValue").val() +"</p>"));
+  //$("#messageValue").val('');
 });
 
 // $(function () {
