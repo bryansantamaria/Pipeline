@@ -1,20 +1,23 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700,900&display=swap");
 * {
   margin: 0;
   padding: 0;
+  font-family: 'Montserrat', sans-serif;
 }
 
 msg-container {
-  width: 100%;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 70px auto 1fr 30px 30px;
       grid-template-columns: 70px auto 1fr 30px 30px;
-  -ms-grid-rows: 30px 1fr;
-      grid-template-rows: 30px 1fr;
-  border-bottom: 1px solid gray;
+  -ms-grid-rows: 24px 1fr;
+      grid-template-rows: 24px 1fr;
+  border-bottom: 1px solid #D2D2D2;
   margin-top: 20px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  margin-left: 1.3em;
+  margin-right: 1.3em;
 }
 
 msg-container img {
@@ -33,6 +36,9 @@ msg-container p {
   grid-column: 2 / 4;
   -ms-grid-row: 2;
   grid-row: 2;
+  color: #181818;
+  font-size: 0.8em;
+  padding-left: 1em;
 }
 
 msg-container h1 {
@@ -40,7 +46,9 @@ msg-container h1 {
   grid-column: 2;
   -ms-grid-row: 1;
   grid-row: 1;
-  font-size: 20px;
+  color: #646464;
+  font-size: 1.2em;
+  padding-left: 0.4em;
 }
 
 msg-container span {
@@ -49,6 +57,10 @@ msg-container span {
   -ms-grid-row: 1;
   grid-row: 1;
   margin-left: 5px;
+  color: #A6A6A6;
+  font-size: 0.7em;
+  -webkit-transform: translate(0, 0.35em);
+          transform: translate(0, 0.35em);
 }
 
 msg-container edit-btn {
@@ -56,7 +68,7 @@ msg-container edit-btn {
   grid-column: 4;
   -ms-grid-row: 1;
   grid-row: 1;
-  background-color: black;
+  color: #868686;
 }
 
 msg-container delete-btn {
@@ -64,12 +76,22 @@ msg-container delete-btn {
   grid-column: 5;
   -ms-grid-row: 1;
   grid-row: 1;
-  background-color: red;
+  color: rgba(192, 56, 56, 0.68);
+}
+
+msg-container .fa-pen:hover {
+  color: #535353;
+}
+
+msg-container .fa-times:hover {
+  color: #c03838;
 }
 
 .row {
   -ms-flex-wrap: nowrap;
       flex-wrap: nowrap;
+  margin: 0;
+  padding: 0;
 }
 
 .row side-bar {

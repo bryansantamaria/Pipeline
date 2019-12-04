@@ -39,6 +39,8 @@ export class ChatModule {
         this.html.message.innerText = this.content.message;
         this.html.date.innerText = this.content.date;
         this.html.alias.innerText = this.content.alias;
+        this.html.editBtn.innerHTML = '<i class="fas fa-pen"></i>';
+        this.html.deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
 
         this.html.container.appendChild(this.html.avatar);
         this.html.container.appendChild(this.html.message);
