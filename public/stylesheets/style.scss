@@ -6,7 +6,13 @@
   font-family: 'Montserrat', sans-serif;
 }
 
+.removed-msg {
+  //transform: scale(0, 1);
+  clip-path: inset(0 100% 0 0);
+}
+
 msg-container {
+
   display: grid;
   grid-template-columns: 70px auto 1fr 30px 30px;
   grid-template-rows: 24px 1fr;
@@ -16,6 +22,8 @@ msg-container {
   margin-left: 1.3em;
   margin-right: 1.3em;
   transition: 0.5s all;
+  transform-origin: center left;
+  clip-path: inset(0 0 0 0);
 
   avatar-container {
     overflow: hidden;
@@ -77,10 +85,6 @@ msg-container {
   .fa-times:hover{
     color: rgba(192, 56, 56, 1);
   }
-
-  .removed {
-    transform: scale(0);
-  }
 }
 
 .row {
@@ -94,7 +98,6 @@ msg-container {
     display: grid;
     grid-template-rows: auto auto 0.7fr 1fr;
     width: 330px;
-    border: solid 1px green;
     height: 100vh;
     box-sizing: border-box;
     padding-left: 20px;

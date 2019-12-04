@@ -38,16 +38,20 @@ export class ChatModule {
         });
     }
 
+
+    //Runs on confirmed edit
     delete() {
-        this.html.container.classList.add('removed');
+        this.html.container.classList.add('removed-msg');
 
         setTimeout(() => {
             this.html.container.parentNode.removeChild(this.html.container);
-        }, 500)
+        }, 600)
 
         //HTTP till server för att ta bort meddelande
     }
 
+
+    //Runs on confirmed edit
     edit(newText) {
         this.html.message.innerText = newText;
         this.content.message = newText;

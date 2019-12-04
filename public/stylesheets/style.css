@@ -5,6 +5,11 @@
   font-family: 'Montserrat', sans-serif;
 }
 
+.removed-msg {
+  -webkit-clip-path: inset(0 100% 0 0);
+          clip-path: inset(0 100% 0 0);
+}
+
 msg-container {
   display: -ms-grid;
   display: grid;
@@ -20,6 +25,10 @@ msg-container {
   margin-right: 1.3em;
   -webkit-transition: 0.5s all;
   transition: 0.5s all;
+  -webkit-transform-origin: center left;
+          transform-origin: center left;
+  -webkit-clip-path: inset(0 0 0 0);
+          clip-path: inset(0 0 0 0);
 }
 
 msg-container avatar-container {
@@ -99,11 +108,6 @@ msg-container .fa-times:hover {
   color: #c03838;
 }
 
-msg-container .removed {
-  -webkit-transform: scale(0);
-          transform: scale(0);
-}
-
 .row {
   -ms-flex-wrap: nowrap;
       flex-wrap: nowrap;
@@ -120,7 +124,6 @@ msg-container .removed {
   -ms-grid-rows: auto auto 0.7fr 1fr;
       grid-template-rows: auto auto 0.7fr 1fr;
   width: 330px;
-  border: solid 1px green;
   height: 100vh;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
