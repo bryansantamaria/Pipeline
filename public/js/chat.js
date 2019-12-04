@@ -1,25 +1,26 @@
 import { ChatModule } from "./chat-module.js";
 
 let chatModule = new ChatModule(
-    'Aliquam elit eros, suscipit quis semper eget, consectetur eget nisi. Donec consectetur quis nibh eget viverra. Aenean pulvinar mollis arcu, porta faucibus nibh pellentesque sit amet. Ut non tristique lorem, ut maximus mi. Quisque iaculis elit sed risus ultrices, blandit iaculis neque scelerisque.', 
+    'Aliquam elit eros, suscipit quis semper eget, consectetur eget nisi. Donec consectetur quis nibh eget viverra. Aenean pulvinar mollis arcu, porta faucibus nibh pellentesque sit amet. Ut non tristique lorem, ut maximus mi. Quisque iaculis elit sed risus ultrices, blandit iaculis neque scelerisque.',
     'Fabian Johansson',
     'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
     '11:26'
 );
 
 let chatModule2 = new ChatModule(
-    'Aliquam elit eros, suscipit quis semper eget, consectetur eget nisi. Donec consectetur quis nibh eget viverra. Aenean pulvinar mollis arcu, porta faucibus nibh pellentesque sit amet. Ut non tristique lorem, ut maximus mi. Quisque iaculis elit sed risus ultrices, blandit iaculis neque scelerisque.', 
+    'Aliquam elit eros, suscipit quis semper eget, consectetur eget nisi. Donec consectetur quis nibh eget viverra. Aenean pulvinar mollis arcu, porta faucibus nibh pellentesque sit amet. Ut non tristique lorem, ut maximus mi. Quisque iaculis elit sed risus ultrices, blandit iaculis neque scelerisque.',
     'Bryan Santamaria',
     'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
     '11:26'
 );
 
 let chatModule3 = new ChatModule(
-    'Aliquam elit eros, suscipit quis semper eget, consectetur eget nisi. Donec consectetur quis nibh eget viverra. Aenean pulvinar mollis arcu, porta faucibus nibh pellentesque sit amet. Ut non tristique lorem, ut maximus mi. Quisque iaculis elit sed risus ultrices, blandit iaculis neque scelerisque.', 
+    'Aliquam elit eros, suscipit quis semper eget, consectetur eget nisi. Donec consectetur quis nibh eget viverra. Aenean pulvinar mollis arcu, porta faucibus nibh pellentesque sit amet. Ut non tristique lorem, ut maximus mi. Quisque iaculis elit sed risus ultrices, blandit iaculis neque scelerisque.',
     'Alexander Wilson',
     'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
     '11:26'
 );
+
 
 //Globals
 let chatGlobals = {
@@ -48,6 +49,21 @@ document.querySelector('#edit-btn').addEventListener('click', () => {
     }));
 });
 
+/*
+let chatModule3 = new ChatModule(
+    'Aliquam elit eros, suscipit quis semper eget, consectetur eget nisi. Donec consectetur quis nibh eget viverra. Aenean pulvinar mollis arcu, porta faucibus nibh pellentesque sit amet. Ut non tristique lorem, ut maximus mi. Quisque iaculis elit sed risus ultrices, blandit iaculis neque scelerisque.',
+    'Alexander Wilson',
+    'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
+    '11:26'
+);
+*/
+var socket = io();
+$("form").submit(function(e){
+  e.preventDefault();
+  socket.emit("chat message", $("#messageValue").val());
+  $('message-root').append($("<p>"+ $("#messageValue").val() +"</p>"));
+  $("#messageValue").val('');
+});
 
 // $(function () {
 //     const socket = io();

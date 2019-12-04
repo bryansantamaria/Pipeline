@@ -31,7 +31,14 @@
       </private-message>
     </side-bar>
     <!-- chat module container -->
-    <message-root></message-root>
+    <main-content>
+      <!--Top bar(Members inside this chatroom/conversation)-->
+      <message-root></message-root>
+      <form>
+        <input type="text" id="messageValue" name="" value="">
+        <input type="submit" id="sendMessage" name="button">Send message</input>
+      </form>
+    </main-content>
   </div>
 
 
@@ -87,6 +94,7 @@
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
     crossorigin="anonymous"></script>
 </body>
+<script src="/socket.io/socket.io.js"></script>
 <script src="js/chat.js" type="module"></script>
 
 </html>
