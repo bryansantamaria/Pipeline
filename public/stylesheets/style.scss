@@ -15,6 +15,7 @@ msg-container {
   box-sizing: border-box;
   margin-left: 1.3em;
   margin-right: 1.3em;
+  transition: 0.5s all;
 
   img {
     grid-column: 1;
@@ -68,7 +69,12 @@ msg-container {
   .fa-times:hover{
     color: rgba(192, 56, 56, 1);
   }
+
+  .removed {
+    transform: scale(0);
+  }
 }
+
 .row {
   flex-wrap: nowrap;
   margin: 0;

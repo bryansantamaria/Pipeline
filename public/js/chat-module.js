@@ -25,12 +25,33 @@ export class ChatModule {
     //Registrers unique event listeners for each button in each message container
     setupEventListeners() {
         this.html.editBtn.addEventListener('click', () => {
-            console.log('clicked edit')
+            document.dispatchEvent(new CustomEvent('edit-init', {
+                detail: this.html.message
+            })); 
         });
 
         this.html.deleteBtn.addEventListener('click', () => {
-            console.log('clicked delete')
+            document.dispatchEvent(new CustomEvent('delete-init', {
+                detail: this.html.container
+            })); 
         });
+    }
+
+    delete() {
+        this.html.container.classList.add('removed');
+
+        setTimeout(() => {
+            this.html.container.parentNode.removeChild(this.html.container);
+        }, 500)
+
+        //HTTP till server för att ta bort meddelande
+    }
+
+    edit(newText) {
+        this.html.message.innerText = newText;
+        this.content.message = newText;
+
+        //HTTP till server för att uppdatera meddelande
     }
 
     //Appends message to target node
@@ -42,6 +63,23 @@ export class ChatModule {
         this.html.editBtn.innerHTML = '<i class="fas fa-pen"></i>';
         this.html.deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
 
+        this.html.container.addEventListener('delete-confirm', () => {
+            this.delete();
+        })
+
+        this.html.container.addEventListener('edit-confirm', e => {
+            console.log(e.detail.value);
+            this.edit(e.detail.value);
+        })
+
+        //Links to bootstrap delete modal
+        this.html.deleteBtn.setAttribute("data-toggle","modal")
+        this.html.deleteBtn.setAttribute("data-target", "#delete-message-modal")
+
+        //Links to bootstrap edit modal
+        this.html.editBtn.setAttribute("data-toggle","modal")
+        this.html.editBtn.setAttribute("data-target", "#edit-message-modal")
+        
         this.html.container.appendChild(this.html.avatar);
         this.html.container.appendChild(this.html.message);
         this.html.container.appendChild(this.html.date);

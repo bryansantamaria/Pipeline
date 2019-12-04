@@ -18,6 +18,8 @@ msg-container {
           box-sizing: border-box;
   margin-left: 1.3em;
   margin-right: 1.3em;
+  -webkit-transition: 0.5s all;
+  transition: 0.5s all;
 }
 
 msg-container img {
@@ -85,6 +87,11 @@ msg-container .fa-pen:hover {
 
 msg-container .fa-times:hover {
   color: #c03838;
+}
+
+msg-container .removed {
+  -webkit-transform: scale(0);
+          transform: scale(0);
 }
 
 .row {
