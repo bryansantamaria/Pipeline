@@ -54,8 +54,8 @@ document.querySelector('#edit-btn').addEventListener('click', () => {
 var socket = io();
 $("form").submit(function(e) {
   e.preventDefault();
-  if ($("#messageValue").val() == "") {
-  } else {
+  if ($("#messageValue").val() == "") {} else
+  {
     let chatMessage = new ChatModule(
       $("#messageValue").val(),
       "User_name",
@@ -63,11 +63,23 @@ $("form").submit(function(e) {
       getTodaysDate()
     );
     chatMessages.push(chatMessage);
-    socket.emit("chat message", $("#messageValue").val());
+    //Emits the stringified chatMessage object to server.
+    socket.emit("chat message", JSON.stringify(chatMessage));
     chatMessage.render(document.querySelector('message-root'));
     $("#messageValue").val('');
   }
 });
+socket.on('chat message', function(chatObject){
+  //Loads in the now parsed chatobject and loads it's content into chatmessageModel
+let chatmessageModel = new ChatModule(
+  chatObject.content.message,
+  chatObject.content.alias,
+  chatObject.content.avatar,
+  chatObject.content.date
+);
+  chatmessageModel.render(document.querySelector('message-root'));
+});
+
 
 //Genererar dagens datum och tid, convertar från millisekunder.
 function getTodaysDate() {

@@ -36,8 +36,9 @@ io.on('connection', (socket) => {
             socket.broadcast.emit('updateTyping', user, isTyping);
         });
     });
-    socket.on('chat message', function (msg) { //Lyssnar på eventet 'chat message'
-        socket.broadcast.emit('chat message', socket.username + ": " + msg); //Servern tar emot det vi skrivit in och skriver ut vad användaren har skrivit.
+    socket.on('chat message', function (chatObject) { //Lyssnar på eventet 'chat message'
+      //The server recieves a JSON string object and sends it further to all clients connected to the socket.
+      socket.broadcast.emit('chat message', JSON.parse(chatObject));
 
     });
     socket.on('disconnect', (user) => {
