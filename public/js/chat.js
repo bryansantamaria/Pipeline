@@ -29,7 +29,6 @@ let chatGlobals = {
 
 //Delete events
 document.addEventListener('delete-init', e => {
-    console.log('recieved');
     chatGlobals.deleteTarget = e.detail;
 })
 
@@ -39,7 +38,6 @@ document.querySelector('#delete-btn').addEventListener('click', () => {
 
 //Edit Events
 document.addEventListener('edit-init', e => {
-    console.log('recieved');
     chatGlobals.editTarget = e.detail;
     document.querySelector('#edit-message').value = chatGlobals.editTarget.textContent;
 })
