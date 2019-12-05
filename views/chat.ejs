@@ -25,9 +25,14 @@
       </public-channels>
       <private-message>
         <div id="private-message-title"><i class="fas fa-plus-circle" id="create-private-message"></i> Private Message</div>
+        <% for(let i=0; i < users.length; i++){ %>
+            <div><i class="fas fa-circle"></i> <%= users[i].alias %></div>
+       <% } %>
+       <!--
         <div><i class="fas fa-circle"></i> Bryan Santamaria</div>
         <div><i class="fas fa-circle"></i> Fabian Johansson</div>
         <div><i class="fas fa-circle"></i> Alexander Wilson</div>
+      -->
       </private-message>
     </side-bar>
     <!-- chat module container -->
@@ -104,7 +109,7 @@
           <input type="text" placeholder="Search for user..." id="user-search">
 
           <user-list>
-            
+
           </user-list>
         </div>
         <div class="modal-footer">
