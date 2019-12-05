@@ -197,8 +197,8 @@ msg-container .fa-times:hover {
   background: linear-gradient(270deg, #616070 0%, #685d74 100%);
   display: -ms-grid;
   display: grid;
-  -ms-grid-rows: auto auto 0.7fr 1fr 75px;
-      grid-template-rows: auto auto 0.7fr 1fr 75px;
+  -ms-grid-rows: auto auto 0.7fr 1fr;
+      grid-template-rows: auto auto 0.7fr 1fr;
   width: 330px;
   height: 100vh;
   -webkit-box-sizing: border-box;
@@ -218,18 +218,31 @@ msg-container .fa-times:hover {
           transform: scale(1.08);
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
-  margin-bottom: -15px;
   margin-left: -6px;
   margin-top: 10px;
 }
 
 .row side-bar user-name {
+  -webkit-transform: translate(0, -60%);
+          transform: translate(0, -60%);
   -ms-grid-row: 2;
   grid-row: 2;
 }
 
 .row side-bar user-name i {
   color: #8ecf2d;
+}
+
+.row side-bar user-name #user-settings {
+  -ms-grid-column: 2;
+  grid-column: 2;
+  -ms-grid-row: 2;
+  grid-row: 2;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.row side-bar user-name #user-settings:hover {
+  color: white;
 }
 
 .row side-bar public-channels {
@@ -241,28 +254,6 @@ msg-container .fa-times:hover {
 .row side-bar private-message {
   -ms-grid-row: 4;
   grid-row: 4;
-}
-
-.row side-bar profile-settings {
-  -ms-grid-row: 5;
-  grid-row: 5;
-  margin-left: -30px;
-  background: rgba(0, 0, 0, 0.1);
-  height: 100%;
-  width: calc(100% + 30px);
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: 1fr 40px;
-      grid-template-columns: 1fr 40px;
-  -ms-grid-rows: (3)[1fr];
-      grid-template-rows: repeat(1fr, 3);
-}
-
-.row side-bar profile-settings i {
-  -ms-grid-column: 2;
-  grid-column: 2;
-  -ms-grid-row: 2;
-  grid-row: 2;
 }
 
 login-container form {
