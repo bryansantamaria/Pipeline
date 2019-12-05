@@ -133,20 +133,24 @@ login-container{
 #edit-message {
   width: 100%;
 }
-/*
+
 main-content {
   display: grid;
-  grid-template-rows: 3;
+  grid-template-rows: 75px 1fr 75px;
   grid-template-columns: auto;
   width: calc(100vw - 330px);
+  height: 100vh;
 
   message-root {
     box-sizing: border-box;
+    grid-row: 2;
+    overflow-y: scroll;
   }
   is-typing{
 
   }
   form{
+    grid-row: 3;
     #messageValue{
 
     }
@@ -155,4 +159,4 @@ main-content {
     }
   }
 }
-*/
+

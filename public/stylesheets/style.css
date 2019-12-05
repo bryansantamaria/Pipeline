@@ -153,12 +153,6 @@ msg-container .fa-times:hover {
   grid-row: 4;
 }
 
-.row message-root {
-  width: calc(100vw - 330px);
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
 login-container form {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -170,5 +164,29 @@ login-container form {
 
 #edit-message {
   width: 100%;
+}
+
+main-content {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: 75px 1fr 75px;
+      grid-template-rows: 75px 1fr 75px;
+  -ms-grid-columns: auto;
+      grid-template-columns: auto;
+  width: calc(100vw - 330px);
+  height: 100vh;
+}
+
+main-content message-root {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -ms-grid-row: 2;
+  grid-row: 2;
+  overflow-y: scroll;
+}
+
+main-content form {
+  -ms-grid-row: 3;
+  grid-row: 3;
 }
 /*# sourceMappingURL=style.css.map */
