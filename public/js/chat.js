@@ -83,7 +83,8 @@ let chatmessageModel = new ChatModule(
 
 //Genererar dagens datum och tid, convertar från millisekunder.
 function getTodaysDate(date) {
-  var rightNow = new Date(date);
+  var rightNow;
+  date ? rightNow = new Date(date) : rightNow = new Date();
   var dd = String(rightNow.getDate()).padStart(2, '0');
   var mm = String(rightNow.getMonth() + 1).padStart(2, '0');
   var h = rightNow.getHours();
@@ -98,9 +99,24 @@ function getTodaysDate(date) {
   } else {
     rightNow = yyyy + '-' + mm + '-' + dd + ' ' + h + ":" + m;
   }
+
   return rightNow;
 }
 
 chatModule.render(document.querySelector('message-root'));
 chatModule2.render(document.querySelector('message-root'));
 chatModule3.render(document.querySelector('message-root'));
+
+
+$(document).ready(() => {
+  setTimeout(() => {
+    document.querySelector('side-bar').classList.remove('hidden');
+  }, 0);
+
+  setTimeout(() => {
+    document.querySelector('main-content').classList.remove('hidden');
+  }, 500);
+
+})
+
+

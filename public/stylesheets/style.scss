@@ -1,14 +1,34 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,700,900&display=swap');
 
+@keyframes clippedIn {
+  0% {
+    clip-path: polygon(0 0, 0 25%, 0 52%, 0 53%, 0 70%, 0 77%, 0 100%, 0 0);
+  }
+
+  50%{
+    clip-path: polygon(100% 0, 65% 23%, 62% 49%, 42% 50%, 32% 71%, 14% 76%, 0 100%, 0 0);
+  }
+
+  100% {
+    clip-path: polygon(100% 0, 100% 21%, 100% 47%, 100% 65%, 100% 79%, 100% 100%, 0 100%, 0 0);
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
   font-family: 'Montserrat', sans-serif;
 }
 
-.removed-msg {
-  //transform: scale(0, 1);
-  clip-path: inset(0 100% 0 0);
+body {
+  transition: 0.8s all;
+  clip-path: inset(0 0 0 0);
+  animation: clippedIn 1.5s 1;
+}
+
+.removed-msg, .hidden {
+  transition: 1s all;
+  clip-path: inset(0 100% 0 0) !important;
 }
 
 msg-container {
@@ -87,11 +107,38 @@ msg-container {
   }
 }
 
+%channel-light {
+  margin-top: 7px;
+  background: rgba(0, 0, 0, 0.1);
+  margin-left: -30px;
+  padding-left: 30px; 
+  user-select: none;
+  transition: 0.2s all;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  }
+
+  &:active {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+%channel-dark {
+  background: rgba(0, 0, 0, 0.2);
+  margin-left: -30px;
+  padding-left: 30px; 
+}
+
 .row {
   flex-wrap: nowrap;
   color:white;
   margin: 0;
   padding: 0;
+  transition: 1s all;
+  transition-timing-function: ease-in-out;
+  clip-path: inset(0% 0% 0% 0%);
 
   side-bar {
     background: linear-gradient(270deg, #616070 0%, #685d74 100%);
@@ -101,6 +148,10 @@ msg-container {
     height: 100vh;
     box-sizing: border-box;
     padding-left: 20px;
+
+    transition: 0.5s all;
+    transition-timing-function: ease-in;
+    clip-path: inset(0% 0% 0% 0%);
 
     img {
       width: 100%;
@@ -112,24 +163,32 @@ msg-container {
     }
     user-name {
       grid-row: 2;
+
+      i {
+        color: rgb(142, 207, 45);
+      }
     }
     public-channels {
       margin-top: 50px;
       grid-row: 3;
 
       #channel-title {
-        background: rgba(0, 0, 0, 0.2);
-        margin-left: -30px;
-        padding-left: 30px;
+        @extend %channel-dark;
+      }
+
+      div {
+        @extend %channel-light;
       }
     }
     private-message {
       grid-row: 4;
 
       #private-message-title {
-        background: rgba(0, 0, 0, 0.2);
-        margin-left: -30px;
-        padding-left: 30px;
+        @extend %channel-dark;
+      }
+
+      div {
+        @extend %channel-light;
       }
     }
   }
@@ -155,6 +214,9 @@ main-content {
   grid-template-columns: auto;
   width: calc(100vw - 330px);
   height: 100vh;
+  clip-path: inset(0% 0% 0% 0%);
+  transition-timing-function: ease-out;
+  transition: 0.8s all;
 
   top-bar {
     background: rgb(251, 251, 251);

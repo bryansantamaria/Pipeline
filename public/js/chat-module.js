@@ -45,7 +45,7 @@ export class ChatModule {
 
         setTimeout(() => {
             this.html.container.parentNode.removeChild(this.html.container);
-        }, 600)
+        }, 800)
 
         //HTTP till server för att ta bort meddelande
     }
