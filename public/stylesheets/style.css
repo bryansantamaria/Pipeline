@@ -197,8 +197,8 @@ msg-container .fa-times:hover {
   background: linear-gradient(270deg, #616070 0%, #685d74 100%);
   display: -ms-grid;
   display: grid;
-  -ms-grid-rows: auto auto 0.7fr 1fr;
-      grid-template-rows: auto auto 0.7fr 1fr;
+  -ms-grid-rows: auto auto 0.7fr 1fr 75px;
+      grid-template-rows: auto auto 0.7fr 1fr 75px;
   width: 330px;
   height: 100vh;
   -webkit-box-sizing: border-box;
@@ -241,6 +241,28 @@ msg-container .fa-times:hover {
 .row side-bar private-message {
   -ms-grid-row: 4;
   grid-row: 4;
+}
+
+.row side-bar profile-settings {
+  -ms-grid-row: 5;
+  grid-row: 5;
+  margin-left: -30px;
+  background: rgba(0, 0, 0, 0.1);
+  height: 100%;
+  width: calc(100% + 30px);
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 40px;
+      grid-template-columns: 1fr 40px;
+  -ms-grid-rows: (3)[1fr];
+      grid-template-rows: repeat(1fr, 3);
+}
+
+.row side-bar profile-settings i {
+  -ms-grid-column: 2;
+  grid-column: 2;
+  -ms-grid-row: 2;
+  grid-row: 2;
 }
 
 login-container form {

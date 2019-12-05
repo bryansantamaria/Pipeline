@@ -24,11 +24,16 @@
         <div><i class="fas fa-hashtag"></i> Discussion</div>
       </public-channels>
       <private-message>
-        <div id="private-message-title"><i class="fas fa-plus-circle" id="create-private-message"></i> Private Message</div>
+        <div id="private-message-title"><i class="fas fa-plus-circle" id="create-private-message"></i> Private Message
+        </div>
         <div><i class="fas fa-circle"></i> Bryan Santamaria</div>
         <div><i class="fas fa-circle"></i> Fabian Johansson</div>
         <div><i class="fas fa-circle"></i> Alexander Wilson</div>
       </private-message>
+
+      <profile-settings>
+        <i class="fas fa-cog" id="user-settings"></i>
+      </profile-settings>
     </side-bar>
     <!-- chat module container -->
     <main-content>
@@ -89,8 +94,8 @@
     </div>
   </div>
 
-    <!--Search users modal-->
-    <div class="modal fade" id="create-pm-modal" tabindex="-1" role="dialog" aria-labelledby="edit-message-modal"
+  <!--Search users modal-->
+  <div class="modal fade" id="create-pm-modal" tabindex="-1" role="dialog" aria-labelledby="edit-message-modal"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -104,11 +109,34 @@
           <input type="text" placeholder="Search for user..." id="user-search">
 
           <user-list>
-            
+
           </user-list>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal" id="create-pm-btn">Add to chat</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Edit profile modal-->
+  <div class="modal fade" id="edit-profile-modal" tabindex="-1" role="dialog" aria-labelledby="edit-message-modal"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit profile</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <user-list>
+
+          </user-list>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" id="update-profile-btn">Save changes</button>
         </div>
       </div>
     </div>
