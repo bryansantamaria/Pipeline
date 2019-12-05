@@ -36,9 +36,7 @@ app.post('/chat', (req, res) => {
     "password": req.body.password,
     "alias": req.body.username
   });
-  collection.find({}, {}, function(e, docs){
-    res.render('chat.ejs', {"users" : docs });
-  });
+  res.redirect("chat");
 });
 
 app.get('/chat', (req, res) => {
