@@ -24,11 +24,15 @@
         <div><i class="fas fa-hashtag"></i> Discussion</div>
       </public-channels>
       <private-message>
-        <div id="private-message-title"><i class="fas fa-plus-circle" id="create-private-message"></i> Private Message
-        </div>
+        <div id="private-message-title"><i class="fas fa-plus-circle" id="create-private-message"></i> Private Message</div>
+        <% for(let i=0; i < users.length; i++){ %>
+            <div><i class="fas fa-circle"></i> <%= users[i].alias %></div>
+       <% } %>
+       <!--
         <div><i class="fas fa-circle"></i> Bryan Santamaria</div>
         <div><i class="fas fa-circle"></i> Fabian Johansson</div>
         <div><i class="fas fa-circle"></i> Alexander Wilson</div>
+      -->
       </private-message>
 
       <profile-settings>
