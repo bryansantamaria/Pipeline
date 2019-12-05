@@ -108,7 +108,7 @@ msg-container {
 }
 
 %channel-light {
-  margin-top: 7px;
+  margin-top: 10px;
   background: rgba(0, 0, 0, 0.1);
   margin-left: -30px;
   padding-left: 30px; 
@@ -129,6 +129,8 @@ msg-container {
   background: rgba(0, 0, 0, 0.2);
   margin-left: -30px;
   padding-left: 30px; 
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 .row {
@@ -204,8 +206,13 @@ login-container{
   }
 }
 
-#edit-message {
+#edit-message, #user-search {
   width: 100%;
+}
+
+#user-search {
+  padding: 5px;
+
 }
 
 main-content {

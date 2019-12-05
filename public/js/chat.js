@@ -103,6 +103,9 @@ function getTodaysDate(date) {
   return rightNow;
 }
 
+document.querySelector('#create-private-message').setAttribute("data-toggle","modal")
+document.querySelector('#create-private-message').setAttribute("data-target", "#create-pm-modal")
+
 chatModule.render(document.querySelector('message-root'));
 chatModule2.render(document.querySelector('message-root'));
 chatModule3.render(document.querySelector('message-root'));
