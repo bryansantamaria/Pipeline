@@ -11,12 +11,12 @@ var usersDB = monk('localhost:27017/users');
 
 // TODO: Move to server.js
 app.use(bodyParser.urlencoded({
-  extended: false
+    extended: false
 }));
 // TODO: Move to server.js
 app.use(bodyParser.json());
 // TODO: Move to server.js
-app.use(function(req,res,next){
+app.use(function (req, res, next) {
     req.db = usersDB;
     next();
 });
@@ -32,22 +32,22 @@ app.get('/', (req, res) => {
 });
 // TODO: Move to server.js
 app.post('/chat', (req, res) => {
-  var userDB = req.db;
-  var collection = userDB.get("users");
-  collection.insert({
-    "email": req.body.email,
-    "password": req.body.password,
-    "alias": req.body.username
-  });
-  res.redirect("chat");
+    var userDB = req.db;
+    var collection = userDB.get("users");
+    collection.insert({
+        "email": req.body.email,
+        "password": req.body.password,
+        "alias": req.body.username
+    });
+    res.redirect("chat");
 });
 // TODO: Move to server.js
 app.get('/chat', (req, res) => {
-  var userDB = req.db;
-  var collection = userDB.get("users");
-  collection.find({},{},function(e,docs){
-    res.render('chat.ejs', {"users" : docs});
-  });
+    var userDB = req.db;
+    var collection = userDB.get("users");
+    collection.find({}, {}, function (e, docs) {
+        res.render('chat.ejs', { "users": docs });
+    });
 });
 
 io.on('connection', (socket) => {
@@ -64,9 +64,12 @@ io.on('connection', (socket) => {
             socket.broadcast.emit('updateTyping', user, isTyping);
         });
     });
+
     socket.on('chat message', function (chatObject) { //Lyssnar på eventet 'chat message'
-      //The server recieves a JSON string object and sends it further to all clients connected to the socket.
-      socket.broadcast.emit('chat message', JSON.parse(chatObject));
+        //The server recieves a JSON string object and sends it further to all clients connected to the socket.
+
+
+        socket.broadcast.emit('chat message', JSON.parse(chatObject));
     });
     socket.on('disconnect', (user) => {
         socket.broadcast.emit('newUser', socket.username + ' Disconnected')
