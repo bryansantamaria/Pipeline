@@ -77,6 +77,7 @@ let chatmessageModel = new ChatModule(
   chatObject.content.avatar,
   chatObject.content.date
 );
+chatMessages.push(chatmessageModel);
   chatmessageModel.render(document.querySelector('message-root'));
 });
 
