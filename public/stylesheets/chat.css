@@ -1,30 +1,30 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700,900&display=swap");
 @-webkit-keyframes clippedIn {
   0% {
-    -webkit-clip-path: polygon(0 0, 0 25%, 0 52%, 0 53%, 0 70%, 0 77%, 0 100%, 0 0);
-            clip-path: polygon(0 0, 0 25%, 0 52%, 0 53%, 0 70%, 0 77%, 0 100%, 0 0);
+    -webkit-clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
+            clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
   }
   50% {
-    -webkit-clip-path: polygon(54% 0, 38% 23%, 53% 33%, 31% 66%, 52% 83%, 29% 100%, 0 100%, 0 0);
-            clip-path: polygon(54% 0, 38% 23%, 53% 33%, 31% 66%, 52% 83%, 29% 100%, 0 100%, 0 0);
+    -webkit-clip-path: polygon(0% 0%, 0% 100%, 9% 100%, 44% 0%);
+            clip-path: polygon(0% 0%, 0% 100%, 9% 100%, 44% 0%);
   }
   100% {
-    -webkit-clip-path: polygon(100% 0, 100% 21%, 100% 47%, 100% 65%, 100% 79%, 100% 100%, 0 100%, 0 0);
-            clip-path: polygon(100% 0, 100% 21%, 100% 47%, 100% 65%, 100% 79%, 100% 100%, 0 100%, 0 0);
+    -webkit-clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 0%);
+            clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 0%);
   }
 }
 @keyframes clippedIn {
   0% {
-    -webkit-clip-path: polygon(0 0, 0 25%, 0 52%, 0 53%, 0 70%, 0 77%, 0 100%, 0 0);
-            clip-path: polygon(0 0, 0 25%, 0 52%, 0 53%, 0 70%, 0 77%, 0 100%, 0 0);
+    -webkit-clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
+            clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
   }
   50% {
-    -webkit-clip-path: polygon(54% 0, 38% 23%, 53% 33%, 31% 66%, 52% 83%, 29% 100%, 0 100%, 0 0);
-            clip-path: polygon(54% 0, 38% 23%, 53% 33%, 31% 66%, 52% 83%, 29% 100%, 0 100%, 0 0);
+    -webkit-clip-path: polygon(0% 0%, 0% 100%, 9% 100%, 44% 0%);
+            clip-path: polygon(0% 0%, 0% 100%, 9% 100%, 44% 0%);
   }
   100% {
-    -webkit-clip-path: polygon(100% 0, 100% 21%, 100% 47%, 100% 65%, 100% 79%, 100% 100%, 0 100%, 0 0);
-            clip-path: polygon(100% 0, 100% 21%, 100% 47%, 100% 65%, 100% 79%, 100% 100%, 0 100%, 0 0);
+    -webkit-clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 0%);
+            clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 0%);
   }
 }
 
@@ -35,12 +35,39 @@
 }
 
 body {
-  -webkit-transition: 0.8s all;
-  transition: 0.8s all;
-  -webkit-clip-path: inset(0 0 0 0);
-          clip-path: inset(0 0 0 0);
-  -webkit-animation: clippedIn 1.5s 1;
-          animation: clippedIn 1.5s 1;
+  -webkit-clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
+          clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
+}
+
+.row side-bar {
+  background: -webkit-gradient(linear, right top, left top, from(#616070), to(#685d74));
+  background: linear-gradient(270deg, #616070 0%, #685d74 100%);
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: auto auto 0.7fr 1fr;
+      grid-template-rows: auto auto 0.7fr 1fr;
+  width: 330px;
+  height: 100vh;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding-left: 20px;
+}
+
+.row side-bar img {
+  width: 100%;
+  -webkit-transform: scale(1.08);
+          transform: scale(1.08);
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin-left: -6px;
+  margin-top: 10px;
+}
+
+body {
+  -webkit-animation: clippedIn 1s 0.2s 1;
+          animation: clippedIn 1s 0.2s 1;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
 }
 
 .removed-msg, .hidden {
@@ -153,6 +180,8 @@ msg-container .fa-times:hover {
   background: rgba(0, 0, 0, 0.1);
   margin-left: -30px;
   padding-left: 30px;
+  padding-top: 3px;
+  padding-bottom: 3px;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -174,8 +203,8 @@ msg-container .fa-times:hover {
   background: rgba(0, 0, 0, 0.2);
   margin-left: -30px;
   padding-left: 30px;
-  padding-top: 3px;
-  padding-bottom: 3px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .row {
@@ -193,33 +222,12 @@ msg-container .fa-times:hover {
 }
 
 .row side-bar {
-  background: -webkit-gradient(linear, right top, left top, from(#616070), to(#685d74));
-  background: linear-gradient(270deg, #616070 0%, #685d74 100%);
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-rows: auto auto 0.7fr 1fr;
-      grid-template-rows: auto auto 0.7fr 1fr;
-  width: 330px;
-  height: 100vh;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  padding-left: 20px;
   -webkit-transition: 0.5s all;
   transition: 0.5s all;
   -webkit-transition-timing-function: ease-in;
           transition-timing-function: ease-in;
   -webkit-clip-path: inset(0% 0% 0% 0%);
           clip-path: inset(0% 0% 0% 0%);
-}
-
-.row side-bar img {
-  width: 100%;
-  -webkit-transform: scale(1.08);
-          transform: scale(1.08);
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  margin-left: -6px;
-  margin-top: 10px;
 }
 
 .row side-bar user-name {
@@ -318,4 +326,4 @@ main-content form #sendMessage {
   margin-left: 1%;
   width: 19%;
 }
-/*# sourceMappingURL=style.css.map */
+/*# sourceMappingURL=chat.css.map */

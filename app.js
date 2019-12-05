@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
     res.render('index.ejs');
 });
 // TODO: Move to server.js
-app.post('/chat', (req, res) => {
+app.post('/registrer', (req, res) => {
     var userDB = req.db;
     var collection = userDB.get("users");
     collection.insert({
@@ -48,6 +48,19 @@ app.get('/chat', (req, res) => {
     collection.find({}, {}, function (e, docs) {
         res.render('chat.ejs', { "users": docs });
     });
+});
+
+app.post('/login', async (req, res) => {
+    var userDB = req.db;
+    var collection = userDB.get("users");
+    collection.find({"alias": req.body.username}, {}).then(user  => {
+        if(user[0].password == req.body.password) {
+            res.redirect("chat");
+        } else {
+            res.redirect('/');
+        }
+    });
+  
 });
 
 io.on('connection', (socket) => {
