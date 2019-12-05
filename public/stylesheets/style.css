@@ -308,4 +308,14 @@ main-content form {
   -ms-grid-row: 3;
   grid-row: 3;
 }
+
+main-content form #messageValue {
+  width: 80%;
+  display: inline;
+}
+
+main-content form #sendMessage {
+  margin-left: 1%;
+  width: 19%;
+}
 /*# sourceMappingURL=style.css.map */
