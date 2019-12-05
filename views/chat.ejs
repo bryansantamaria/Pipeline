@@ -29,6 +29,10 @@
             <div><i class="fas fa-circle"></i> <%= users[i].alias %></div>
        <% } %>
       </private-message>
+
+      <profile-settings>
+        <i class="fas fa-cog" id="user-settings"></i>
+      </profile-settings>
     </side-bar>
     <!-- chat module container -->
     <main-content>
@@ -89,8 +93,8 @@
     </div>
   </div>
 
-    <!--Search users modal-->
-    <div class="modal fade" id="create-pm-modal" tabindex="-1" role="dialog" aria-labelledby="edit-message-modal"
+  <!--Search users modal-->
+  <div class="modal fade" id="create-pm-modal" tabindex="-1" role="dialog" aria-labelledby="edit-message-modal"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -109,6 +113,29 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal" id="create-pm-btn">Add to chat</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--Edit profile modal-->
+  <div class="modal fade" id="edit-profile-modal" tabindex="-1" role="dialog" aria-labelledby="edit-message-modal"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit profile</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <user-list>
+
+          </user-list>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" id="update-profile-btn">Save changes</button>
         </div>
       </div>
     </div>

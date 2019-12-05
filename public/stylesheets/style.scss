@@ -145,7 +145,7 @@ msg-container {
   side-bar {
     background: linear-gradient(270deg, #616070 0%, #685d74 100%);
     display: grid;
-    grid-template-rows: auto auto 0.7fr 1fr;
+    grid-template-rows: auto auto 0.7fr 1fr 75px;
     width: 330px;
     height: 100vh;
     box-sizing: border-box;
@@ -192,6 +192,22 @@ msg-container {
       div {
         @extend %channel-light;
       }
+    }
+
+    profile-settings {
+      grid-row: 5;
+      margin-left: -30px;
+      background: rgba(0, 0, 0, 0.1);
+      height: 100%;
+      width: calc(100% + 30px);
+      display: grid;
+      grid-template-columns: 1fr 40px;
+      grid-template-rows: repeat(1fr, 3);
+      i {
+        grid-column: 2;
+        grid-row: 2;
+      }
+
     }
   }
 }
