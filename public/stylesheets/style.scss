@@ -104,8 +104,11 @@ msg-container {
 
     img {
       width: 100%;
+      transform: scale(1.08);
       box-sizing: border-box;
       margin-bottom: -15px;
+      margin-left: -6px;
+      margin-top: 10px;
     }
     user-name {
       grid-row: 2;
@@ -140,6 +143,11 @@ main-content {
   grid-template-columns: auto;
   width: calc(100vw - 330px);
   height: 100vh;
+
+  top-bar {
+    background: rgb(251, 251, 251);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
 
   message-root {
     box-sizing: border-box;
