@@ -16,7 +16,7 @@
     <!-- Left side bar -->
     <side-bar>
       <img src="img/pipeline.svg" alt="Logo">
-      <user-name><i class="fas fa-circle"></i> Bryan Santamaria</user-name>
+      <user-name><i class="fas fa-circle"></i> <label for="user-settings">Bryan Santamaria   <i class="fas fa-cog" id="user-settings"></i></label></user-name>
       <public-channels>
         <div id="channel-title"><i class="fas fa-plus-circle"></i> Channels</div>
         <div><i class="fas fa-hashtag"></i> Random</div>
@@ -29,10 +29,6 @@
             <div><i class="fas fa-circle"></i> <%= users[i].alias %></div>
        <% } %>
       </private-message>
-
-      <profile-settings>
-        <i class="fas fa-cog" id="user-settings"></i>
-      </profile-settings>
     </side-bar>
     <!-- chat module container -->
     <main-content>

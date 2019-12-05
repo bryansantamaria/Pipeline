@@ -1,24 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,700,900&display=swap');
+@import 'global';
 
-@keyframes clippedIn {
-  0% {
-    clip-path: polygon(0 0, 0 25%, 0 52%, 0 53%, 0 70%, 0 77%, 0 100%, 0 0);
-  }
 
-  50%{
-    clip-path: polygon(54% 0, 38% 23%, 53% 33%, 31% 66%, 52% 83%, 29% 100%, 0 100%, 0 0);
-  }
 
-  100% {
-    clip-path: polygon(100% 0, 100% 21%, 100% 47%, 100% 65%, 100% 79%, 100% 100%, 0 100%, 0 0);
-  }
-}
 
-* {
-  margin: 0;
-  padding: 0;
-  font-family: 'Montserrat', sans-serif;
-}
 
 body {
   transition: 0.8s all;
@@ -109,24 +94,24 @@ msg-container {
 
 %channel-light {
   margin-top: 10px;
-  background: rgba(0, 0, 0, 0.1);
+  background: $darken-light;
   margin-left: -30px;
   padding-left: 30px;
   user-select: none;
   transition: 0.2s all;
 
   &:hover {
-    background: rgba(0, 0, 0, 0.2);
+    background: $darken-heavy;
     cursor: pointer;
   }
 
   &:active {
-    background: rgba(255, 255, 255, 0.1);
+    background: $lighten-light;
   }
 }
 
 %channel-dark {
-  background: rgba(0, 0, 0, 0.2);
+  background: $darken-heavy;
   margin-left: -30px;
   padding-left: 30px;
   padding-top: 3px;
@@ -143,9 +128,9 @@ msg-container {
   clip-path: inset(0% 0% 0% 0%);
 
   side-bar {
-    background: linear-gradient(270deg, #616070 0%, #685d74 100%);
+    background: $sidebar-color;
     display: grid;
-    grid-template-rows: auto auto 0.7fr 1fr 75px;
+    grid-template-rows: auto auto 0.7fr 1fr;
     width: 330px;
     height: 100vh;
     box-sizing: border-box;
@@ -159,15 +144,26 @@ msg-container {
       width: 100%;
       transform: scale(1.08);
       box-sizing: border-box;
-      margin-bottom: -15px;
       margin-left: -6px;
       margin-top: 10px;
     }
+    
     user-name {
+      transform: translate(0, -60%);
       grid-row: 2;
 
       i {
         color: rgb(142, 207, 45);
+      }
+
+      #user-settings {
+        grid-column: 2;
+        grid-row: 2;
+        color: rgba(255,255,255, 0.6);
+
+        &:hover {
+          color: rgba(255,255,255, 1);
+        }
       }
     }
     public-channels {
@@ -193,22 +189,6 @@ msg-container {
         @extend %channel-light;
       }
     }
-
-    profile-settings {
-      grid-row: 5;
-      margin-left: -30px;
-      background: rgba(0, 0, 0, 0.1);
-      height: 100%;
-      width: calc(100% + 30px);
-      display: grid;
-      grid-template-columns: 1fr 40px;
-      grid-template-rows: repeat(1fr, 3);
-      i {
-        grid-column: 2;
-        grid-row: 2;
-      }
-
-    }
   }
 }
 
@@ -228,7 +208,6 @@ login-container{
 
 #user-search {
   padding: 5px;
-
 }
 
 main-content {
@@ -243,7 +222,7 @@ main-content {
 
   top-bar {
     background: rgb(251, 251, 251);
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 10px $darken-light;
   }
 
   message-root {
