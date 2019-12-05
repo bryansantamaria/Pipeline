@@ -3,16 +3,19 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const path = require('path');
+// TODO: Move to server.js
 let mongo = require("mongodb");
 let monk = require("monk");
 let bodyParser = require("body-parser");
 var usersDB = monk('localhost:27017/users');
 
+// TODO: Move to server.js
 app.use(bodyParser.urlencoded({
   extended: false
 }));
+// TODO: Move to server.js
 app.use(bodyParser.json());
-
+// TODO: Move to server.js
 app.use(function(req,res,next){
     req.db = usersDB;
     next();
@@ -27,7 +30,7 @@ app.set('view engine', 'ejs');
 app.get('/', (req, res) => {
     res.render('index.ejs');
 });
-
+// TODO: Move to server.js
 app.post('/chat', (req, res) => {
   var userDB = req.db;
   var collection = userDB.get("users");
@@ -38,7 +41,7 @@ app.post('/chat', (req, res) => {
   });
   res.redirect("chat");
 });
-
+// TODO: Move to server.js
 app.get('/chat', (req, res) => {
   var userDB = req.db;
   var collection = userDB.get("users");
