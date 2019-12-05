@@ -3,6 +3,14 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const path = require('path');
+let mongo = require("mongodb");
+let monk = require("monk");
+var usersDB = monk('localhost:27017/users');
+
+app.use(function(req,res,next){
+    req.db = usersDB;
+    next();
+});
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -14,8 +22,26 @@ app.get('/', (req, res) => {
     res.render('index.ejs');
 });
 
+/*
+router.get('/userlist', function(req, res) {
+  var db = req.db;
+  var collection = db.get('usercollection');
+  collection.find({},{},function(e,docs){
+      res.render('userlist', {
+          "userlist" : docs
+      });
+  });
+});
+*/
+
+
 app.get('/chat', (req, res) => {
-    res.render('chat.ejs');
+  var userDB = req.db;
+  var collection = userDB.get("users");
+  collection.find({},{},function(e,docs){
+    console.log(docs);
+    res.render('chat.ejs', {"users" : docs});
+  });
 });
 
 io.on('connection', (socket) => {
