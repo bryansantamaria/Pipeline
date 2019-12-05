@@ -152,9 +152,21 @@ msg-container .fa-times:hover {
   grid-row: 3;
 }
 
+.row side-bar public-channels #channel-title {
+  background: rgba(0, 0, 0, 0.2);
+  margin-left: -30px;
+  padding-left: 30px;
+}
+
 .row side-bar private-message {
   -ms-grid-row: 4;
   grid-row: 4;
+}
+
+.row side-bar private-message #private-message-title {
+  background: rgba(0, 0, 0, 0.2);
+  margin-left: -30px;
+  padding-left: 30px;
 }
 
 login-container form {
