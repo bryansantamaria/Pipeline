@@ -5,7 +5,13 @@ const io = require('socket.io')(http);
 const path = require('path');
 let mongo = require("mongodb");
 let monk = require("monk");
+let bodyParser = require("body-parser");
 var usersDB = monk('localhost:27017/users');
+
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
+app.use(bodyParser.json());
 
 app.use(function(req,res,next){
     req.db = usersDB;
@@ -22,18 +28,18 @@ app.get('/', (req, res) => {
     res.render('index.ejs');
 });
 
-/*
-router.get('/userlist', function(req, res) {
-  var db = req.db;
-  var collection = db.get('usercollection');
-  collection.find({},{},function(e,docs){
-      res.render('userlist', {
-          "userlist" : docs
-      });
+app.post('/chat', (req, res) => {
+  var userDB = req.db;
+  var collection = userDB.get("users");
+  collection.insert({
+    "email": req.body.email,
+    "password": req.body.password,
+    "alias": req.body.username
+  });
+  collection.find({}, {}, function(e, docs){
+    res.render('chat.ejs', {"users" : docs });
   });
 });
-*/
-
 
 app.get('/chat', (req, res) => {
   var userDB = req.db;
