@@ -46,7 +46,6 @@ app.get('/chat', (req, res) => {
   var userDB = req.db;
   var collection = userDB.get("users");
   collection.find({},{},function(e,docs){
-    console.log(docs);
     res.render('chat.ejs', {"users" : docs});
   });
 });
@@ -54,16 +53,12 @@ app.get('/chat', (req, res) => {
 io.on('connection', (socket) => {
     socket.on('newUser', (user) => {
         socket.username = user;
-        console.log(user + ' connected');
-
         //New user is online
         socket.broadcast.emit('newUser', `${user}: Is now online!`);
-
         //You are online
         socket.on('userOnline', (user) => {
             socket.emit('userOnline', `You ${user} are online`);
         });
-
         // is Typing
         socket.on('typing', (isTyping) => {
             socket.broadcast.emit('updateTyping', user, isTyping);
@@ -72,7 +67,6 @@ io.on('connection', (socket) => {
     socket.on('chat message', function (chatObject) { //Lyssnar på eventet 'chat message'
       //The server recieves a JSON string object and sends it further to all clients connected to the socket.
       socket.broadcast.emit('chat message', JSON.parse(chatObject));
-
     });
     socket.on('disconnect', (user) => {
         socket.broadcast.emit('newUser', socket.username + ' Disconnected')
