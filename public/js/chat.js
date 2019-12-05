@@ -81,6 +81,13 @@ chatMessages.push(chatmessageModel);
   chatmessageModel.render(document.querySelector('message-root'));
 });
 
+//Loopa igenom alla chatmeddelanden, kontrollera id och rendera ut det nya editerade meddelandet.
+chatMessages.forEach(message => {
+  if(message.id == edited_message.id) {
+    message.edit(edited_message.text);
+  }
+});
+
 
 //Genererar dagens datum och tid, convertar från millisekunder.
 function getTodaysDate(date) {

@@ -65,8 +65,12 @@ io.on('connection', (socket) => {
         });
     });
     socket.on('chat message', function (chatObject) { //Lyssnar på eventet 'chat message'
-      //The server recieves a JSON string object and sends it further to all clients connected to the socket.
+      
+    
+        //The server recieves a JSON string object and sends it further to all clients connected to the socket.
       socket.broadcast.emit('chat message', JSON.parse(chatObject));
+
+    //HTTP request till servern, Post request fetch
     });
     socket.on('disconnect', (user) => {
         socket.broadcast.emit('newUser', socket.username + ' Disconnected')
