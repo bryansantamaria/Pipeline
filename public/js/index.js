@@ -11,16 +11,15 @@ let loginHtml = `
 $(document).ready(() => {
     $('create-account').hide();
 
-    $('#registrer').click(e => {
+    $('#registrer').on("click", e => {
         e.preventDefault();
-        $('create-account').fadeIn();    
+        $('create-account').fadeIn();
         $('login-container').hide();
     })
 
-    $('#to-login-btn').click(e => {
+    $('#to-login-btn').on("click", e => {
         e.preventDefault();
-        $('create-account').hide();    
+        $('create-account').hide();
         $('login-container').fadeIn();
     })
 })
-
