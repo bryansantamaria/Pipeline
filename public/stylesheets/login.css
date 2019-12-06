@@ -1,95 +1,50 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700,900&display=swap");
-@-webkit-keyframes clippedIn {
-  0% {
-    -webkit-clip-path: polygon(0% 0%, 0% 0%, -200px 100%, 0% 100%);
-            clip-path: polygon(0% 0%, 0% 0%, -200px 100%, 0% 100%);
-  }
-  30% {
-    -webkit-clip-path: polygon(0% 0%, 600px 0%, 400px 100%, 0% 100%);
-            clip-path: polygon(0% 0%, 600px 0%, 400px 100%, 0% 100%);
-  }
-  100% {
-    -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-  }
-}
 @keyframes clippedIn {
   0% {
-    -webkit-clip-path: polygon(0% 0%, 0% 0%, -200px 100%, 0% 100%);
-            clip-path: polygon(0% 0%, 0% 0%, -200px 100%, 0% 100%);
+    clip-path: polygon(0% 0%, 0% 0%, -200px 100%, 0% 100%);
   }
   30% {
-    -webkit-clip-path: polygon(0% 0%, 600px 0%, 400px 100%, 0% 100%);
-            clip-path: polygon(0% 0%, 600px 0%, 400px 100%, 0% 100%);
+    clip-path: polygon(0% 0%, 600px 0%, 400px 100%, 0% 100%);
   }
   100% {
-    -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
   }
 }
-
-@-webkit-keyframes clippedInStraight {
-  0% {
-    -webkit-clip-path: polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%);
-            clip-path: polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%);
-  }
-  30% {
-    -webkit-clip-path: polygon(0% 0%, 330px 0%, 330px 100%, 0% 100%);
-            clip-path: polygon(0% 0%, 330px 0%, 330px 100%, 0% 100%);
-  }
-  100% {
-    -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-  }
-}
-
 @keyframes clippedInStraight {
   0% {
-    -webkit-clip-path: polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%);
-            clip-path: polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%);
+    clip-path: polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%);
   }
   30% {
-    -webkit-clip-path: polygon(0% 0%, 330px 0%, 330px 100%, 0% 100%);
-            clip-path: polygon(0% 0%, 330px 0%, 330px 100%, 0% 100%);
+    clip-path: polygon(0% 0%, 330px 0%, 330px 100%, 0% 100%);
   }
   100% {
-    -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
   }
 }
-
 * {
   margin: 0;
   padding: 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 main-container {
-  -webkit-clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
-          clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
+  clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
 }
 
 main-container img {
   width: 100%;
-  -webkit-transform: scale(1.08);
-          transform: scale(1.08);
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  transform: scale(1.08);
+  box-sizing: border-box;
   margin-left: -6px;
   margin-top: 10px;
 }
 
 main-container {
-  -webkit-animation: clippedIn 1.5s 0.2s 1;
-          animation: clippedIn 1.5s 0.2s 1;
-  -webkit-animation-fill-mode: forwards;
-          animation-fill-mode: forwards;
-  display: -ms-grid;
+  animation: clippedIn 1.5s 0.2s 1;
+  animation-fill-mode: forwards;
   display: grid;
-  -ms-grid-columns: 600px 1fr;
-      grid-template-columns: 600px 1fr;
+  grid-template-columns: 600px 1fr;
 }
-
 main-container img {
   position: absolute;
   margin-left: 30px;
@@ -98,100 +53,76 @@ main-container img {
   z-index: 100;
   display: none;
 }
-
 main-container side-bar {
-  background: -webkit-gradient(linear, right top, left top, from(#616070), to(#685d74));
   background: linear-gradient(270deg, #616070 0%, #685d74 100%);
   height: 100vh;
   width: 100%;
-  -ms-grid-column: 1;
   grid-column: 1;
   z-index: 5;
   overflow: hidden;
-  -webkit-clip-path: polygon(0% 100%, 0% 0%, 100% 0%, 400px 100%);
-          clip-path: polygon(0% 100%, 0% 0%, 100% 0%, 400px 100%);
-  -webkit-filter: drop-shadow(30px 10px 4px rgba(0, 0, 0, 0.1));
-          filter: drop-shadow(30px 10px 4px rgba(0, 0, 0, 0.1));
+  clip-path: polygon(0% 100%, 0% 0%, 100% 0%, 400px 100%);
+  filter: drop-shadow(30px 10px 4px rgba(0, 0, 0, 0.1));
 }
-
 main-container side-bar p {
   color: rgba(255, 255, 255, 0.322);
   font-size: 1.5em;
 }
-
 main-container main-content {
-  -ms-grid-column: 3;
   grid-column: 3;
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 0.3fr 1fr 0.7fr;
-      grid-template-columns: 0.3fr 1fr 0.7fr;
-  -ms-grid-rows: 0.2fr 1fr 0.4fr;
-      grid-template-rows: 0.2fr 1fr 0.4fr;
+  grid-template-columns: 0.3fr 1fr 0.7fr;
+  grid-template-rows: 0.2fr 1fr 0.4fr;
   background: white;
 }
-
 main-container main-content create-account {
-  -ms-grid-column: 2;
   grid-column: 2;
-  -ms-grid-row: 2;
   grid-row: 2;
   width: 100%;
   max-width: 400px;
-  -ms-grid-column-align: center;
-      justify-self: center;
-  -ms-flex-item-align: center;
-      -ms-grid-row-align: center;
-      align-self: center;
+  justify-self: center;
+  align-self: center;
 }
-
 main-container main-content create-account div h1 {
   text-transform: uppercase;
   font-weight: 900;
 }
-
 main-container main-content create-account span {
   font-size: 0.8em;
 }
-
-main-container main-content create-account span #to-login-btn {
+main-container main-content create-account span #login-link {
   border: none;
   background: none;
 }
-
-main-container main-content create-account span #to-login-btn:focus {
+main-container main-content create-account span #login-link:focus {
   outline: none;
 }
-
+main-container main-content create-account span #login-link:hover {
+  cursor: pointer;
+}
 main-container main-content login-container {
-  -ms-grid-column: 2;
   grid-column: 2;
-  -ms-grid-row: 2;
   grid-row: 2;
   width: 100%;
   max-width: 400px;
-  -ms-grid-column-align: center;
-      justify-self: center;
-  -ms-flex-item-align: center;
-      -ms-grid-row-align: center;
-      align-self: center;
+  justify-self: center;
+  align-self: center;
 }
-
 main-container main-content login-container div h1 {
   text-transform: uppercase;
   font-weight: 900;
 }
-
 main-container main-content login-container span {
   font-size: 0.8em;
 }
-
-main-container main-content login-container span #registrer {
+main-container main-content login-container span #register {
   border: none;
   background: none;
 }
-
-main-container main-content login-container span #registrer:focus {
+main-container main-content login-container span #register:focus {
   outline: none;
 }
+main-container main-content login-container span #register:hover {
+  cursor: pointer;
+}
+
 /*# sourceMappingURL=login.css.map */

@@ -42,7 +42,7 @@ main-container {
         grid-template-columns: 0.3fr 1fr 0.7fr;
         grid-template-rows: 0.2fr 1fr 0.4fr;
         background: white;
-        
+
 
         create-account {
             grid-column: 2;
@@ -61,11 +61,14 @@ main-container {
 
             span {
                 font-size: 0.8em;
-                #to-login-btn {
+                #login-link {
                     border: none;
                     background: none;
                     &:focus {
                         outline: none;
+                    }
+                    &:hover {
+                      cursor: pointer;
                     }
                 }
             }
@@ -88,15 +91,17 @@ main-container {
 
             span {
                 font-size: 0.8em;
-                #registrer {
+                #register {
                     border: none;
                     background: none;
                     &:focus {
                         outline: none;
+                    }
+                    &:hover {
+                      cursor: pointer;
                     }
                 }
             }
         }
     }
 }
-
