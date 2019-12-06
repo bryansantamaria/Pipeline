@@ -9,38 +9,63 @@
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <link rel='stylesheet' href='/stylesheets/login.css' />
   <script src="https://kit.fontawesome.com/fcc82c8a72.js" crossorigin="anonymous"></script>
   <title>Create account</title>
 </head>
 
 <body>
-  <login-container>
-    <form action="/chat" method="post">
-      <div class="text-center bold">Create Account</div>
-      <div class="form-group">
-        <label for="username"></label>
-        <input type="text" class="form-control" name="username" placeholder="Your Name">
-      </div>
-      <label for="email"></label>
-      <input type="email" class="form-control" name="email" placeholder="Your Email">
-      <div class="form-group">
-        <label for="password"></label>
-        <input type="password" class="form-control" name="password" placeholder="Password">
-      </div>
-      <div class="form-group">
-        <label for="verifyPassword"></label>
-        <input type="password" class="form-control" name="verifyPassword" placeholder="Repeat your password">
-      </div>
-      <input type="submit" value="Add user" class="btn btn-primary">
-    </form>
-    <a href="/views/chat.ejs"><button type="button" class="btn btn-primary">Skip creating account and go to chat.ejs</button></a>
-  </login-container>
+  <main-container>
+    <side-bar>
+      <img src="img/pipeline.svg" alt="Logo">
+    </side-bar>
+
+    <main-content>
+      <create-account>
+        <div class="text-center bold">
+          <h1 id="create-account">Create account</h1>
+          <p>We know you want to :)</p>
+        </div>
+
+        <form action="/registrer" method="post">
+          <div class="form-group">
+            <input type="text" class="form-control mt-2" name="username" placeholder="Your Name">
+
+            <input type="email" class="form-control mt-2" name="email" placeholder="Your Email">
+
+            <input type="password" class="form-control mt-3" name="password" placeholder="Password">
+
+            <input type="password" class="form-control mt-2" name="verifyPassword" placeholder="Repeat your password">
+          </div>
+          <span>Already have an account? <button class="text-primary" id="to-login-btn">Sign in!</button></span><br>
+          <input type="submit" value="Create account" class="btn btn-primary">
+        </form>
+      </create-account>
+
+      <login-container>
+        <form action="/login" method="post">
+
+          <div class="text-center bold">
+            <h1 id="create-account">Welcome to pipeline</h1>
+            <p>A 21st century chat platform</p>
+          </div>
+
+          <div class="form-group">
+            <input type="text" class="form-control" name="username" placeholder="Username">
+
+            <input type="password" class="form-control mt-1" name="password" placeholder="Password">
+            <span>Don't have an account? <button class="text-primary" id="registrer">Create one!</button></span><br>
+            <input type="submit" value="Sign in" class="btn btn-primary mt-1">
+        </form>
+      </login-container>
+    </main-content>
+  </main-container>
+
+
 
   <script src="js/index.js"></script>
-  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-    crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
     integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
     crossorigin="anonymous"></script>

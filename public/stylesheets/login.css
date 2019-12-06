@@ -1,0 +1,170 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700,900&display=swap");
+@-webkit-keyframes clippedIn {
+  0% {
+    -webkit-clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
+            clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
+  }
+  50% {
+    -webkit-clip-path: polygon(0% 0%, 0% 100%, 9% 100%, 44% 0%);
+            clip-path: polygon(0% 0%, 0% 100%, 9% 100%, 44% 0%);
+  }
+  100% {
+    -webkit-clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 0%);
+            clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 0%);
+  }
+}
+@keyframes clippedIn {
+  0% {
+    -webkit-clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
+            clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
+  }
+  50% {
+    -webkit-clip-path: polygon(0% 0%, 0% 100%, 9% 100%, 44% 0%);
+            clip-path: polygon(0% 0%, 0% 100%, 9% 100%, 44% 0%);
+  }
+  100% {
+    -webkit-clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 0%);
+            clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 0%);
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+main-container {
+  -webkit-clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
+          clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
+}
+
+main-container side-bar {
+  background: -webkit-gradient(linear, right top, left top, from(#616070), to(#685d74));
+  background: linear-gradient(270deg, #616070 0%, #685d74 100%);
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: auto auto 0.7fr 1fr;
+      grid-template-rows: auto auto 0.7fr 1fr;
+  width: 330px;
+  height: 100vh;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding-left: 20px;
+}
+
+main-container side-bar img {
+  width: 100%;
+  -webkit-transform: scale(1.08);
+          transform: scale(1.08);
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin-left: -6px;
+  margin-top: 10px;
+}
+
+body {
+  background: -webkit-gradient(linear, right top, left top, from(#616070), to(#685d74));
+  background: linear-gradient(270deg, #616070 0%, #685d74 100%);
+}
+
+main-container {
+  -webkit-animation: clippedIn 1s 0.2s 1;
+          animation: clippedIn 1s 0.2s 1;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 0.3fr 1fr;
+      grid-template-columns: 0.3fr 1fr;
+}
+
+main-container side-bar {
+  width: 100%;
+  -ms-grid-column: 1;
+  grid-column: 1;
+}
+
+main-container side-bar img {
+  margin-left: 20%;
+  margin-top: 20%;
+}
+
+main-container main-content {
+  -ms-grid-column: 2;
+  grid-column: 2;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 0.6fr 1fr 0.4fr;
+      grid-template-columns: 0.6fr 1fr 0.4fr;
+  -ms-grid-rows: 0.2fr 1fr 0.4fr;
+      grid-template-rows: 0.2fr 1fr 0.4fr;
+  background: white;
+  -webkit-clip-path: polygon(31% 0%, 0% 100%, 100% 100%, 100% 0%);
+          clip-path: polygon(31% 0%, 0% 100%, 100% 100%, 100% 0%);
+}
+
+main-container main-content create-account {
+  -ms-grid-column: 2;
+  grid-column: 2;
+  -ms-grid-row: 2;
+  grid-row: 2;
+  width: 100%;
+  max-width: 400px;
+  -ms-grid-column-align: center;
+      justify-self: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+main-container main-content create-account div h1 {
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+main-container main-content create-account span {
+  font-size: 0.8em;
+}
+
+main-container main-content create-account span #to-login-btn {
+  border: none;
+  background: none;
+}
+
+main-container main-content create-account span #to-login-btn:focus {
+  outline: none;
+}
+
+main-container main-content login-container {
+  -ms-grid-column: 2;
+  grid-column: 2;
+  -ms-grid-row: 2;
+  grid-row: 2;
+  width: 100%;
+  max-width: 400px;
+  -ms-grid-column-align: center;
+      justify-self: center;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+main-container main-content login-container div h1 {
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+main-container main-content login-container span {
+  font-size: 0.8em;
+}
+
+main-container main-content login-container span #registrer {
+  border: none;
+  background: none;
+}
+
+main-container main-content login-container span #registrer:focus {
+  outline: none;
+}
+/*# sourceMappingURL=login.css.map */

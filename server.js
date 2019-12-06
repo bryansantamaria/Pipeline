@@ -9,6 +9,18 @@ let monk = require("monk");
 let bodyParser = require("body-parser");
 var usersDB = monk('localhost:27017/users');
 
+// TODO: Move to server.js
+server.use(bodyParser.urlencoded({
+  extended: false
+}));
+// TODO: Move to server.js
+server.use(bodyParser.json());
+// TODO: Move to server.js
+server.use(function (req, res, next) {
+  req.db = usersDB;
+  next();
+});
+
 server.use(logger('dev'));
 server.use(express.json());
 server.use(express.urlencoded({ extended: false }));

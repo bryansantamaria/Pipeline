@@ -1,14 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,700,900&display=swap');
 @import 'global';
 
-
-
-
-
 body {
-  transition: 0.8s all;
-  clip-path: inset(0 0 0 0);
-  animation: clippedIn 1.5s 1;
+  @extend %startClipped;
+  animation: clippedIn 1s 0.2s 1;
+  animation-fill-mode: forwards;
 }
 
 .removed-msg, .hidden {
@@ -97,6 +93,8 @@ msg-container {
   background: $darken-light;
   margin-left: -30px;
   padding-left: 30px;
+  padding-top: 3px;
+  padding-bottom: 3px;
   user-select: none;
   transition: 0.2s all;
 
@@ -114,8 +112,8 @@ msg-container {
   background: $darken-heavy;
   margin-left: -30px;
   padding-left: 30px;
-  padding-top: 3px;
-  padding-bottom: 3px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .row {
@@ -128,24 +126,14 @@ msg-container {
   clip-path: inset(0% 0% 0% 0%);
 
   side-bar {
-    background: $sidebar-color;
-    display: grid;
-    grid-template-rows: auto auto 0.7fr 1fr;
-    width: 330px;
-    height: 100vh;
-    box-sizing: border-box;
-    padding-left: 20px;
+    @extend %side-bar;
 
     transition: 0.5s all;
     transition-timing-function: ease-in;
     clip-path: inset(0% 0% 0% 0%);
 
     img {
-      width: 100%;
-      transform: scale(1.08);
-      box-sizing: border-box;
-      margin-left: -6px;
-      margin-top: 10px;
+      @extend %logo ;
     }
     
     user-name {
@@ -235,6 +223,10 @@ main-content {
   }
   form{
     grid-row: 3;
+    display: flex;
+    align-items: center;
+    padding-left: 1em;
+    padding-right: 1em;
     #messageValue{
       width: 80%;
       display: inline;
