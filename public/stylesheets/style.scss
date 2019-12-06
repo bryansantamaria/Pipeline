@@ -235,6 +235,10 @@ main-content {
   }
   form{
     grid-row: 3;
+    display: flex;
+    align-items: center;
+    padding-left: 1em;
+    padding-right: 1em;
     #messageValue{
       width: 80%;
       display: inline;

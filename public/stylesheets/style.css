@@ -307,6 +307,14 @@ main-content message-root {
 main-content form {
   -ms-grid-row: 3;
   grid-row: 3;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 main-content form #messageValue {
