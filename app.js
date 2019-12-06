@@ -3,23 +3,15 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const path = require('path');
-// TODO: Move to server.js
-let mongo = require("mongodb");
-let monk = require("monk");
-let bodyParser = require("body-parser");
-var usersDB = monk('localhost:27017/users');
-
+const bodyParser = require("body-parser");
+const request = require('request-promise');
 // TODO: Move to server.js
 app.use(bodyParser.urlencoded({
-    extended: false
+  extended: false
 }));
 // TODO: Move to server.js
 app.use(bodyParser.json());
-// TODO: Move to server.js
-app.use(function (req, res, next) {
-    req.db = usersDB;
-    next();
-});
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -28,67 +20,105 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
-    res.render('index.ejs');
-});
-// TODO: Move to server.js
-app.post('/registrer', (req, res) => {
-    var userDB = req.db;
-    var collection = userDB.get("users");
-    collection.insert({
-        "email": req.body.email,
-        "password": req.body.password,
-        "alias": req.body.username
-    });
-    res.redirect("chat");
-});
-// TODO: Move to server.js
-app.get('/chat', (req, res) => {
-    var userDB = req.db;
-    var collection = userDB.get("users");
-    collection.find({}, {}, function (e, docs) {
-        res.render('chat.ejs', { "users": docs });
-    });
+  res.render('index.ejs');
 });
 
-app.post('/login', async (req, res) => {
-    var userDB = req.db;
-    var collection = userDB.get("users");
-    collection.find({"alias": req.body.username}, {}).then(user  => {
-        if(user[0].password == req.body.password) {
-            res.redirect("chat");
-        } else {
-            res.redirect('/');
-        }
-    });
-  
+// TODO: Move to server.js
+app.post('/register', (req, res) => {
+  /*let user = await */
+  request('http://127.0.0.1:3000/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(req.body),
+  }).then(() => {
+    res.redirect('chat');
+  });
+});
+
+/*app.post('/chatroom', (req, res) => {
+
+});*/
+
+// TODO: Move to server.js
+app.get('/chat', (req, res) => {
+  request('http://127.0.0.1:3000/chat', {
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }).then(users => {
+    res.render('chat', { "users": JSON.parse(users) });
+  });
+});
+
+app.post('/login', (req, res) => {
+  console.log(req.body);
+  request('http://127.0.0.1:3000/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(req.body),
+  }).then((authorized) => {
+    if (JSON.parse(authorized)) {
+      res.redirect('chat');
+    } else {
+      res.redirect('/');
+    }
+  });
 });
 
 io.on('connection', (socket) => {
-    socket.on('newUser', (user) => {
-        socket.username = user;
-        //New user is online
-        socket.broadcast.emit('newUser', `${user}: Is now online!`);
-        //You are online
-        socket.on('userOnline', (user) => {
-            socket.emit('userOnline', `You ${user} are online`);
-        });
-        // is Typing
-        socket.on('typing', (isTyping) => {
-            socket.broadcast.emit('updateTyping', user, isTyping);
-        });
+  socket.on('newUser', (user) => {
+    socket.username = user;
+    //New user is online
+    socket.broadcast.emit('newUser', `${user}: Is now online!`);
+    //You are online
+    socket.on('userOnline', (user) => {
+      socket.emit('userOnline', `You ${user} are online`);
+    });
+    // is Typing
+    socket.on('typing', (isTyping) => {
+      socket.broadcast.emit('updateTyping', user, isTyping);
+    });
+  });
+
+  socket.on('chat message', function (chatObject) { //Lyssnar på eventet 'chat message'
+    request('http://127.0.0.1:3000/chatroom', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: chatObject,
+    }).then(message => {
+      console.log(JSON.parse(message));
+      //The server recieves a JSON string object and sends it further to all clients connected to the socket.
+      io.emit('chat message', JSON.parse(message));
     });
 
-    socket.on('chat message', function (chatObject) { //Lyssnar på eventet 'chat message'
-        //The server recieves a JSON string object and sends it further to all clients connected to the socket.
+    //HTTP request till servern, Post request fetch
+    /*async function getMessage(msg) {
+      let customers = await fetch('http://127.0.0.1:3001/chat/' + msg, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'text/json'
+        }
+      }).then(data => {
+        return data.json();
+      });
 
+      render(customers);
+    }*/
 
-        socket.broadcast.emit('chat message', JSON.parse(chatObject));
-    });
-    socket.on('disconnect', (user) => {
-        socket.broadcast.emit('newUser', socket.username + ' Disconnected')
-    });
+  });
+  socket.on('disconnect', (user) => {
+    socket.broadcast.emit('newUser', socket.username + ' Disconnected')
+  });
 });
 
 http.listen(5000, function () {
-    console.log('listening on *:5000');
+  console.log('listening on *:5000');
 });

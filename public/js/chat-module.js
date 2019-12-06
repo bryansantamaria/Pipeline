@@ -1,5 +1,5 @@
 export class ChatModule {
-    constructor(message, alias, avatar, date) {
+    constructor(message, alias, avatar, date, id) {
         //Creates HTML elements
         this.html = {
             container: document.createElement('msg-container'),
@@ -12,12 +12,15 @@ export class ChatModule {
             deleteBtn: document.createElement('delete-btn')
         }
 
+        
+
         //Text content
         this.content = {
             message: message,
             alias: alias,
             avatar: avatar,
-            date: date
+            date: date,
+            _id: id
         }
 
         this.setupEventListeners();
