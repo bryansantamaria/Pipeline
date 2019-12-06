@@ -3,12 +3,6 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const path = require('path');
-// // TODO: Move to server.js
-// let mongo = require("mongodb");
-// let monk = require("monk");
-// let bodyParser = require("body-parser");
-// var usersDB = monk('localhost:27017/users');
-// var msgDB = monk('localhost:27017/message');
 
 // TODO: Move to server.js
 app.use(bodyParser.urlencoded({
@@ -34,8 +28,17 @@ app.get('/', (req, res) => {
 });
 
 // TODO: Move to server.js
-app.post('/registrer', (req, res) => {
-
+app.post('/registrer', async (req, res) => {
+    let user = await fetch('http://127.0.0.1:3000/register', {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'text/json'
+      },
+      body: JSON.stringify(req.body),
+    }).then(data => {
+      return data.json();
+    });
 });
 
 app.post('/chatroom', (req, res) => {
@@ -48,7 +51,6 @@ app.get('/chat', (req, res) => {
 });
 
 app.post('/login', async (req, res) => {
-
 
 });
 
