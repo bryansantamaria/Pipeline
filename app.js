@@ -3,11 +3,12 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const path = require('path');
-// TODO: Move to server.js
-let mongo = require("mongodb");
-let monk = require("monk");
-let bodyParser = require("body-parser");
-var usersDB = monk('localhost:27017/users');
+// // TODO: Move to server.js
+// let mongo = require("mongodb");
+// let monk = require("monk");
+// let bodyParser = require("body-parser");
+// var usersDB = monk('localhost:27017/users');
+// var msgDB = monk('localhost:27017/message');
 
 // TODO: Move to server.js
 app.use(bodyParser.urlencoded({
@@ -21,6 +22,7 @@ app.use(function (req, res, next) {
   next();
 });
 
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 // view engine setup
@@ -30,37 +32,24 @@ app.set('view engine', 'ejs');
 app.get('/', (req, res) => {
   res.render('index.ejs');
 });
+
 // TODO: Move to server.js
 app.post('/registrer', (req, res) => {
-    var userDB = req.db;
-    var collection = userDB.get("users");
-    collection.insert({
-        "email": req.body.email,
-        "password": req.body.password,
-        "alias": req.body.username
-    });
-    res.redirect("chat");
+
 });
+
+app.post('/chatroom', (req, res) => {
+
+});
+
 // TODO: Move to server.js
 app.get('/chat', (req, res) => {
-  var userDB = req.db;
-  var collection = userDB.get("users");
-  collection.find({}, {}, function (e, docs) {
-    res.render('chat.ejs', { "users": docs });
-  });
+
 });
 
 app.post('/login', async (req, res) => {
-    var userDB = req.db;
-    var collection = userDB.get("users");
-    collection.find({"alias": req.body.username}, {}).then(user  => {
-        if(user[0].password == req.body.password) {
-            res.redirect("chat");
-        } else {
-            res.redirect('/');
-        }
-    });
-  
+
+
 });
 
 io.on('connection', (socket) => {

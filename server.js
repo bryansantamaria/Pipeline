@@ -4,21 +4,73 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var server = express();
+// Moved to server.js
 let mongo = require("mongodb");
 let monk = require("monk");
 let bodyParser = require("body-parser");
 var usersDB = monk('localhost:27017/users');
 
-// TODO: Move to server.js
+// Moved to server.js
 server.use(bodyParser.urlencoded({
   extended: false
 }));
-// TODO: Move to server.js
+// Moved to server.js
 server.use(bodyParser.json());
-// TODO: Move to server.js
+// Moved to server.js
 server.use(function (req, res, next) {
   req.db = usersDB;
   next();
+});
+
+// Moved to server.js
+app.post('/registrer', (req, res) => {
+  var userDB = req.db;
+  var collection = userDB.get("users");
+  collection.insert({
+      "email": req.body.email,
+      "password": req.body.password,
+      "alias": req.body.username
+  });
+  res.redirect("chat");
+});
+
+//Moved to server.js
+app.post('/chatroom', (req, res) => {
+  var msgDB = req.db;
+  var collection = msgDB.get('messages');
+  collection.insert({
+    'alias': req.body.username,
+    'content': req.body.message,
+    'datetime': req.body.date,
+    'attachments' : [
+      {
+        'url': 'localhost:27017/attachments',
+        'filename': 'test.jpg'
+      }
+    ]
+  });
+  res.redirect('chat');
+});
+
+// Moved to server.js
+app.get('/chat', (req, res) => {
+  var userDB = req.db;
+  var collection = userDB.get("users");
+  collection.find({}, {}, function (e, docs) {
+    res.render('chat.ejs', { "users": docs });
+  });
+});
+// Moved to server.js
+app.post('/login', async (req, res) => {
+    var userDB = req.db;
+    var collection = userDB.get("users");
+    collection.find({"alias": req.body.username}, {}).then(user  => {
+        if(user[0].password == req.body.password) {
+            res.redirect("chat");
+        } else {
+            res.redirect('/');
+        }
+    });
 });
 
 server.use(logger('dev'));
