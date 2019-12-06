@@ -67,9 +67,9 @@ server.post('/login', async (req, res) => {
     var collection = userDB.get("users");
     collection.find({"alias": req.body.username}, {}).then(user  => {
         if(user[0].password == req.body.password) {
-            res.redirect("chat");
+            res.send(true);
         } else {
-            res.redirect('/');
+            res.send(false);
         }
     });
 });
