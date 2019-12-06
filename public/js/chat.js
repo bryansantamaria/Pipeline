@@ -20,7 +20,7 @@ let chatMessages = [
     'https://scontent-arn2-1.xx.fbcdn.net/v/t1.0-9/51721821_10156909845079030_3534192012213354496_n.jpg?_nc_cat=109&_nc_ohc=CabSkySieYMAQlIvjyAJrkabzdmPpbzrfdZN9QL78W5gjN_cxQuE_-7Qg&_nc_ht=scontent-arn2-1.xx&oh=d57a7ebc3db7466ef4e5ec2822247038&oe=5E830A5E',
     '11:26'
   )
-  
+
 ];
 
 
@@ -53,32 +53,37 @@ document.querySelector('#edit-btn').addEventListener('click', () => {
 });
 
 var socket = io();
-$("form").submit(function(e) {
+$("form").submit(function (e) {
   e.preventDefault();
-  if ($("#messageValue").val() == "") {} else
-  {
+  if ($("#messageValue").val() == "") { } else {
     let chatMessage = new ChatModule(
       $("#messageValue").val(),
       "User_name",
       'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
       getTodaysDate()
     );
-    chatMessages.push(chatMessage);
+    //chatMessages.push(chatMessage);
     //Emits the stringified chatMessage object to server.
     socket.emit("chat message", JSON.stringify(chatMessage));
-    chatMessage.render(document.querySelector('message-root'));
+    /*chatMessage.render(document.querySelector('message-root'));*/
     $("#messageValue").val('');
   }
 });
-socket.on('chat message', function(chatObject){
+socket.on('chat message', function (chatObject) {
+  chatObject = JSON.parse(chatObject);
+
   //Loads in the now parsed chatobject and loads it's content into chatmessageModel
-let chatmessageModel = new ChatModule(
-  chatObject.content.message,
-  chatObject.content.alias,
-  chatObject.content.avatar,
-  chatObject.content.date
-);
-chatMessages.push(chatmessageModel);
+  let chatmessageModel = new ChatModule(
+    chatObject.content,
+    chatObject.alias,
+    'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
+    chatObject.datetime,
+    chatObject._id
+  );
+
+  console.log(chatmessageModel);
+
+  chatMessages.push(chatmessageModel);
   chatmessageModel.render(document.querySelector('message-root'));
 });
 
@@ -103,7 +108,7 @@ function getTodaysDate(date) {
   h = (h < 10) ? "0" + h : h;
   m = (m < 10) ? "0" + m : m;
 
-  if(dd == new Date().getDate()) {
+  if (dd == new Date().getDate()) {
     rightNow = h + ":" + m;
   } else {
     rightNow = yyyy + '-' + mm + '-' + dd + ' ' + h + ":" + m;
@@ -113,13 +118,13 @@ function getTodaysDate(date) {
 }
 
 //Cursed bootstrap attributes
-document.querySelector('#private-message-title').setAttribute("data-toggle","modal")
+document.querySelector('#private-message-title').setAttribute("data-toggle", "modal")
 document.querySelector('#private-message-title').setAttribute("data-target", "#create-pm-modal")
 
-document.querySelector('#user-settings').setAttribute("data-toggle","modal")
+document.querySelector('#user-settings').setAttribute("data-toggle", "modal")
 document.querySelector('#user-settings').setAttribute("data-target", "#edit-profile-modal")
 
-document.querySelector('user-name').setAttribute("data-toggle","modal")
+document.querySelector('user-name').setAttribute("data-toggle", "modal")
 document.querySelector('user-name').setAttribute("data-target", "#edit-profile-modal")
 
 chatMessages.forEach(msg => {

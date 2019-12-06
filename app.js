@@ -25,21 +25,21 @@ app.get('/', (req, res) => {
 
 // TODO: Move to server.js
 app.post('/register', (req, res) => {
-    /*let user = await */
-    request('http://127.0.0.1:3000/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(req.body),
-    }).then(() => {
-      res.redirect('chat');
-    }); 
+  /*let user = await */
+  request('http://127.0.0.1:3000/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(req.body),
+  }).then(() => {
+    res.redirect('chat');
+  });
 });
 
-app.post('/chatroom', (req, res) => {
+/*app.post('/chatroom', (req, res) => {
 
-});
+});*/
 
 // TODO: Move to server.js
 app.get('/chat', (req, res) => {
@@ -49,8 +49,8 @@ app.get('/chat', (req, res) => {
       'Content-Type': 'application/json'
     }
   }).then(users => {
-    res.render('chat', {"users": JSON.parse(users)});
-  }); 
+    res.render('chat', { "users": JSON.parse(users) });
+  });
 });
 
 app.post('/login', (req, res) => {
@@ -62,12 +62,12 @@ app.post('/login', (req, res) => {
     },
     body: JSON.stringify(req.body),
   }).then((authorized) => {
-    if(JSON.parse(authorized)) {
+    if (JSON.parse(authorized)) {
       res.redirect('chat');
     } else {
       res.redirect('/');
     }
-  }); 
+  });
 });
 
 io.on('connection', (socket) => {
@@ -84,10 +84,19 @@ io.on('connection', (socket) => {
       socket.broadcast.emit('updateTyping', user, isTyping);
     });
   });
-  socket.on('chat message', function (chatObject) { //Lyssnar på eventet 'chat message'
 
-    //The server recieves a JSON string object and sends it further to all clients connected to the socket.
-    socket.broadcast.emit('chat message', JSON.parse(chatObject));
+  socket.on('chat message', function (chatObject) { //Lyssnar på eventet 'chat message'
+    request('http://127.0.0.1:3000/chatroom', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: chatObject,
+    }).then(message => {
+      console.log(JSON.parse(message));
+      //The server recieves a JSON string object and sends it further to all clients connected to the socket.
+      io.emit('chat message', JSON.parse(message));
+    });
 
     //HTTP request till servern, Post request fetch
     /*async function getMessage(msg) {
