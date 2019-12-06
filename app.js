@@ -16,9 +16,9 @@ app.use(bodyParser.urlencoded({
 // TODO: Move to server.js
 app.use(bodyParser.json());
 // TODO: Move to server.js
-app.use(function(req,res,next){
-    req.db = usersDB;
-    next();
+app.use(function (req, res, next) {
+  req.db = usersDB;
+  next();
 });
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -28,7 +28,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
-    res.render('index.ejs');
+  res.render('index.ejs');
 });
 // TODO: Move to server.js
 app.post('/chat', (req, res) => {
@@ -45,37 +45,51 @@ app.post('/chat', (req, res) => {
 app.get('/chat', (req, res) => {
   var userDB = req.db;
   var collection = userDB.get("users");
-  collection.find({},{},function(e,docs){
-    res.render('chat.ejs', {"users" : docs});
+  collection.find({}, {}, function (e, docs) {
+    res.render('chat.ejs', { "users": docs });
   });
 });
 
 io.on('connection', (socket) => {
-    socket.on('newUser', (user) => {
-        socket.username = user;
-        //New user is online
-        socket.broadcast.emit('newUser', `${user}: Is now online!`);
-        //You are online
-        socket.on('userOnline', (user) => {
-            socket.emit('userOnline', `You ${user} are online`);
-        });
-        // is Typing
-        socket.on('typing', (isTyping) => {
-            socket.broadcast.emit('updateTyping', user, isTyping);
-        });
+  socket.on('newUser', (user) => {
+    socket.username = user;
+    //New user is online
+    socket.broadcast.emit('newUser', `${user}: Is now online!`);
+    //You are online
+    socket.on('userOnline', (user) => {
+      socket.emit('userOnline', `You ${user} are online`);
     });
-    socket.on('chat message', function (chatObject) { //Lyssnar på eventet 'chat message'
-      
+    // is Typing
+    socket.on('typing', (isTyping) => {
+      socket.broadcast.emit('updateTyping', user, isTyping);
+    });
+  });
+  socket.on('chat message', function (chatObject) { //Lyssnar på eventet 'chat message'
+
     //The server recieves a JSON string object and sends it further to all clients connected to the socket.
     socket.broadcast.emit('chat message', JSON.parse(chatObject));
 
     //HTTP request till servern, Post request fetch
-    });
-    socket.on('disconnect', (user) => {
-        socket.broadcast.emit('newUser', socket.username + ' Disconnected')
-    });
+    async function getMessage(msg) {
+      let customers = await fetch('http://127.0.0.1:3001/chat/' + msg, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'Content-Type': 'text/json'
+        }
+      }).then(data => {
+        return data.json();
+      });
+
+      render(customers);
+    }
+
+  });
+  socket.on('disconnect', (user) => {
+    socket.broadcast.emit('newUser', socket.username + ' Disconnected')
+  });
 });
 
 http.listen(5000, function () {
-    console.log('listening on *:5000');
+  console.log('listening on *:5000');
 });

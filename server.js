@@ -4,6 +4,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var server = express();
+let mongo = require("mongodb");
+let monk = require("monk");
+let bodyParser = require("body-parser");
+var usersDB = monk('localhost:27017/users');
 
 server.use(logger('dev'));
 server.use(express.json());
