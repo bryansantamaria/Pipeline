@@ -49,7 +49,6 @@ app.get('/chat', (req, res) => {
       'Content-Type': 'application/json'
     }
   }).then(users => {
-    console.log(users);
     res.render('chat', {"users": JSON.parse(users)});
   }); 
 });

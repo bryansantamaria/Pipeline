@@ -24,7 +24,6 @@ server.use(function (req, res, next) {
 
 // Moved to server.js
 server.post('/register', (req, res) => {
-  console.log(req.body);
   var userDB = req.db;
   var collection = userDB.get("users");
   collection.insert({
