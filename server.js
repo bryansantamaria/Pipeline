@@ -23,7 +23,8 @@ server.use(function (req, res, next) {
 });
 
 // Moved to server.js
-app.post('/registrer', (req, res) => {
+server.post('/register', (req, res) => {
+  console.log(req.body);
   var userDB = req.db;
   var collection = userDB.get("users");
   collection.insert({
@@ -31,11 +32,12 @@ app.post('/registrer', (req, res) => {
       "password": req.body.password,
       "alias": req.body.username
   });
-  res.redirect("chat");
+
+  res.send('200');
 });
 
 //Moved to server.js
-app.post('/chatroom', (req, res) => {
+server.post('/chatroom', (req, res) => {
   var msgDB = req.db;
   var collection = msgDB.get('messages');
   collection.insert({
@@ -53,15 +55,15 @@ app.post('/chatroom', (req, res) => {
 });
 
 // Moved to server.js
-app.get('/chat', (req, res) => {
+server.get('/chat', (req, res) => {
   var userDB = req.db;
   var collection = userDB.get("users");
-  collection.find({}, {}, function (e, docs) {
-    res.render('chat.ejs', { "users": docs });
+  collection.find({}, {}, function (e, users) {
+    res.json(users);
   });
 });
 // Moved to server.js
-app.post('/login', async (req, res) => {
+server.post('/login', async (req, res) => {
     var userDB = req.db;
     var collection = userDB.get("users");
     collection.find({"alias": req.body.username}, {}).then(user  => {

@@ -3,18 +3,14 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 const path = require('path');
-
+const bodyParser = require("body-parser");
+const request = require('request-promise');
 // TODO: Move to server.js
 app.use(bodyParser.urlencoded({
   extended: false
 }));
 // TODO: Move to server.js
 app.use(bodyParser.json());
-// TODO: Move to server.js
-app.use(function (req, res, next) {
-  req.db = usersDB;
-  next();
-});
 
 
 app.use(express.static(path.join(__dirname, 'public')));
@@ -28,17 +24,17 @@ app.get('/', (req, res) => {
 });
 
 // TODO: Move to server.js
-app.post('/registrer', async (req, res) => {
-    let user = await fetch('http://127.0.0.1:3000/register', {
-      method: 'GET',
-      mode: 'cors',
+app.post('/register', (req, res) => {
+    /*let user = await */
+    request('http://127.0.0.1:3000/register', {
+      method: 'POST',
       headers: {
-        'Content-Type': 'text/json'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(req.body),
-    }).then(data => {
-      return data.json();
-    });
+    }).then(() => {
+      res.redirect('chat');
+    }); 
 });
 
 app.post('/chatroom', (req, res) => {
@@ -47,10 +43,18 @@ app.post('/chatroom', (req, res) => {
 
 // TODO: Move to server.js
 app.get('/chat', (req, res) => {
-
+  request('http://127.0.0.1:3000/chat', {
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }).then(users => {
+    console.log(users);
+    res.render('chat', {"users": JSON.parse(users)});
+  }); 
 });
 
-app.post('/login', async (req, res) => {
+app.post('/login', (req, res) => {
 
 });
 
@@ -74,7 +78,7 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('chat message', JSON.parse(chatObject));
 
     //HTTP request till servern, Post request fetch
-    async function getMessage(msg) {
+    /*async function getMessage(msg) {
       let customers = await fetch('http://127.0.0.1:3001/chat/' + msg, {
         method: 'GET',
         mode: 'cors',
@@ -86,7 +90,7 @@ io.on('connection', (socket) => {
       });
 
       render(customers);
-    }
+    }*/
 
   });
   socket.on('disconnect', (user) => {
