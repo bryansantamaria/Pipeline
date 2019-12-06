@@ -3,19 +3,36 @@ $darken-light: rgba(0, 0, 0, 0.1);
 $darken-heavy: rgba(0, 0, 0, 0.2);
 $lighten-light: rgba(255, 255, 255, 0.1);
 
+$sidebar-width: 330px;
+
 @keyframes clippedIn {
     0% {
-      clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
+      clip-path: polygon(0% 0%, 0% 0%, -200px 100%, 0% 100%);
     }
   
-    50%{
-      clip-path: polygon(0% 0%, 0% 100%, 9% 100%, 44% 0%);
+    30%{
+      clip-path: polygon(0% 0%, 600px 0%, 400px 100%, 0% 100%);
     }
   
     100% {
-      clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 0%);    
+      clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
     }
 }
+
+@keyframes clippedInStraight {
+  0% {
+    clip-path: polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%);
+  }
+
+  30%{
+    clip-path: polygon(0% 0%, $sidebar-width 0%, $sidebar-width 100%, 0% 100%);
+  }
+
+  100% {
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+}
+
 
 * {
     margin: 0;  
@@ -31,7 +48,7 @@ $lighten-light: rgba(255, 255, 255, 0.1);
   background: $sidebar-color;
   display: grid;
   grid-template-rows: auto auto 0.7fr 1fr;
-  width: 330px;
+  width: $sidebar-width;
   height: 100vh;
   box-sizing: border-box;
   padding-left: 20px;

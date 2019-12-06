@@ -1,30 +1,60 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700,900&display=swap");
 @-webkit-keyframes clippedIn {
   0% {
-    -webkit-clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
-            clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
+    -webkit-clip-path: polygon(0% 0%, 0% 0%, -200px 100%, 0% 100%);
+            clip-path: polygon(0% 0%, 0% 0%, -200px 100%, 0% 100%);
   }
-  50% {
-    -webkit-clip-path: polygon(0% 0%, 0% 100%, 9% 100%, 44% 0%);
-            clip-path: polygon(0% 0%, 0% 100%, 9% 100%, 44% 0%);
+  30% {
+    -webkit-clip-path: polygon(0% 0%, 600px 0%, 400px 100%, 0% 100%);
+            clip-path: polygon(0% 0%, 600px 0%, 400px 100%, 0% 100%);
   }
   100% {
-    -webkit-clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 0%);
-            clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 0%);
+    -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
   }
 }
 @keyframes clippedIn {
   0% {
-    -webkit-clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
-            clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
+    -webkit-clip-path: polygon(0% 0%, 0% 0%, -200px 100%, 0% 100%);
+            clip-path: polygon(0% 0%, 0% 0%, -200px 100%, 0% 100%);
   }
-  50% {
-    -webkit-clip-path: polygon(0% 0%, 0% 100%, 9% 100%, 44% 0%);
-            clip-path: polygon(0% 0%, 0% 100%, 9% 100%, 44% 0%);
+  30% {
+    -webkit-clip-path: polygon(0% 0%, 600px 0%, 400px 100%, 0% 100%);
+            clip-path: polygon(0% 0%, 600px 0%, 400px 100%, 0% 100%);
   }
   100% {
-    -webkit-clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 0%);
-            clip-path: polygon(0% 0%, 0% 100%, 100% 100%, 100% 0%);
+    -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+}
+
+@-webkit-keyframes clippedInStraight {
+  0% {
+    -webkit-clip-path: polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%);
+            clip-path: polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%);
+  }
+  30% {
+    -webkit-clip-path: polygon(0% 0%, 330px 0%, 330px 100%, 0% 100%);
+            clip-path: polygon(0% 0%, 330px 0%, 330px 100%, 0% 100%);
+  }
+  100% {
+    -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+  }
+}
+
+@keyframes clippedInStraight {
+  0% {
+    -webkit-clip-path: polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%);
+            clip-path: polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%);
+  }
+  30% {
+    -webkit-clip-path: polygon(0% 0%, 330px 0%, 330px 100%, 0% 100%);
+            clip-path: polygon(0% 0%, 330px 0%, 330px 100%, 0% 100%);
+  }
+  100% {
+    -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
   }
 }
 
@@ -64,8 +94,8 @@ body {
 }
 
 body {
-  -webkit-animation: clippedIn 1s 0.2s 1;
-          animation: clippedIn 1s 0.2s 1;
+  -webkit-animation: clippedInStraight 1.5s 0.2s 1;
+          animation: clippedInStraight 1.5s 0.2s 1;
   -webkit-animation-fill-mode: forwards;
           animation-fill-mode: forwards;
 }
@@ -222,6 +252,7 @@ msg-container .fa-times:hover {
 }
 
 .row side-bar {
+  width: 330px;
   -webkit-transition: 0.5s all;
   transition: 0.5s all;
   -webkit-transition-timing-function: ease-in;
@@ -313,6 +344,8 @@ main-content message-root {
 }
 
 main-content form {
+  -webkit-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+          box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   -ms-grid-row: 3;
   grid-row: 3;
   display: -webkit-box;
