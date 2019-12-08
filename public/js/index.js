@@ -19,12 +19,12 @@ $(document).ready(() => {
 
     $(".toggle-password").click(function() {
         
-        var input = $($(this).attr("toggle"));
-        if (input.attr("type") == "text") {
-          input.attr("type", "password");
+        var password = $($(this).attr("toggle"));
+        if (password.attr("type") == "text") {
+          password.attr("type", "password");
           $(this).removeClass("fas fa-eye").addClass("fas fa-eye-slash");
         } else {
-          input.attr("type", "text");
+          password.attr("type", "text");
           $(this).removeClass("fas fa-eye-slash").addClass("fas fa-eye");
         }
 

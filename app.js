@@ -23,7 +23,6 @@ app.get('/', (req, res) => {
   res.render('index.ejs');
 });
 
-// TODO: Move to server.js
 app.post('/register', (req, res) => {
   request('http://127.0.0.1:3000/register', {
     method: 'POST',
@@ -36,7 +35,6 @@ app.post('/register', (req, res) => {
   });
 });
 
-// TODO: Move to server.js
 app.get('/chat', (req, res) => {
   request('http://127.0.0.1:3000/chat', {
     method: 'get',

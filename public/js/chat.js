@@ -94,7 +94,6 @@ socket.on('chat message', function (chatObject) {
 //   }
 // });
 
-
 //Genererar dagens datum och tid, convertar från millisekunder.
 function getTodaysDate(date) {
   var rightNow;

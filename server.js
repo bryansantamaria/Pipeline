@@ -22,6 +22,8 @@ server.use(function (req, res, next) {
   next();
 });
 
+
+
 server.use(logger('dev'));
 server.use(express.json());
 server.use(express.urlencoded({ extended: false }));
@@ -39,29 +41,6 @@ server.post('/register', (req, res) => {
   });
 
   res.send('200');
-});
-
-//Moved to server.js
-server.post('/chatroom', (req, res) => {
-  var msgDB = req.db;
-  var collection = msgDB.get('messages');
-  console.log(req.body);
-  collection.insert({
-    'alias': req.body.content.alias,
-    'content': req.body.content.message,
-    'datetime': req.body.content.date,
-    'attachments': [
-      {
-        'url': 'localhost:27017/attachments',
-        'filename': 'test.jpg'
-      }
-    ]
-  }, (err, message_in_db) => {
-    if (err) throw err;
-    console.log(message_in_db);
-    res.json(JSON.stringify(message_in_db));
-  });
-
 });
 
 // Moved to server.js
@@ -89,6 +68,36 @@ server.post('/login', async (req, res) => {
     }
   });
 });
+
+
+var msgDB = monk('localhost:27017/messages');
+server.use(function (req, res, next) {
+  req.db = msgDB;
+  next();
+});
+
+//Moved to server.js
+server.post('/chatroom', (req, res) => {
+  var msgDB = req.db;
+  var collection = msgDB.get('messages');
+  console.log(req.body);
+  collection.insert({
+    'content': req.body.content.message,
+    'datetime': req.body.content.date,
+    'attachments': [
+      {
+        'url': 'localhost:27017/attachments',
+        'filename': 'test.jpg'
+      }
+    ]
+  }, (err, message_in_db) => {
+    if (err) throw err;
+    console.log(message_in_db);
+    res.json(JSON.stringify(message_in_db));
+  });
+
+});
+
 
 
 // catch 404 and forward to error handler
