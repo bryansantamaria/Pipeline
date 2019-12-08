@@ -33,7 +33,8 @@
         PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE
         PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE
         PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE
-        PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE
+        PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE
+        PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE
         PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE
         PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE
         PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE PIPELINE
@@ -53,10 +54,12 @@
 
             <input type="email" class="form-control mt-2" name="email" placeholder="Your Email">
 
-          <input type="password" class="form-input form-control mt-2" name="password" id="password" placeholder="Password">
-            <span><i toggle="#password" class="fas toggle-password fa-eye-slash"></i></span>
+            <input type="password" class="form-input form-control mt-2" name="password" id="password"
+              placeholder="Password">
+            <span><i toggle="#password" class="fas fa-eye-slash toggle-password" id="eyeIcon"></i></span>
 
-            <input type="password" class="form-control mt-2" name="verifyPassword" placeholder="Repeat your password">
+            <input type="password" toggle="#verifyPassword" class="form input form-control mt-2" name="verifyPassword"
+              id="verifyPassword" placeholder="Repeat your password">
           </div>
           <span>Already have an account? <a class="text-primary" id="login-link">Sign in!</a></span><br>
           <input type="submit" value="Create account" class="btn btn-primary">

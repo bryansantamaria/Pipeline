@@ -27,5 +27,12 @@ $(document).ready(() => {
           input.attr("type", "text");
           $(this).removeClass("fas fa-eye-slash").addClass("fas fa-eye");
         }
+
+        var verifyPw = $($('#verifyPassword').attr("toggle"));
+        if (verifyPw.attr("type") == "text") {
+          verifyPw.attr("type", "password");
+        } else {
+          verifyPw.attr("type", "text");
+        }
       });
 });
