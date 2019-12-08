@@ -37,10 +37,6 @@ app.post('/register', (req, res) => {
   });
 });
 
-/*app.post('/chatroom', (req, res) => {
-
-});*/
-
 // TODO: Move to server.js
 app.get('/chat', (req, res) => {
   request('http://127.0.0.1:3000/chat', {
