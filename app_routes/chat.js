@@ -18,5 +18,24 @@ router.get('/', (req, res) => {
         res.render('chat', { "users": JSON.parse(users) });
     });
 });
+//No idea how this works
+router.get('/chatroom', (req, res) => {
+    request('http://127.0.0.1:3000/chatroom', {
+        method: 'get',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(users => {
+        let chatroom = {
+            alias: req.session.user.alias,
+            _id: req.session.user._id
+        }
+        console.log(user);
+        res.cookie('user', `${user._id}`, { maxAge: 3600, httpOnly: false });
+        console.log("CHATROOMS OBJECT: " + chatrooms);
+        console.log("CHATROOM OBJECT: " + chatroom);
+        res.render('chat', { "users": JSON.parse(chatrooms) });
+    });
+});
 
 module.exports = router;
