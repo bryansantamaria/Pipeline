@@ -1,14 +1,13 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var server = express();
-// Moved to server.js
-let mongo = require("mongodb");
-let monk = require("monk");
-let bodyParser = require("body-parser");
-var usersDB = monk('localhost:27017/users');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const server = express();
+const mongo = require("mongodb");
+const monk = require("monk");
+const bodyParser = require("body-parser");
+const usersDB = monk('localhost:27017/users');
 
 ///////////////////////////////////////////////////
 /// Routers
@@ -19,6 +18,10 @@ const userRouter = require('./server_routes/user');
 const loginRouter = require('./server_routes/login');
 const chatRouter = require('./server_routes/chat');
 const chatroomRouter = require('./server_routes/chatroom');
+
+///////////////////////////////////////////////////
+/// MIDDLEWARES
+///////////////////////////////////////////////////
 
 // Moved to server.js
 server.use(bodyParser.urlencoded({
