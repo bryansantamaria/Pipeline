@@ -37,11 +37,6 @@ app.post('/register', (req, res) => {
   });
 });
 
-/*app.post('/chatroom', (req, res) => {
-
-});*/
-
-// TODO: Move to server.js
 app.get('/chat', (req, res) => {
   request('http://127.0.0.1:3000/chat', {
     method: 'get',
@@ -85,35 +80,20 @@ io.on('connection', (socket) => {
     });
   });
 
-  socket.on('chat message', function (chatObject) { //Lyssnar på eventet 'chat message'
-    request('http://127.0.0.1:3000/chatroom', {
+  socket.on('chat message', function (chatMessage) { //Lyssnar på eventet 'chat message'
+    request('http://127.0.0.1:3000/chatroom', { //POST request to server.js containing message
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: chatObject,
-    }).then(message => {
+      body: chatMessage,
+    }).then(message => { //recieves message + id from server
       console.log(JSON.parse(message));
       //The server recieves a JSON string object and sends it further to all clients connected to the socket.
-      io.emit('chat message', JSON.parse(message));
+      io.emit('chat message', JSON.parse(message)); //Emits chat message to all clients
     });
-
-    //HTTP request till servern, Post request fetch
-    /*async function getMessage(msg) {
-      let customers = await fetch('http://127.0.0.1:3001/chat/' + msg, {
-        method: 'GET',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'text/json'
-        }
-      }).then(data => {
-        return data.json();
-      });
-
-      render(customers);
-    }*/
-
   });
+
   socket.on('disconnect', (user) => {
     socket.broadcast.emit('newUser', socket.username + ' Disconnected')
   });

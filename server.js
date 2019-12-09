@@ -46,7 +46,7 @@ server.post('/chatroom', (req, res) => {
   var msgDB = req.db;
   var collection = msgDB.get('messages');
   console.log(req.body);
-  collection.insert({
+  collection.insert({ //Inserts message to DB
     'alias': req.body.content.alias,
     'content': req.body.content.message,
     'datetime': req.body.content.date,
@@ -56,10 +56,10 @@ server.post('/chatroom', (req, res) => {
         'filename': 'test.jpg'
       }
     ]
-  }, (err, message_in_db) => {
+  }, (err, message_in_db) => { //Gets message back from database
     if (err) throw err;
     console.log(message_in_db);
-    res.json(JSON.stringify(message_in_db));
+    res.json(JSON.stringify(message_in_db)); //Returns message to app.js
   });
 
 });
