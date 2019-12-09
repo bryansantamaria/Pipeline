@@ -74,7 +74,7 @@ server.use(function (err, req, res, next) {
   res.render('error');
 });
 
-http.listen(port, function () {
+server.listen(port, function () {
   console.log('listening on *:' + port);
 });
 

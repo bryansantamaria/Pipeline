@@ -4,7 +4,7 @@ const router = express.Router();
 router.post('/', async (req, res) => {
     var userDB = req.db;
     var collection = userDB.get("users");
-    collection.find({ "alias": req.body.username }, {}).then(user => {
+    collection.find({ $or: [{ "alias": req.body.username}, { "email": req.body.username}] }, {}).then(user => {
         console.log(user);
         if (user[0]) {
             if (user[0].password == req.body.password) {
