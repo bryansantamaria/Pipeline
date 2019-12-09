@@ -1,3 +1,5 @@
+// import { Socket } from "dgram";
+
 export class ChatModule {
     constructor(message, alias, avatar, date, id) {
         //Creates HTML elements
@@ -53,11 +55,14 @@ export class ChatModule {
 
 
     //Runs on confirmed edit
-    edit(newText) {
+    edit(newText, fireEvent) {
         this.html.message.innerText = newText;
         this.content.message = newText;
-
         //TODO: socket-request till server för att uppdatera meddelande
+        if(fireEvent) {
+            socket.emit('edit', this.content);
+        }
+            
     }
 
     //Appends message to target node
