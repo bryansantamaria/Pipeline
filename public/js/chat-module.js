@@ -1,3 +1,5 @@
+// import { Socket } from "dgram";
+
 export class ChatModule {
     constructor(message, alias, avatar, date, id) {
         //Creates HTML elements
@@ -11,8 +13,6 @@ export class ChatModule {
             editBtn: document.createElement('edit-btn'),
             deleteBtn: document.createElement('delete-btn')
         }
-
-        
 
         //Text content
         this.content = {
@@ -50,16 +50,19 @@ export class ChatModule {
             this.html.container.parentNode.removeChild(this.html.container);
         }, 800)
 
-        //HTTP till server för att ta bort meddelande
+        //TODO: socket-request till server för att ta bort meddelande
     }
 
 
     //Runs on confirmed edit
-    edit(newText) {
+    edit(newText, fireEvent) {
         this.html.message.innerText = newText;
         this.content.message = newText;
-
-        //HTTP till server för att uppdatera meddelande
+        //TODO: socket-request till server för att uppdatera meddelande
+        if(fireEvent) {
+            socket.emit('edit', this.content);
+        }
+            
     }
 
     //Appends message to target node

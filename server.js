@@ -36,33 +36,45 @@ server.post('/register', (req, res) => {
     "email": req.body.email,
     "password": req.body.password,
     "alias": req.body.username
-  });
-
-  res.send('200');
-});
-
-//Moved to server.js
-server.post('/chatroom', (req, res) => {
-  var msgDB = req.db;
-  var collection = msgDB.get('messages');
-  console.log(req.body);
-  collection.insert({
-    'alias': req.body.content.alias,
-    'content': req.body.content.message,
-    'datetime': req.body.content.date,
-    'attachments': [
-      {
-        'url': 'localhost:27017/attachments',
-        'filename': 'test.jpg'
-      }
-    ]
-  }, (err, message_in_db) => {
+  }, (err, user_in_db) => {
     if (err) throw err;
-    console.log(message_in_db);
-    res.json(JSON.stringify(message_in_db));
+    res.send(JSON.stringify(user_in_db));
   });
-
 });
+
+server.get('/user/:id', (req, res) => {
+  var userDB = req.db;
+  var collection = userDB.get("users");
+  console.log(req.params.id)
+  collection.find({ "_id": req.params.id }, {})
+    .then(user => {
+      console.log(JSON.stringify(user[0]));
+      if (user) {
+        res.send(JSON.stringify(user[0]));
+      } else {
+        res.send(false);
+      }
+    });
+})
+
+server.put('/user/edit/:id', (req, res) => {
+  var userDB = req.db;
+  var collection = userDB.get("users");
+  console.log(req.params.id)
+  collection.find({ "_id": req.params.id }, {})
+    .then(user => {
+      console.log(JSON.stringify(user[0]));
+      if (user) {
+        res.send(JSON.stringify(user[0]));
+      } else {
+        res.send(false);
+      }
+    });
+
+    colelction.update(
+      {"_id" : 1},
+      {$set: { "EmployeeName" : "NewMartin"}});
+})
 
 // Moved to server.js
 server.get('/chat', (req, res) => {
@@ -80,7 +92,7 @@ server.post('/login', async (req, res) => {
     console.log(user);
     if (user[0]) {
       if (user[0].password == req.body.password) {
-        res.send(true);
+        res.send(user[0]);
       } else {
         res.send(false);
       }
@@ -89,6 +101,52 @@ server.post('/login', async (req, res) => {
     }
   });
 });
+
+var msgDB = monk('localhost:27017/messages');
+server.use(function (req, res, next) {
+  req.db = msgDB;
+  next();
+});
+
+//Moved to server.js
+server.post('/chatroom', (req, res) => {
+  var msgDB = req.db;
+  var collection = msgDB.get('messages');
+  console.log(req.body);
+  collection.insert({ //Inserts message to DB
+    'alias': req.body.content.alias,
+    'content': req.body.content.message,
+    'datetime': req.body.content.date,
+    'attachments': [
+      {
+        'url': 'localhost:27017/attachments',
+        'filename': 'test.jpg'
+      }
+    ]
+  }, (err, message_in_db) => { //Gets message back from database
+    if (err) throw err;
+    console.log(message_in_db);
+    res.json(JSON.stringify(message_in_db)); //Returns message to app.js
+  });
+});
+
+/* POST Update user. */
+server.put('/chatroom', function (req, res) {
+  var msgDB = req.db;
+  var collection = msgDB.get('messages');
+
+  collection.update({'_id': req.body._id}, {
+    $set: {
+      'alias': req.body.content.alias,
+      'content': req.body.content.message,
+      'datetime': req.body.content.date
+    }
+  }, (err, edit_msg_db) => {
+    if(err) throw err;
+    res.json(JSON.stringify(edit_msg_db));
+  });
+});
+
 
 
 // catch 404 and forward to error handler
@@ -108,5 +166,3 @@ server.use(function (err, req, res, next) {
 });
 
 server.listen(3000);
-
-module.exports = server;
