@@ -110,6 +110,20 @@ io.on('connection', (socket) => {
     });
   });
 
+  socket.on('edit', function (chatMessage) { //Lyssnar på eventet 'chat message'
+  request('http://127.0.0.1:3000/chatroom', { //PUT request to server.js containing message
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: chatMessage, //Message body
+  }).then(message => { //recieves message + id from server
+    console.log(JSON.parse(message));
+    //The server recieves a JSON string object and sends it further to all clients connected to the socket.
+    io.emit('edit', JSON.parse(message)); //Emits chat message to all clients
+  });
+});
+
   socket.on('disconnect', (user) => {
     socket.broadcast.emit('newUser', socket.username + ' Disconnected')
   });

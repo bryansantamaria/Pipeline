@@ -93,7 +93,23 @@ server.post('/chatroom', (req, res) => {
     console.log(message_in_db);
     res.json(JSON.stringify(message_in_db)); //Returns message to app.js
   });
+});
 
+/* POST Update user. */
+server.put('/chatroom', function (req, res) {
+  var msgDB = req.db;
+  var collection = msgDB.get('messages');
+
+  collection.update({'_id': req.body._id}, {
+    $set: {
+      'alias': req.body.content.alias,
+      'content': req.body.content.message,
+      'datetime': req.body.content.date
+    }
+  }, (err, edit_msg_db) => {
+    if(err) throw err;
+    res.json(JSON.stringify(edit_msg_db));
+  });
 });
 
 // catch 404 and forward to error handler

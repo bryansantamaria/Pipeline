@@ -78,14 +78,17 @@ socket.on('chat message', function (chatObject) {
   chatmessageModel.render(document.querySelector('message-root'));
 });
 
+
 //Loopa igenom alla chatmeddelanden, kontrollera id och rendera ut det nya editerade meddelandet.
 socket.on('edit', edited_message => {
   chatMessages.forEach(message => {
-    if (message.id == edited_message.id) {
-      message.edit(edited_message.text);
+    if (message._id == edited_message._id) {
+      message.edit(edited_message.text, false);
     }
   });
-})
+});
+
+
 
 //Genererar dagens datum och tid, convertar från millisekunder.
 function getTodaysDate(date) {
