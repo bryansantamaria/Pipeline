@@ -8,7 +8,7 @@ var server = express();
 let mongo = require("mongodb");
 let monk = require("monk");
 let bodyParser = require("body-parser");
-var usersDB = monk('localhost:27017/users');
+var pipelineDB = monk('localhost:27017/pipeline');
 
 // Moved to server.js
 server.use(bodyParser.urlencoded({
@@ -18,7 +18,7 @@ server.use(bodyParser.urlencoded({
 server.use(bodyParser.json());
 // Moved to server.js
 server.use(function (req, res, next) {
-  req.db = usersDB;
+  req.db = pipelineDB;
   next();
 });
 
@@ -30,8 +30,8 @@ server.use(express.static(path.join(__dirname, 'public')));
 
 // Moved to server.js
 server.post('/register', (req, res) => {
-  var userDB = req.db;
-  var collection = userDB.get("users");
+  var pipelineDB = req.db;
+  var collection = pipelineDB.get("users");
   collection.insert({
     "email": req.body.email,
     "password": req.body.password,
@@ -43,16 +43,16 @@ server.post('/register', (req, res) => {
 
 // Moved to server.js
 server.get('/chat', (req, res) => {
-  var userDB = req.db;
-  var collection = userDB.get("users");
+  var pipelineDB = req.db;
+  var collection = pipelineDB.get("users");
   collection.find({}, {}, function (e, users) {
     res.json(users);
   });
 });
 // Moved to server.js
 server.post('/login', async (req, res) => {
-  var userDB = req.db;
-  var collection = userDB.get("users");
+  var pipelineDB = req.db;
+  var collection = pipelineDB.get("users");
   collection.find({ "alias": req.body.username }, {}).then(user => {
     console.log(user);
     if (user[0]) {
@@ -67,16 +67,16 @@ server.post('/login', async (req, res) => {
   });
 });
 
-var msgDB = monk('localhost:27017/messages');
-server.use(function (req, res, next) {
-  req.db = msgDB;
-  next();
-});
+//var pipelineDB = monk('localhost:27017/messages');
+//server.use(function (req, res, next) {
+//  req.db = pipelineDB;
+//  next();
+//});
 
 //Moved to server.js
 server.post('/chatroom', (req, res) => {
-  var msgDB = req.db;
-  var collection = msgDB.get('messages');
+  var pipelineDB = req.db;
+  var collection = pipelineDB.get('messages');
   console.log(req.body);
   collection.insert({ //Inserts message to DB
     'alias': req.body.content.alias,
