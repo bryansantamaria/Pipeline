@@ -99,6 +99,20 @@ io.on('connection', (socket) => {
     });
   });
 
+  socket.on('delete', function (chatMessage) {          //Lyssnar på eventet 'chat message'
+  request('http://127.0.0.1:3000/chatroom', {       //PUT request to server.js containing message
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: chatMessage.content,                       //Message body
+  }).then(message => {                              //recieves message + id from server
+    console.log('Chat message edited:' + message);
+                                                    //The server recieves a JSON string object and sends it further to all clients connected to the socket.
+    io.emit('delete', JSON.parse(message));           //Emits chat message to all clients
+  });
+});
+
   socket.on('disconnect', (user) => {
     socket.broadcast.emit('newUser', socket.username + ' Disconnected')
   });
