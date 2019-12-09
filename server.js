@@ -113,5 +113,3 @@ server.use(function (err, req, res, next) {
 });
 
 server.listen(3000);
-
-module.exports = server;
