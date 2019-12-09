@@ -67,30 +67,30 @@ io.on('connection', (socket) => {
     });
   });
 
-  socket.on('chat message', function (chatMessage) { //Lyssnar på eventet 'chat message'
-    request('http://127.0.0.1:3000/chatroom', { //POST request to server.js containing message
+  socket.on('chat message', function (chatMessage) {  //Lyssnar på eventet 'chat message'
+    request('http://127.0.0.1:3000/chatroom', {       //POST request to server.js containing message
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: chatMessage, //Message body
-    }).then(message => { //recieves message + id from server
+      body: chatMessage,                              //Message body
+    }).then(message => {                              //recieves message + id from server
       console.log(JSON.parse(message));
-      io.emit('chat message', JSON.parse(message)); //Emits chat message to all clients
+      io.emit('chat message', JSON.parse(message));   //Emits chat message to all clients
     });
   });
 
-  socket.on('edit', function (chatMessage) { //Lyssnar på eventet 'chat message'
-    request('http://127.0.0.1:3000/chatroom', { //PUT request to server.js containing message
+  socket.on('edit', function (chatMessage) {          //Lyssnar på eventet 'chat message'
+    request('http://127.0.0.1:3000/chatroom', {       //PUT request to server.js containing message
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: chatMessage, //Message body
-    }).then(message => { //recieves message + id from server
+      body: chatMessage,                              //Message body
+    }).then(message => {                              //recieves message + id from server
       console.log(JSON.parse(message));
-      //The server recieves a JSON string object and sends it further to all clients connected to the socket.
-      io.emit('edit', JSON.parse(message)); //Emits chat message to all clients
+                                                      //The server recieves a JSON string object and sends it further to all clients connected to the socket.
+      io.emit('edit', JSON.parse(message));           //Emits chat message to all clients
     });
   });
 
