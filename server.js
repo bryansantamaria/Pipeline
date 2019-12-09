@@ -8,6 +8,7 @@ const mongo = require("mongodb");
 const monk = require("monk");
 const bodyParser = require("body-parser");
 const usersDB = monk('localhost:27017/users');
+const port = 3000;
 
 ///////////////////////////////////////////////////
 /// Routers
@@ -73,4 +74,7 @@ server.use(function (err, req, res, next) {
   res.render('error');
 });
 
-server.listen(3000);
+http.listen(port, function () {
+  console.log('listening on *:' + port);
+});
+
