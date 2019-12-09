@@ -49,6 +49,10 @@ app.use('/user', userRouter);
 app.use('/chat', chatRouter);
 app.use('/login', loginRouter);
 
+///////////////////////////////////////////////////
+/// SOCKET.IO
+///////////////////////////////////////////////////
+
 io.on('connection', (socket) => {
   socket.on('newUser', (user) => {
     socket.username = user;
