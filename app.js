@@ -40,7 +40,8 @@ app.post('/register', (req, res) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(req.body),
-  }).then(() => {
+  }).then(user => {
+    req.session.user = JSON.parse(user);
     res.redirect('chat');
   });
 });
@@ -57,7 +58,7 @@ app.get('/chat', (req, res) => {
       _id: req.session.user._id
     }
     console.log(user);
-    res.cookie('user', `{_id:${user._id},alias:${user.alias}`, { maxAge: 900000, httpOnly: false});
+    res.cookie('user', `${user._id}`, { maxAge: 3600, httpOnly: false});
     res.render('chat', { "users": JSON.parse(users)});
   });
 });
@@ -80,6 +81,30 @@ app.post('/login', (req, res) => {
     }
   });
 });
+
+app.get('/user/:id', (req, res) => {
+  request('http://127.0.0.1:3000/user/' + req.params.id, {
+    method: 'get',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }).then(user => {
+    res.json(user)
+  });
+})
+
+//Updates user
+app.put('/user/edit/:id', (req, res) => {
+  request('http://127.0.0.1:3000/user/' + req.params.id, {
+    method: 'put',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(req.body)
+  }).then(user => {
+    res.send('200');
+  });
+})
 
 io.on('connection', (socket) => {
   socket.on('newUser', (user) => {

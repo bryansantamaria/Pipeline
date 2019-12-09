@@ -7,12 +7,42 @@ import {
 ////////////////////////////////////////////////
 let chatGlobals = {
   deleteTarget: undefined,
-  editTarget: undefined
+  editTarget: undefined,
+  user: undefined
 }
 
-console.log(document.cookie);
+let html = {
+  edit_alias: document.querySelector('#edit-alias'),
+  alias: document.querySelector('#alias')
+}
+
+let uid = String(document.cookie).replace('user=', '');
+
+fetch('user/' + uid).then(userdata => {
+  return userdata.json();
+}).then(jsondata => {
+  chatGlobals.user = JSON.parse(jsondata);
+  html.edit_alias.value = chatGlobals.user.alias
+  console.log(chatGlobals.user);
+  html.alias.innerText = chatGlobals.user.alias;
+})
 
 var socket = io();
+
+function updateUser() {
+  chatGlobals.user.alias = html.edit_alias.value;
+  html.alias.innerText = chatGlobals.user.alias;
+
+
+  //TODO: SERVERSIDE MADDAFAKKA
+  /*fetch('http://127.0.0.1:3000/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(chatGlobals.user),
+  })*/
+}
 
 ////////////////////////////////////////////////
 //CRUD-events
@@ -44,7 +74,7 @@ $("form").submit(function (e) {
   if ($("#messageValue").val() == "") { } else {
     let chatMessage = new ChatModule(
       $("#messageValue").val(),
-      "User_name",
+      chatGlobals.user.alias,
       'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
       getTodaysDate()
     );
@@ -53,6 +83,20 @@ $("form").submit(function (e) {
 
     $("#messageValue").val('');
   }
+});
+
+document.querySelector('#update-profile-btn').addEventListener('click', () => {
+  chatGlobals.user.alias = html.edit_alias.value;
+  html.alias.innerText = chatGlobals.user.alias;
+
+  //TODO: SERVERSIDE MADDAFAKKA
+  fetch('http://127.0.0.1:5000/user/edit/' + uid, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(chatGlobals.user),
+  })
 });
 
 ////////////////////////////////////////////////
@@ -148,5 +192,7 @@ let chatMessages = [
 chatMessages.forEach(msg => {
   msg.render(document.querySelector('message-root'));
 });
+
+
 
 

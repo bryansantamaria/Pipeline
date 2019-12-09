@@ -17,7 +17,7 @@
     <!-- Left side bar -->
     <side-bar>
       <img src="img/pipeline.svg" alt="Logo">
-      <user-name><i class="fas fa-circle"></i> <label for="user-settings">Bryan Santamaria   <i class="fas fa-cog" id="user-settings"></i></label></user-name>
+      <user-name><i class="fas fa-circle"></i> <label for="user-settings"><span id="alias">Bryan Santamaria </span> <i class="fas fa-cog" id="user-settings"></i></label></user-name>
       <public-channels>
         <div id="channel-title"><i class="fas fa-plus-circle"></i> Channels</div>
         <div><i class="fas fa-hashtag"></i> Random</div>
@@ -126,9 +126,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <user-list>
-
-          </user-list>
+          <input type="text" placeholder="" id="edit-alias"> 
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal" id="update-profile-btn">Save changes</button>
