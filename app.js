@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 const request = require('request-promise');
 const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
-const port = 3000;
+const port = 5000;
 
 ///////////////////////////////////////////////////
 /// Routers
@@ -107,5 +107,3 @@ io.on('connection', (socket) => {
 http.listen(port, function () {
   console.log('listening on *:' + port);
 });
-
-
