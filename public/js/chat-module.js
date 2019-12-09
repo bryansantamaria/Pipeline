@@ -31,38 +31,39 @@ export class ChatModule {
         this.html.editBtn.addEventListener('click', () => {
             document.dispatchEvent(new CustomEvent('edit-init', {
                 detail: this.html.message
-            })); 
+            }));
         });
 
         this.html.deleteBtn.addEventListener('click', () => {
             document.dispatchEvent(new CustomEvent('delete-init', {
                 detail: this.html.container
-            })); 
+            }));
         });
     }
 
 
-    //Runs on confirmed edit
-    delete() {
+    //Runs on confirmed delete
+    delete(fireEvent) {
         this.html.container.classList.add('removed-msg');
-
         setTimeout(() => {
             this.html.container.parentNode.removeChild(this.html.container);
         }, 800)
 
         //TODO: socket-request till server för att ta bort meddelande
+        if (fireEvent) {
+            socket.emit('delete', this.content);
+        }
     }
-
 
     //Runs on confirmed edit
     edit(newText, fireEvent) {
         this.html.message.innerText = newText;
         this.content.message = newText;
         //TODO: socket-request till server för att uppdatera meddelande
-        if(fireEvent) {
+        if (fireEvent) {
             socket.emit('edit', this.content);
         }
-            
+
     }
 
     //Appends message to target node
@@ -84,13 +85,13 @@ export class ChatModule {
         })
 
         //Links to bootstrap delete modal
-        this.html.deleteBtn.setAttribute("data-toggle","modal")
+        this.html.deleteBtn.setAttribute("data-toggle", "modal")
         this.html.deleteBtn.setAttribute("data-target", "#delete-message-modal")
 
         //Links to bootstrap edit modal
-        this.html.editBtn.setAttribute("data-toggle","modal")
+        this.html.editBtn.setAttribute("data-toggle", "modal")
         this.html.editBtn.setAttribute("data-target", "#edit-message-modal")
-        
+
         this.html.avatarContainer.appendChild(this.html.avatar);
         this.html.container.appendChild(this.html.avatarContainer);
         this.html.container.appendChild(this.html.message);
@@ -98,7 +99,7 @@ export class ChatModule {
         this.html.container.appendChild(this.html.alias);
         this.html.container.appendChild(this.html.editBtn);
         this.html.container.appendChild(this.html.deleteBtn);
-        
+
         targetNode.appendChild(this.html.container);
     }
 }

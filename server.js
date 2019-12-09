@@ -36,45 +36,10 @@ server.post('/register', (req, res) => {
     "email": req.body.email,
     "password": req.body.password,
     "alias": req.body.username
-  }, (err, user_in_db) => {
-    if (err) throw err;
-    res.send(JSON.stringify(user_in_db));
   });
+
+  res.send('200');
 });
-
-server.get('/user/:id', (req, res) => {
-  var userDB = req.db;
-  var collection = userDB.get("users");
-  console.log(req.params.id)
-  collection.find({ "_id": req.params.id }, {})
-    .then(user => {
-      console.log(JSON.stringify(user[0]));
-      if (user) {
-        res.send(JSON.stringify(user[0]));
-      } else {
-        res.send(false);
-      }
-    });
-})
-
-server.put('/user/edit/:id', (req, res) => {
-  var userDB = req.db;
-  var collection = userDB.get("users");
-  console.log(req.params.id)
-  collection.find({ "_id": req.params.id }, {})
-    .then(user => {
-      console.log(JSON.stringify(user[0]));
-      if (user) {
-        res.send(JSON.stringify(user[0]));
-      } else {
-        res.send(false);
-      }
-    });
-
-    colelction.update(
-      {"_id" : 1},
-      {$set: { "EmployeeName" : "NewMartin"}});
-})
 
 // Moved to server.js
 server.get('/chat', (req, res) => {
@@ -147,7 +112,17 @@ server.put('/chatroom', function (req, res) {
   });
 });
 
+/* GET delete user. */
+server.get('/chatroom', function (req, res) {
+  var msgDB = req.db;
+  var collection = msgDB.get('messages');
 
+  collection.remove({ '_id': req.body._id }, (err, message_id) => {
+    if (err) throw err;
+      res.json(JSON.stringify(message_id));
+      res.send('200');
+  });
+});
 
 // catch 404 and forward to error handler
 server.use(function (req, res, next) {
