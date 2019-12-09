@@ -71,6 +71,13 @@ main-container {
                       cursor: pointer;
                     }
                 }
+                #eyeIcon {
+                    float:right;
+                    margin-right: 14px;
+                    margin-top: -25px;
+                    position: relative;
+                    z-index: 2;
+                 }
             }
         }
 
@@ -102,6 +109,7 @@ main-container {
                     }
                 }
             }
+
         }
     }
 }

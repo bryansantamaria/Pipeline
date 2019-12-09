@@ -23,9 +23,7 @@ app.get('/', (req, res) => {
   res.render('index.ejs');
 });
 
-// TODO: Move to server.js
 app.post('/register', (req, res) => {
-  /*let user = await */
   request('http://127.0.0.1:3000/register', {
     method: 'POST',
     headers: {

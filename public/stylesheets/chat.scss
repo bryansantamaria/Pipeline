@@ -127,6 +127,7 @@ msg-container {
   side-bar {
     @extend %side-bar;
     width: $sidebar-width;
+    overflow:auto;
 
     transition: 0.5s all;
     transition-timing-function: ease-in;
