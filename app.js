@@ -80,7 +80,7 @@ io.on('connection', (socket) => {
       },
       body: chatMessage,                              //Message body
     }).then(message => {                              //recieves message + id from server
-      console.log(JSON.parse(message));
+      console.log('Chat message recieved:' + JSON.parse(message));
       io.emit('chat message', JSON.parse(message));   //Emits chat message to all clients
     });
   });
@@ -93,7 +93,7 @@ io.on('connection', (socket) => {
       },
       body: chatMessage,                              //Message body
     }).then(message => {                              //recieves message + id from server
-      console.log(JSON.parse(message));
+      console.log('Chat message edited:' + message);
                                                       //The server recieves a JSON string object and sends it further to all clients connected to the socket.
       io.emit('edit', JSON.parse(message));           //Emits chat message to all clients
     });
