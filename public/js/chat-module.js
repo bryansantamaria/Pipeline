@@ -12,8 +12,6 @@ export class ChatModule {
             deleteBtn: document.createElement('delete-btn')
         }
 
-        
-
         //Text content
         this.content = {
             message: message,
@@ -50,7 +48,7 @@ export class ChatModule {
             this.html.container.parentNode.removeChild(this.html.container);
         }, 800)
 
-        //HTTP till server för att ta bort meddelande
+        //TODO: socket-request till server för att ta bort meddelande
     }
 
 
@@ -59,7 +57,7 @@ export class ChatModule {
         this.html.message.innerText = newText;
         this.content.message = newText;
 
-        //HTTP till server för att uppdatera meddelande
+        //TODO: socket-request till server för att uppdatera meddelande
     }
 
     //Appends message to target node

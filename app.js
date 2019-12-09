@@ -5,13 +5,23 @@ const io = require('socket.io')(http);
 const path = require('path');
 const bodyParser = require("body-parser");
 const request = require('request-promise');
+const cookieSession = require('cookie-session');
+const cookieParser = require('cookie-parser');
 // TODO: Move to server.js
 app.use(bodyParser.urlencoded({
   extended: false
 }));
+
+app.use(cookieParser());
 // TODO: Move to server.js
 app.use(bodyParser.json());
 
+app.set('trust proxy', 1) // trust first proxy
+ 
+app.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}))
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -42,20 +52,28 @@ app.get('/chat', (req, res) => {
       'Content-Type': 'application/json'
     }
   }).then(users => {
-    res.render('chat', { "users": JSON.parse(users) });
+    let user = {
+      alias: req.session.user.alias,
+      _id: req.session.user._id
+    }
+    console.log(user);
+    res.cookie('user', `{_id:${user._id},alias:${user.alias}`, { maxAge: 900000, httpOnly: false});
+    res.render('chat', { "users": JSON.parse(users)});
   });
 });
 
 app.post('/login', (req, res) => {
-  console.log(req.body);
+  let user = req.body;
   request('http://127.0.0.1:3000/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(req.body),
-  }).then((authorized) => {
-    if (JSON.parse(authorized)) {
+  }).then((user) => {
+    if (JSON.parse(user)) {
+      req.session.user = JSON.parse(user);
+      
       res.redirect('chat');
     } else {
       res.redirect('/');
@@ -84,7 +102,7 @@ io.on('connection', (socket) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: chatMessage,
+      body: chatMessage, //Message body
     }).then(message => { //recieves message + id from server
       console.log(JSON.parse(message));
       //The server recieves a JSON string object and sends it further to all clients connected to the socket.

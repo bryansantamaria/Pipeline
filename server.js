@@ -22,8 +22,6 @@ server.use(function (req, res, next) {
   next();
 });
 
-
-
 server.use(logger('dev'));
 server.use(express.json());
 server.use(express.urlencoded({ extended: false }));
@@ -59,7 +57,7 @@ server.post('/login', async (req, res) => {
     console.log(user);
     if (user[0]) {
       if (user[0].password == req.body.password) {
-        res.send(true);
+        res.send(user[0]);
       } else {
         res.send(false);
       }
