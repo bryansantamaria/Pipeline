@@ -132,6 +132,14 @@ socket.on('edit', edited_message => {
   });
 });
 
+//Loopa igenom alla chatmeddelanden, kontrollera id och radera meddelandet.
+socket.on('delete', delete_message => {
+  chatMessages.forEach(message => {
+    if (message._id == delete_message._id) {
+      message.delete(false);
+    }
+  });
+});
 
 
 //Genererar dagens datum och tid, convertar från millisekunder.
