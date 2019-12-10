@@ -9,12 +9,7 @@ router.get('/', (req, res) => {
             'Content-Type': 'application/json'
         }
     }).then(users => {
-        let user = {
-            alias: req.session.user.alias,
-            _id: req.session.user._id
-        }
-        console.log(user);
-        res.cookie('user', `${user._id}`, { maxAge: 3600, httpOnly: false });
+        res.cookie('user', `${req.session.user._id}`, { maxAge: 3600, httpOnly: false });
         res.render('chat', { "users": JSON.parse(users) });
     });
 });

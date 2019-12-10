@@ -1,22 +1,22 @@
 let canvas, pen, w, h, startX, startY;
+let lines = [];
 
 function updateRes() {
-    w = window.innerWidth;
-    h = window.innerHeight;
+    w = canvas.clientWidth;
+    h = canvas.clientHeight;
     canvas.width = w;
     canvas.height = h;
     lines = [];
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 35; i++) {
         lines.push(new Line());
     }
     console.log('changed res');
 }
 
-let lines = [];
-
 document.addEventListener('DOMContentLoaded', () => {
     canvas = document.getElementById('background');
     pen = canvas.getContext('2d');
+
     window.addEventListener('resize', updateRes);
     updateRes();
     animate();

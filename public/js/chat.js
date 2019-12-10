@@ -35,13 +35,13 @@ function updateUser() {
 
 
   //TODO: SERVERSIDE MADDAFAKKA
-  /*fetch('http://127.0.0.1:3000/login', {
-    method: 'POST',
+  fetch('http://127.0.0.1:3000/user', {
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(chatGlobals.user),
-  })*/
+  })
 }
 
 ////////////////////////////////////////////////

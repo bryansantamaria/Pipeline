@@ -19,6 +19,24 @@ $sidebar-width: 330px;
     }
 }
 
+@keyframes slideDown {
+  0% {
+    transform: translate(0, 200vh);
+  }
+
+  30% {
+    transform: translate(0, 0);
+  }
+
+  55% {
+    transform: translate(0, 0);
+  }
+
+  100% {
+    transform: translate(0, 200vh);
+  }
+}
+
 @keyframes clippedInStraight {
   0% {
     clip-path: polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%);
@@ -31,6 +49,10 @@ $sidebar-width: 330px;
   100% {
     clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
   }
+}
+
+%startSlideDown {
+  transform: translate(0, 200vh);
 }
 
 

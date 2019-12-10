@@ -28,6 +28,44 @@
   }
 }
 
+@-webkit-keyframes slideDown {
+  0% {
+    -webkit-transform: translate(0, 200vh);
+            transform: translate(0, 200vh);
+  }
+  30% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+  55% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+  100% {
+    -webkit-transform: translate(0, 200vh);
+            transform: translate(0, 200vh);
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    -webkit-transform: translate(0, 200vh);
+            transform: translate(0, 200vh);
+  }
+  30% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+  55% {
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+  100% {
+    -webkit-transform: translate(0, 200vh);
+            transform: translate(0, 200vh);
+  }
+}
+
 @-webkit-keyframes clippedInStraight {
   0% {
     -webkit-clip-path: polygon(0% 0%, 0% 0%, 0% 100%, 0% 100%);
@@ -58,18 +96,23 @@
   }
 }
 
+login-sucess {
+  -webkit-transform: translate(0, 200vh);
+          transform: translate(0, 200vh);
+}
+
 * {
   margin: 0;
   padding: 0;
   font-family: 'Montserrat', sans-serif;
 }
 
-body {
+main-container {
   -webkit-clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
           clip-path: polygon(0% 0%, 0% 100%, 0% 100%, 0% 0%);
 }
 
-.row side-bar {
+main-container side-bar {
   background: -webkit-gradient(linear, right top, left top, from(#616070), to(#685d74));
   background: linear-gradient(270deg, #616070 0%, #685d74 100%);
   display: -ms-grid;
@@ -83,7 +126,7 @@ body {
   padding-left: 20px;
 }
 
-.row side-bar img {
+main-container side-bar img {
   width: 100%;
   -webkit-transform: scale(1.08);
           transform: scale(1.08);
@@ -93,18 +136,48 @@ body {
   margin-top: 10px;
 }
 
-body {
-  -webkit-animation: clippedInStraight 1.5s 0.2s 1;
-          animation: clippedInStraight 1.5s 0.2s 1;
-  -webkit-animation-fill-mode: forwards;
-          animation-fill-mode: forwards;
-}
-
+/*body {
+  @extend %startClipped;
+  animation: clippedInStraight 1.5s 1.2s 1;
+  animation-fill-mode: forwards;
+}*/
 .removed-msg, .hidden {
   -webkit-transition: 1s all;
   transition: 1s all;
   -webkit-clip-path: inset(0 100% 0 0) !important;
           clip-path: inset(0 100% 0 0) !important;
+}
+
+login-sucess {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 1000090000000000;
+  top: 0;
+  left: 0;
+  -webkit-animation: slideDown 2.5s 0s 1;
+          animation: slideDown 2.5s 0s 1;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
+  -ms-grid-columns: 1fr 2fr 1fr;
+      grid-template-columns: 1fr 2fr 1fr;
+  -ms-grid-rows: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr;
+  display: -ms-grid;
+  display: grid;
+}
+
+login-sucess h1 {
+  display: inline;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  -ms-grid-column-align: center;
+      justify-self: center;
+  -ms-grid-row: 2;
+  grid-row: 2;
+  -ms-grid-column: 2;
+  grid-column: 2;
 }
 
 msg-container {
@@ -205,7 +278,7 @@ msg-container .fa-times:hover {
   color: #c03838;
 }
 
-.row side-bar public-channels div, .row side-bar private-message div {
+main-container side-bar public-channels div, main-container side-bar private-message div {
   margin-top: 10px;
   background: rgba(0, 0, 0, 0.1);
   margin-left: -30px;
@@ -220,16 +293,16 @@ msg-container .fa-times:hover {
   transition: 0.2s all;
 }
 
-.row side-bar public-channels div:hover, .row side-bar private-message div:hover {
+main-container side-bar public-channels div:hover, main-container side-bar private-message div:hover {
   background: rgba(0, 0, 0, 0.2);
   cursor: pointer;
 }
 
-.row side-bar public-channels div:active, .row side-bar private-message div:active {
+main-container side-bar public-channels div:active, main-container side-bar private-message div:active {
   background: rgba(255, 255, 255, 0.1);
 }
 
-.row side-bar public-channels #channel-title, .row side-bar private-message #private-message-title {
+main-container side-bar public-channels #channel-title, main-container side-bar private-message #private-message-title {
   background: rgba(0, 0, 0, 0.2);
   margin-left: -30px;
   padding-left: 30px;
@@ -237,23 +310,28 @@ msg-container .fa-times:hover {
   padding-bottom: 5px;
 }
 
-.row {
+main-container {
   -ms-flex-wrap: nowrap;
       flex-wrap: nowrap;
   color: white;
   margin: 0;
   padding: 0;
-  -webkit-transition: 1s all;
-  transition: 1s all;
-  -webkit-transition-timing-function: ease-in-out;
-          transition-timing-function: ease-in-out;
-  -webkit-clip-path: inset(0% 0% 0% 0%);
-          clip-path: inset(0% 0% 0% 0%);
+  width: 100%;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 330px 1fr;
+      grid-template-columns: 330px 1fr;
+  -webkit-animation: clippedInStraight 1.5s 1.5s 1;
+          animation: clippedInStraight 1.5s 1.5s 1;
+  -webkit-animation-fill-mode: forwards;
+          animation-fill-mode: forwards;
 }
 
-.row side-bar {
-  width: 330px;
+main-container side-bar {
+  width: 100%;
   overflow: hidden;
+  -ms-grid-column: 1;
+  grid-column: 1;
   -webkit-transition: 0.5s all;
   transition: 0.5s all;
   -webkit-transition-timing-function: ease-in;
@@ -262,18 +340,18 @@ msg-container .fa-times:hover {
           clip-path: inset(0% 0% 0% 0%);
 }
 
-.row side-bar user-name {
+main-container side-bar user-name {
   -webkit-transform: translate(0, -60%);
           transform: translate(0, -60%);
   -ms-grid-row: 2;
   grid-row: 2;
 }
 
-.row side-bar user-name i {
+main-container side-bar user-name i {
   color: #8ecf2d;
 }
 
-.row side-bar user-name #user-settings {
+main-container side-bar user-name #user-settings {
   -ms-grid-column: 2;
   grid-column: 2;
   -ms-grid-row: 2;
@@ -281,46 +359,31 @@ msg-container .fa-times:hover {
   color: rgba(255, 255, 255, 0.6);
 }
 
-.row side-bar user-name #user-settings:hover {
+main-container side-bar user-name #user-settings:hover {
   color: white;
 }
 
-.row side-bar public-channels {
+main-container side-bar public-channels {
   margin-top: 50px;
   -ms-grid-row: 3;
   grid-row: 3;
 }
 
-.row side-bar private-message {
+main-container side-bar private-message {
   -ms-grid-row: 4;
   grid-row: 4;
 }
 
-login-container form {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  border: solid 1px purple;
-  padding: 50px;
-  margin: auto;
-  width: 50vw;
-}
-
-#edit-message, #user-search {
-  width: 100%;
-}
-
-#user-search {
-  padding: 5px;
-}
-
-main-content {
+main-container main-content {
+  -ms-grid-column: 2;
+  grid-column: 2;
   display: -ms-grid;
   display: grid;
   -ms-grid-rows: 75px 1fr 75px;
       grid-template-rows: 75px 1fr 75px;
   -ms-grid-columns: auto;
       grid-template-columns: auto;
-  width: calc(100vw - 330px);
+  width: 100%;
   height: 100vh;
   -webkit-clip-path: inset(0% 0% 0% 0%);
           clip-path: inset(0% 0% 0% 0%);
@@ -330,13 +393,13 @@ main-content {
   transition: 0.8s all;
 }
 
-main-content top-bar {
+main-container main-content top-bar {
   background: #fbfbfb;
   -webkit-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
           box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-main-content message-root {
+main-container main-content message-root {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   -ms-grid-row: 2;
@@ -344,7 +407,7 @@ main-content message-root {
   overflow-y: scroll;
 }
 
-main-content form {
+main-container main-content form {
   -webkit-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
           box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
   -ms-grid-row: 3;
@@ -359,13 +422,21 @@ main-content form {
   padding-right: 1em;
 }
 
-main-content form #messageValue {
+main-container main-content form #messageValue {
   width: 80%;
   display: inline;
 }
 
-main-content form #sendMessage {
+main-container main-content form #sendMessage {
   margin-left: 1%;
   width: 19%;
+}
+
+#edit-message, #user-search {
+  width: 100%;
+}
+
+#user-search {
+  padding: 5px;
 }
 /*# sourceMappingURL=chat.css.map */

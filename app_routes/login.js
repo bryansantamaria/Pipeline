@@ -15,7 +15,7 @@ router.post('/', (req, res) => {
 
             res.redirect('chat');
         } else {
-            res.redirect('/');
+            res.redirect('/loginfailed');
         }
     });
 });

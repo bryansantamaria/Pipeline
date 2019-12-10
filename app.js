@@ -15,8 +15,9 @@ const port = 5000;
 
 const registerRouter = require('./app_routes/register');
 const userRouter = require('./app_routes/user');
-const loginRouter = require('./app_routes/login');
 const chatRouter = require('./app_routes/chat');
+const loginRouter = require('./app_routes/login');
+const loginfailedRouter = require('./app_routes/loginfailed');
 
 ///////////////////////////////////////////////////
 /// MIDDLEWARES
@@ -42,13 +43,14 @@ app.set('view engine', 'ejs');
 ///////////////////////////////////////////////////
 
 app.get('/', (req, res) => {
-  res.render('index.ejs');
+  res.render('index.ejs', {loginfailed: false});
 });
 
 app.use('/register', registerRouter);
 app.use('/user', userRouter);
 app.use('/chat', chatRouter);
 app.use('/login', loginRouter);
+app.use('/loginfailed', loginfailedRouter);
 
 ///////////////////////////////////////////////////
 /// SOCKET.IO
