@@ -31,19 +31,7 @@
        <% } %>
       </private-message>
     </side-bar>
-    <!-- chat module container -->
-    <main-content>
-
-      <!--Top bar(Members inside this chatroom/conversation) 75px height, 100% width-->
-      <top-bar></top-bar>
-
-      <message-root></message-root>
-      <is-typing></is-typing>
-      <form>
-        <input autocomplete="off" type="text" id="messageValue" class="form-control"><input type="submit" class="btn btn-success" id="sendMessage" name="button" value="Send"></input>
-      </form>
-
-    </main-content>
+    <!-- chat module container, located in views/chatroom.ejs -->
   </div>
 
 
@@ -126,7 +114,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <input type="text" placeholder="" id="edit-alias"> 
+          <input type="text" placeholder="" id="edit-alias">
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal" id="update-profile-btn">Save changes</button>
