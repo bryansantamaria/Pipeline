@@ -109,7 +109,7 @@ io.on('connection', (socket) => {
   }).then(message => {                              //recieves message + id from server
     console.log('Chat message deleted:' + message);
                                                     //The server recieves a JSON string object and sends it further to all clients connected to the socket.
-    io.emit('delete', JSON.parse(message));           //Emits chat message to all clients
+    io.emit('delete-server', JSON.parse(message));           //Emits chat message to all clients
   });
 });
 

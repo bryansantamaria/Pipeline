@@ -49,7 +49,7 @@ router.post('/', (req, res) => {
   
     collection.remove({ '_id': req.body._id },{'justOne':true}, (err, message_id) => {
       if (err) throw err;
-        res.json(JSON.stringify(message_id));
+        res.json(JSON.stringify(req.body));
         // console.log(message_id);
     });
   });

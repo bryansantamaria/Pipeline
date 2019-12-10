@@ -54,8 +54,7 @@ document.addEventListener('delete-init', e => {
 });
 
 document.querySelector('#delete-btn').addEventListener('click', () => {
-  document.getElementById(chatGlobals.deleteTarget.content._id).dispatchEvent(new CustomEvent('delete-confirm', {}));
-  socket.emit('delete', chatGlobals.deleteTarget.content);
+  socket.emit('delete', chatGlobals.deleteTarget);
 });
 
 // document.addEventListener('socket-delete', {
@@ -138,13 +137,16 @@ socket.on('edit', edited_message => {
 });
 
 //Loopa igenom alla chatmeddelanden, kontrollera id och radera meddelandet.
-/*socket.on('delete', delete_message => {
+socket.on('delete-server', delete_message => {
+  delete_message = JSON.parse(delete_message);
+  console.log(delete_message);
+
   chatMessages.forEach(message => {
-    if (message._id == delete_message._id) {
-      message.delete(false);
+    if (message.content._id == delete_message._id) {
+      message.delete();
     }
   });
-});*/
+});
 
 
 //Genererar dagens datum och tid, convertar från millisekunder.

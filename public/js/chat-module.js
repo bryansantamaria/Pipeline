@@ -36,38 +36,26 @@ export class ChatModule {
 
         this.html.deleteBtn.addEventListener('click', () => {
             document.dispatchEvent(new CustomEvent('delete-init', {
-                detail: {html: this.html.container, content: this.content}
+                detail: this.content
             }));
         });
     }
 
 
     //Runs on confirmed delete
-    delete(fireEvent) {
+    delete() {
         this.html.container.classList.add('removed-msg');
         console.log(this.html.container);
 
         setTimeout(() => {
             document.querySelector('message-root').removeChild(document.getElementById(this.content._id));
         }, 800)
-
-        //TODO: socket-request till server för att ta bort meddelande
-        if (false) {
-            console.log('message deleted')
-            console.log(this.content);
-            socket.emit('delete', this.content);
-        }
     }
 
     //Runs on confirmed edit
-    edit(newText, fireEvent) {
+    edit(newText) {
         this.html.message.innerText = newText;
         this.content.message = newText;
-        //TODO: socket-request till server för att uppdatera meddelande
-        if (fireEvent) {
-            socket.emit('edit', this.content._id);
-        }
-
     }
 
     //Appends message to target node
@@ -80,15 +68,6 @@ export class ChatModule {
         this.html.deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
 
         this.html.container.setAttribute('id', this.content._id)
-
-        this.html.container.addEventListener('delete-confirm', () => {
-            this.delete(true);
-        })
-
-        this.html.container.addEventListener('edit-confirm', e => {
-            console.log(e.detail.value);
-            this.edit(e.detail.value);
-        })
 
         //Links to bootstrap delete modal
         this.html.deleteBtn.setAttribute("data-toggle", "modal")
