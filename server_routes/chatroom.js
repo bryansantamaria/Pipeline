@@ -41,17 +41,15 @@ router.put('/', function (req, res) {
 });
 //not sure if correctly done.
 router.get('/:chatroom', (req, res) => {
-    const pipelineDB = monk('localhost:27017/pipeline');
-    pipelineDB = req.db;
+    let pipelineDB = req.db;
     var chatroomCollection = pipelineDB.get("chatrooms");
     chatroomCollection.find({"name": req.params.chatroom }, {}, function (err, chatroom) {
       if (err) {
+        //Needs to send server an error instead of an empty array.
         throw err;
-        res.send(err);
-        console.log(err);
+        res.send("The chatroom you requested isn¨t available, please join one that exist." + err);
       }
       else {
-        console.log("CHATROOM object" + chatroom);
         res.json(chatroom);
       }
     });
