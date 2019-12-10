@@ -44,12 +44,14 @@ router.get('/:chatroom', (req, res) => {
     const pipelineDB = monk('localhost:27017/pipeline');
     pipelineDB = req.db;
     var chatroomCollection = pipelineDB.get("chatrooms");
-    collection.find({"name": req.params.chatroom }, {}, function (err, chatroom) {
+    chatroomCollection.find({"name": req.params.chatroom }, {}, function (err, chatroom) {
       if (err) {
         throw err;
         res.send(err);
+        console.log(err);
       }
       else {
+        console.log("CHATROOM object" + chatroom);
         res.json(chatroom);
       }
     });
