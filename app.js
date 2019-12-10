@@ -17,6 +17,7 @@ const registerRouter = require('./app_routes/register');
 const userRouter = require('./app_routes/user');
 const loginRouter = require('./app_routes/login');
 const chatRouter = require('./app_routes/chat');
+const chatroomRouter = require('./app_routes/chatroom');
 
 ///////////////////////////////////////////////////
 /// MIDDLEWARES
@@ -49,6 +50,7 @@ app.use('/register', registerRouter);
 app.use('/user', userRouter);
 app.use('/chat', chatRouter);
 app.use('/login', loginRouter);
+app.use('/chatroom', chatroomRouter);
 
 ///////////////////////////////////////////////////
 /// SOCKET.IO
