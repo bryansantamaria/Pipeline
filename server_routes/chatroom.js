@@ -42,6 +42,7 @@ router.post('/', (req, res) => {
   
   /* GET delete user. */
   router.delete('/', function (req, res) {
+    console.log('message to be deleted >')
     console.log(req.body);
     var msgDB = req.db;
     var collection = msgDB.get('messages');

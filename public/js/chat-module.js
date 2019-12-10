@@ -45,8 +45,10 @@ export class ChatModule {
     //Runs on confirmed delete
     delete(fireEvent) {
         this.html.container.classList.add('removed-msg');
+        console.log(this.html.container);
+
         setTimeout(() => {
-            document.querySelector('message-root').removeChild(this.html.container);
+            document.querySelector('message-root').removeChild(document.getElementById(this.content._id));
         }, 800)
 
         //TODO: socket-request till server för att ta bort meddelande
@@ -63,7 +65,7 @@ export class ChatModule {
         this.content.message = newText;
         //TODO: socket-request till server för att uppdatera meddelande
         if (fireEvent) {
-            socket.emit('edit', this.content);
+            socket.emit('edit', this.content._id);
         }
 
     }
@@ -76,6 +78,8 @@ export class ChatModule {
         this.html.alias.innerText = this.content.alias;
         this.html.editBtn.innerHTML = '<i class="fas fa-pen"></i>';
         this.html.deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
+
+        this.html.container.setAttribute('id', this.content._id)
 
         this.html.container.addEventListener('delete-confirm', () => {
             this.delete(true);

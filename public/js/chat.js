@@ -51,11 +51,10 @@ function updateUser() {
 //Delete events
 document.addEventListener('delete-init', e => {
   chatGlobals.deleteTarget = e.detail;
-  console.log(chatGlobals.deleteTarget);
-})
+});
 
 document.querySelector('#delete-btn').addEventListener('click', () => {
-  chatGlobals.deleteTarget.html.dispatchEvent(new CustomEvent('delete-confirm', {}));
+  document.getElementById(chatGlobals.deleteTarget.content._id).dispatchEvent(new CustomEvent('delete-confirm', {}));
   socket.emit('delete', chatGlobals.deleteTarget.content);
 });
 
@@ -139,13 +138,13 @@ socket.on('edit', edited_message => {
 });
 
 //Loopa igenom alla chatmeddelanden, kontrollera id och radera meddelandet.
-socket.on('delete', delete_message => {
+/*socket.on('delete', delete_message => {
   chatMessages.forEach(message => {
     if (message._id == delete_message._id) {
       message.delete(false);
     }
   });
-});
+});*/
 
 
 //Genererar dagens datum och tid, convertar från millisekunder.
@@ -184,7 +183,7 @@ document.querySelector('#user-settings').setAttribute("data-target", "#edit-prof
 document.querySelector('user-name').setAttribute("data-toggle", "modal")
 document.querySelector('user-name').setAttribute("data-target", "#edit-profile-modal")
 
-let chatMessages = [
+let chatMessages = []; /*= [
   new ChatModule(
     'Aliquam elit eros, suscipit quis semper eget, consectetur eget nisi. Donec consectetur quis nibh eget viverra. Aenean pulvinar mollis arcu, porta faucibus nibh pellentesque sit amet. Ut non tristique lorem, ut maximus mi. Quisque iaculis elit sed risus ultrices, blandit iaculis neque scelerisque.',
     'Fabian Johansson',
@@ -204,7 +203,7 @@ let chatMessages = [
     '11:26'
   )
 
-];
+];*/
 
 chatMessages.forEach(msg => {
   msg.render(document.querySelector('message-root'));
