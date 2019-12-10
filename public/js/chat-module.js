@@ -30,40 +30,32 @@ export class ChatModule {
     setupEventListeners() {
         this.html.editBtn.addEventListener('click', () => {
             document.dispatchEvent(new CustomEvent('edit-init', {
-                detail: this.html.message
+                detail: {html : this.html.message, content: this.content}
             }));
         });
 
         this.html.deleteBtn.addEventListener('click', () => {
             document.dispatchEvent(new CustomEvent('delete-init', {
-                detail: this.html.container
+                detail: this.content
             }));
         });
     }
 
 
     //Runs on confirmed delete
-    delete(fireEvent) {
+    delete() {
         this.html.container.classList.add('removed-msg');
-        setTimeout(() => {
-            this.html.container.parentNode.removeChild(this.html.container);
-        }, 800)
+        console.log(this.html.container);
 
-        //TODO: socket-request till server för att ta bort meddelande
-        if (fireEvent) {
-            socket.emit('delete', this.content);
-        }
+        setTimeout(() => {
+            document.querySelector('message-root').removeChild(document.getElementById(this.content._id));
+        }, 800)
     }
 
     //Runs on confirmed edit
-    edit(newText, fireEvent) {
+    edit(newText) {
         this.html.message.innerText = newText;
         this.content.message = newText;
-        //TODO: socket-request till server för att uppdatera meddelande
-        if (fireEvent) {
-            socket.emit('edit', this.content);
-        }
-
     }
 
     //Appends message to target node
@@ -75,14 +67,7 @@ export class ChatModule {
         this.html.editBtn.innerHTML = '<i class="fas fa-pen"></i>';
         this.html.deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
 
-        this.html.container.addEventListener('delete-confirm', () => {
-            this.delete();
-        })
-
-        this.html.container.addEventListener('edit-confirm', e => {
-            console.log(e.detail.value);
-            this.edit(e.detail.value);
-        })
+        this.html.container.setAttribute('id', this.content._id)
 
         //Links to bootstrap delete modal
         this.html.deleteBtn.setAttribute("data-toggle", "modal")

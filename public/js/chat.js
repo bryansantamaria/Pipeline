@@ -51,22 +51,23 @@ function updateUser() {
 //Delete events
 document.addEventListener('delete-init', e => {
   chatGlobals.deleteTarget = e.detail;
-})
+});
 
 document.querySelector('#delete-btn').addEventListener('click', () => {
-  chatGlobals.deleteTarget.dispatchEvent(new CustomEvent('delete-confirm', {}));
+  socket.emit('delete', chatGlobals.deleteTarget);
 });
 
 //Edit Events
 document.addEventListener('edit-init', e => {
   chatGlobals.editTarget = e.detail;
-  document.querySelector('#edit-message').value = chatGlobals.editTarget.textContent;
-})
+  document.querySelector('#edit-message').value = chatGlobals.editTarget.html.textContent;
+});
 
 document.querySelector('#edit-btn').addEventListener('click', () => {
-  chatGlobals.editTarget.parentNode.dispatchEvent(new CustomEvent('edit-confirm', {
-    detail: document.querySelector('#edit-message')
-  }));
+  let new_message = chatGlobals.editTarget.content;
+  new_message.message = document.querySelector('#edit-message').value;
+
+  socket.emit('edit', new_message);
 });
 
 $("form").submit(function (e) {
@@ -125,18 +126,23 @@ socket.on('chat message', function (chatObject) {
 
 //Loopa igenom alla chatmeddelanden, kontrollera id och rendera ut det nya editerade meddelandet.
 socket.on('edit', edited_message => {
+  edited_message = JSON.parse(edited_message);
+  console.log(edited_message);
   chatMessages.forEach(message => {
-    if (message._id == edited_message._id) {
-      message.edit(edited_message.text, false);
+    if (message.content._id == edited_message._id) {
+      message.edit(edited_message.content, false);
     }
   });
 });
 
 //Loopa igenom alla chatmeddelanden, kontrollera id och radera meddelandet.
-socket.on('delete', delete_message => {
+socket.on('delete-server', delete_message => {
+  delete_message = JSON.parse(delete_message);
+  console.log(delete_message);
+
   chatMessages.forEach(message => {
-    if (message._id == delete_message._id) {
-      message.delete(false);
+    if (message.content._id == delete_message._id) {
+      message.delete();
     }
   });
 });
@@ -178,7 +184,7 @@ document.querySelector('#user-settings').setAttribute("data-target", "#edit-prof
 document.querySelector('user-name').setAttribute("data-toggle", "modal")
 document.querySelector('user-name').setAttribute("data-target", "#edit-profile-modal")
 
-let chatMessages = [
+let chatMessages = []; /*= [
   new ChatModule(
     'Aliquam elit eros, suscipit quis semper eget, consectetur eget nisi. Donec consectetur quis nibh eget viverra. Aenean pulvinar mollis arcu, porta faucibus nibh pellentesque sit amet. Ut non tristique lorem, ut maximus mi. Quisque iaculis elit sed risus ultrices, blandit iaculis neque scelerisque.',
     'Fabian Johansson',
@@ -198,7 +204,7 @@ let chatMessages = [
     '11:26'
   )
 
-];
+];*/
 
 chatMessages.forEach(msg => {
   msg.render(document.querySelector('message-root'));
