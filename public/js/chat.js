@@ -51,11 +51,17 @@ function updateUser() {
 //Delete events
 document.addEventListener('delete-init', e => {
   chatGlobals.deleteTarget = e.detail;
+  console.log(chatGlobals.deleteTarget);
 })
 
 document.querySelector('#delete-btn').addEventListener('click', () => {
-  chatGlobals.deleteTarget.dispatchEvent(new CustomEvent('delete-confirm', {}));
+  chatGlobals.deleteTarget.html.dispatchEvent(new CustomEvent('delete-confirm', {}));
+  socket.emit('delete', chatGlobals.deleteTarget.content);
 });
+
+// document.addEventListener('socket-delete', {
+
+// }) 
 
 //Edit Events
 document.addEventListener('edit-init', e => {

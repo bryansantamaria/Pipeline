@@ -36,7 +36,7 @@ export class ChatModule {
 
         this.html.deleteBtn.addEventListener('click', () => {
             document.dispatchEvent(new CustomEvent('delete-init', {
-                detail: this.html.container
+                detail: {html: this.html.container, content: this.content}
             }));
         });
     }
@@ -46,11 +46,13 @@ export class ChatModule {
     delete(fireEvent) {
         this.html.container.classList.add('removed-msg');
         setTimeout(() => {
-            this.html.container.parentNode.removeChild(this.html.container);
+            document.querySelector('message-root').removeChild(this.html.container);
         }, 800)
 
         //TODO: socket-request till server för att ta bort meddelande
-        if (fireEvent) {
+        if (false) {
+            console.log('message deleted')
+            console.log(this.content);
             socket.emit('delete', this.content);
         }
     }
@@ -76,7 +78,7 @@ export class ChatModule {
         this.html.deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
 
         this.html.container.addEventListener('delete-confirm', () => {
-            this.delete();
+            this.delete(true);
         })
 
         this.html.container.addEventListener('edit-confirm', e => {

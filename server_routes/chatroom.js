@@ -46,7 +46,7 @@ router.post('/', (req, res) => {
     var msgDB = req.db;
     var collection = msgDB.get('messages');
   
-    collection.remove({ '_id': req.body.content._id },{'justOne':true}, (err, message_id) => {
+    collection.remove({ '_id': req.body._id },{'justOne':true}, (err, message_id) => {
       if (err) throw err;
         res.json(JSON.stringify(message_id));
         // console.log(message_id);
