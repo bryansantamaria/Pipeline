@@ -47,7 +47,7 @@ router.get('/:chatroom', (req, res) => {
       if (err) {
         //Needs to send server an error instead of an empty array.
         throw err;
-        res.send("The chatroom you requested isn¨t available, please join one that exist." + err);
+        res.send("The chatroom you requested isn't available, please join one that exist." + err);
       }
       else {
         res.json(chatroom);
