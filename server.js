@@ -7,7 +7,7 @@ const server = express();
 const mongo = require("mongodb");
 const monk = require("monk");
 const bodyParser = require("body-parser");
-const usersDB = monk('localhost:27017/pipeline');
+const pipelineDB = monk('localhost:27017/pipeline');
 const port = 3000;
 
 ///////////////////////////////////////////////////
@@ -32,7 +32,7 @@ server.use(bodyParser.urlencoded({
 server.use(bodyParser.json());
 // Moved to server.js
 server.use(function (req, res, next) {
-  req.db = usersDB;
+  req.db = pipelineDB;
   next();
 });
 
