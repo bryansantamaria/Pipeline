@@ -91,7 +91,7 @@ io.on('connection', (socket) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: chatMessage,                              //Message body
+      body: JSON.stringify(chatMessage),                              //Message body
     }).then(message => {                              //recieves message + id from server
       console.log('Chat message edited:' + message);
                                                       //The server recieves a JSON string object and sends it further to all clients connected to the socket.

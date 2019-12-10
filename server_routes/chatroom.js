@@ -27,16 +27,22 @@ router.post('/', (req, res) => {
   router.put('/', function (req, res) {
     var msgDB = req.db;
     var collection = msgDB.get('messages');
-  
+    console.log('Server spits out: ');
+    console.log(req.body);
     collection.update({'_id': req.body._id}, {
       $set: {
-        'alias': req.body.content.alias,
-        'content': req.body.content.message,
-        'datetime': req.body.content.date
+        'alias': req.body.alias,
+        'content': req.body.message,
+        'datetime': req.body.date
       }
-    }, (err, edit_msg_db) => {
+    }, (err) => {
       if(err) throw err;
-      res.json(JSON.stringify(edit_msg_db));
+      collection.find({'_id': req.body._id}, function (err, edit_msg_db){
+        console.log('edit message in db: ')
+        console.log(edit_msg_db[0]);
+        if(err) throw err;
+        res.json(JSON.stringify(edit_msg_db[0]));
+      });
     });
   });
   

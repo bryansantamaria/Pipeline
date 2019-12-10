@@ -30,7 +30,7 @@ export class ChatModule {
     setupEventListeners() {
         this.html.editBtn.addEventListener('click', () => {
             document.dispatchEvent(new CustomEvent('edit-init', {
-                detail: this.html.message
+                detail: {html : this.html.message, content: this.content}
             }));
         });
 

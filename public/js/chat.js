@@ -57,20 +57,17 @@ document.querySelector('#delete-btn').addEventListener('click', () => {
   socket.emit('delete', chatGlobals.deleteTarget);
 });
 
-// document.addEventListener('socket-delete', {
-
-// }) 
-
 //Edit Events
 document.addEventListener('edit-init', e => {
   chatGlobals.editTarget = e.detail;
-  document.querySelector('#edit-message').value = chatGlobals.editTarget.textContent;
-})
+  document.querySelector('#edit-message').value = chatGlobals.editTarget.html.textContent;
+});
 
 document.querySelector('#edit-btn').addEventListener('click', () => {
-  chatGlobals.editTarget.parentNode.dispatchEvent(new CustomEvent('edit-confirm', {
-    detail: document.querySelector('#edit-message')
-  }));
+  let new_message = chatGlobals.editTarget.content;
+  new_message.message = document.querySelector('#edit-message').value;
+
+  socket.emit('edit', new_message);
 });
 
 $("form").submit(function (e) {
@@ -129,9 +126,11 @@ socket.on('chat message', function (chatObject) {
 
 //Loopa igenom alla chatmeddelanden, kontrollera id och rendera ut det nya editerade meddelandet.
 socket.on('edit', edited_message => {
+  edited_message = JSON.parse(edited_message);
+  console.log(edited_message);
   chatMessages.forEach(message => {
-    if (message._id == edited_message._id) {
-      message.edit(edited_message.text, false);
+    if (message.content._id == edited_message._id) {
+      message.edit(edited_message.content, false);
     }
   });
 });
