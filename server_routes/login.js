@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
-    var userDB = req.db;
-    var collection = userDB.get("users");
+    var pipelineDB = req.db;
+    var collection = pipelineDB.get("users");
     collection.find({ $or: [{ "alias": req.body.username}, { "email": req.body.username}] }, {}).then(user => {
         console.log(user);
         if (user[0]) {

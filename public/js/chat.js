@@ -68,6 +68,25 @@ fetch('user/' + uid).then(userdata => {
   html.alias.innerText = chatGlobals.user.alias;
 })
 
+fetch('/chatroom/General').then(res => {
+  return res.json();
+  console.log(res);
+}).then(chatroom => {
+  chatroom = JSON.parse(chatroom);
+
+  console.log(chatroom[0]);
+
+  chatroom[0].messages.forEach(msg => {
+    let chatModule = new ChatModule(
+      msg.message,
+      msg.alias,
+      'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
+      msg.timestamp
+    )
+    chatModule.render(document.querySelector('message-root'))
+  })
+})
+
 var socket = io();
 
 function updateUser() {
@@ -177,7 +196,7 @@ socket.on('edit', edited_message => {
 });
 
 //Loopa igenom alla chatmeddelanden, kontrollera id och radera meddelandet.
-socket.on('delete-server', delete_message => {
+socket.on('delete', delete_message => {
   delete_message = JSON.parse(delete_message);
   console.log(delete_message);
 
@@ -250,7 +269,3 @@ let chatMessages = []; /*= [
 chatMessages.forEach(msg => {
   msg.render(document.querySelector('message-root'));
 });
-
-
-
-

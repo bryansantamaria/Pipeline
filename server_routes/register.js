@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 router.post('/', (req, res) => {
-    var userDB = req.db;
-    var collection = userDB.get("users");
+    var pipelineDB = req.db;
+    var collection = pipelineDB.get("users");
     collection.insert({
         "email": req.body.email,
         "password": req.body.password,
