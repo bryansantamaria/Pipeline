@@ -155,7 +155,7 @@ socket.on('edit', edited_message => {
 });
 
 //Loopa igenom alla chatmeddelanden, kontrollera id och radera meddelandet.
-socket.on('delete-server', delete_message => {
+socket.on('delete', delete_message => {
   delete_message = JSON.parse(delete_message);
   console.log(delete_message);
 
