@@ -44,7 +44,7 @@ app.set('view engine', 'ejs');
 ///////////////////////////////////////////////////
 
 app.get('/', (req, res) => {
-  res.render('index.ejs', {loginfailed: false});
+  res.render('index.ejs', { loginfailed: false });
 });
 
 app.use('/register', registerRouter);
@@ -77,7 +77,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('chat message', function (chatMessage) {  //Lyssnar på eventet 'chat message'
-  console.log(chatMessage);
+    console.log(chatMessage);
     request('http://127.0.0.1:3000/chatroom/', {       //POST request to server.js containing message
       method: 'PUT',
       headers: {
@@ -88,37 +88,37 @@ io.on('connection', (socket) => {
       console.log('Chat message recieved:' + JSON.parse(message));
       io.emit('chat message', JSON.parse(message));   //Emits chat message to all clients
     }).catch(error => {
-      //console.error(error);
+      console.error(error);
     });
   });
 
   socket.on('edit', function (chatMessage) {          //Lyssnar på eventet 'chat message'
-    request('http://127.0.0.1:3000/chatroom/General', {       //PUT request to server.js containing message
+    request('http://127.0.0.1:3000/chatroom/edit', {       //PUT request to server.js containing message
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(chatMessage),                              //Message body
     }).then(message => {                              //recieves message + id from server
-      console.log('Chat message edited:' + message);
-                                                      //The server recieves a JSON string object and sends it further to all clients connected to the socket.
-      //io.emit('edit', JSON.parse(message));           //Emits chat message to all clients
+      console.log('Chat message edited >');
+      console.log(message);
+      io.emit('edit', JSON.parse(message));           //Emits chat message to all clients
     });
   });
 
   socket.on('delete', function (chatMessage) {          //Lyssnar på eventet 'chat message'
-  request('http://127.0.0.1:3000/chatroom', {       //PUT request to server.js containing message
-    method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(chatMessage),                       //Message body
-  }).then(message => {                              //recieves message + id from server
-    console.log('Chat message deleted:' + message);
-                                                    //The server recieves a JSON string object and sends it further to all clients connected to the socket.
-    io.emit('delete', JSON.parse(message));           //Emits chat message to all clients
+    request('http://127.0.0.1:3000/chatroom', {       //PUT request to server.js containing message
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(chatMessage),                       //Message body
+    }).then(message => {                              //recieves message + id from server
+      console.log('Chat message deleted:' + message);
+      //The server recieves a JSON string object and sends it further to all clients connected to the socket.
+      io.emit('delete', JSON.parse(message));           //Emits chat message to all clients
+    });
   });
-});
 
   socket.on('disconnect', (user) => {
     socket.broadcast.emit('newUser', socket.username + ' Disconnected')

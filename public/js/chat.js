@@ -201,6 +201,7 @@ socket.on('chat message', function (chatObject) {
 //Loopa igenom alla chatmeddelanden, kontrollera id och rendera ut det nya editerade meddelandet.
 socket.on('edit', edited_message => {
   edited_message = JSON.parse(edited_message);
+  console.log('Edit from server >')
   console.log(edited_message);
   chatMessages.forEach(message => {
     if (message.content._id == edited_message._id) {
