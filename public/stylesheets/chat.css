@@ -316,7 +316,8 @@ main-container {
   color: white;
   margin: 0;
   padding: 0;
-  width: 100%;
+  width: 100vw;
+  position: fixed;
   display: -ms-grid;
   display: grid;
   -ms-grid-columns: 330px 1fr;

@@ -2,6 +2,47 @@ import {
   ChatModule
 } from "./chat-module.js";
 
+
+//Exempelkod för fetchning och rendering av chattrum XD
+/*class ChatRoom {
+  constructor(id, type, name) {
+    this.name = name;
+    this.id = id;
+    this.type = type;
+  }
+
+  render() {
+    document.querySelector('private-message').innerHTML += `
+    <div id=${this.id}><i class="fas fa-circle"></i> ${this.name}</div>
+    `;
+
+    document.querySelector('#' + this.id).addEventListener('click', ()=> {
+      fetch('/chatroom/' + this.id).then(res => {
+        return res.json()
+      }
+      ). then(msg => {
+        //rendera meddelandet
+      });
+    })
+  }
+}
+//Fetchar alla chatrum
+fetch('/chatroom').then(res => {
+  return res.json();
+}).then(chatrooms => {
+  chatrooms = JSON.parse(chatrooms);
+
+  chatrooms.forEach(room => {
+    let currentRoom = new ChatRoom(
+      room.id,
+      room.type,
+      room.name
+    );
+
+    currentRoom.render();
+  })
+})*/
+
 ////////////////////////////////////////////////
 //Globals
 ////////////////////////////////////////////////
