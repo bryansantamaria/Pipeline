@@ -7,7 +7,7 @@ export class ChatModule {
             container: document.createElement('msg-container'),
             message: document.createElement('p'),
             alias: document.createElement('h1'),
-            date: document.createElement('span'),
+            timestamp: document.createElement('span'),
             avatarContainer: document.createElement('avatar-container'),
             avatar: document.createElement('img'),
             editBtn: document.createElement('edit-btn'),
@@ -19,7 +19,7 @@ export class ChatModule {
             message: message,
             alias: alias,
             avatar: avatar,
-            date: date,
+            timestamp: date,
             _id: id
         }
 
@@ -62,7 +62,7 @@ export class ChatModule {
     render(targetNode) {
         this.html.avatar.setAttribute('src', this.content.avatar);
         this.html.message.innerText = this.content.message;
-        this.html.date.innerText = this.content.date;
+        this.html.timestamp.innerText = this.content.timestamp;
         this.html.alias.innerText = this.content.alias;
         this.html.editBtn.innerHTML = '<i class="fas fa-pen"></i>';
         this.html.deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
@@ -80,7 +80,7 @@ export class ChatModule {
         this.html.avatarContainer.appendChild(this.html.avatar);
         this.html.container.appendChild(this.html.avatarContainer);
         this.html.container.appendChild(this.html.message);
-        this.html.container.appendChild(this.html.date);
+        this.html.container.appendChild(this.html.timestamp);
         this.html.container.appendChild(this.html.alias);
         this.html.container.appendChild(this.html.editBtn);
         this.html.container.appendChild(this.html.deleteBtn);
