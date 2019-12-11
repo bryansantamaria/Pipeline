@@ -2,6 +2,10 @@ import {
   ChatModule
 } from "./chat-module.js";
 
+import {
+  Search
+} from "./search-module.js";
+
 
 //Exempelkod för fetchning och rendering av chattrum XD
 /*class ChatRoom {
@@ -53,6 +57,8 @@ let chatGlobals = {
   chatroomId: 'dab123'
 }
 
+let debug = true;
+
 let html = {
   edit_alias: document.querySelector('#edit-alias'),
   alias: document.querySelector('#alias')
@@ -74,8 +80,6 @@ fetch('/chatroom/General').then(res => {
 }).then(chatroom => {
   chatroom = JSON.parse(chatroom);
 
-  console.log(chatroom[0]);
-
   chatroom.forEach(msg => {
     let chatModule = new ChatModule(
       msg.message,
@@ -89,21 +93,6 @@ fetch('/chatroom/General').then(res => {
 })
 
 var socket = io();
-
-function updateUser() {
-  chatGlobals.user.alias = html.edit_alias.value;
-  html.alias.innerText = chatGlobals.user.alias;
-
-
-  //TODO: SERVERSIDE MADDAFAKKA
-  fetch('http://127.0.0.1:3000/user', {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(chatGlobals.user),
-  })
-}
 
 ////////////////////////////////////////////////
 //CRUD-events
@@ -142,7 +131,11 @@ $("form").submit(function (e) {
       chatroom: chatGlobals.chatroomId
     }
 
-    console.log(chatMessage);
+    if(debug) {
+      console.log('Message sent to server >');
+      console.log(chatMessage);
+    }
+
     //Emits the stringified chatMessage object to server.
     socket.emit("chat message", JSON.stringify(chatMessage));
 
@@ -150,18 +143,29 @@ $("form").submit(function (e) {
   }
 });
 
-document.querySelector('#update-profile-btn').addEventListener('click', () => {
+function updateUser() {
   chatGlobals.user.alias = html.edit_alias.value;
   html.alias.innerText = chatGlobals.user.alias;
 
-  //TODO: SERVERSIDE MADDAFAKKA
-  fetch('http://127.0.0.1:5000/user/edit/' + uid, {
+  fetch('/user/edit/' + chatGlobals.user._id, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(chatGlobals.user),
   })
+
+  if(debug) {
+    console.log('Sent edit request to server >');
+    console.log(chatGlobals.user);
+  }
+}
+
+document.querySelector('#update-profile-btn').addEventListener('click', () => {
+  chatGlobals.user.alias = html.edit_alias.value;
+  html.alias.innerText = chatGlobals.user.alias;
+
+  updateUser();
 });
 
 ////////////////////////////////////////////////
@@ -172,19 +176,24 @@ document.querySelector('#update-profile-btn').addEventListener('click', () => {
 socket.on('chat message', function (chatObject) {
   chatObject = JSON.parse(chatObject);
 
-  console.log('Message recieved from server');
-  console.log(chatObject);
+  if(debug) {
+    console.log('Message recieved from server >');
+    console.log(chatObject);
+  }
 
   //Loads in the now parsed chatobject and loads it's content into chatmessageModel
   let chatMessage = new ChatModule(
-    chatObject.content,
+    chatObject.message,
     chatObject.alias,
     'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
     chatObject.timestamp,
     chatObject._id
   );
 
-  console.log(chatMessage);
+  if(debug) {
+    console.log('Message recieved from server >');
+    console.log(chatMessage);
+  }
 
   chatMessages.push(chatMessage);
   chatMessage.render(document.querySelector('message-root'));
@@ -194,8 +203,12 @@ socket.on('chat message', function (chatObject) {
 //Loopa igenom alla chatmeddelanden, kontrollera id och rendera ut det nya editerade meddelandet.
 socket.on('edit', edited_message => {
   edited_message = JSON.parse(edited_message);
-  console.log('Edit from server >')
-  console.log(edited_message);
+
+  if(debug) {
+    console.log('Edit from server >')
+    console.log(edited_message);
+  }
+
   chatMessages.forEach(message => {
     if (message._id == edited_message._id) {
       message.edit(edited_message.message, false);
@@ -206,7 +219,11 @@ socket.on('edit', edited_message => {
 //Loopa igenom alla chatmeddelanden, kontrollera id och radera meddelandet.
 socket.on('delete', delete_message => {
   delete_message = JSON.parse(delete_message);
-  console.log(delete_message);
+  
+  if(debug) {
+    console.log('Delete request from server for msg >');
+    console.log(delete_message);
+  }
 
   chatMessages.forEach(message => {
     if (message.content._id == delete_message._id) {
@@ -257,3 +274,26 @@ let chatMessages = [];
 chatMessages.forEach(msg => {
   msg.render(document.querySelector('message-root'));
 });
+
+/////////////////////////////////////////////////////
+/// USER SEARCH
+/////////////////////////////////////////////////////
+
+let userSearch = new Search('user', document.querySelector('#create-pm-modal'));
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelector('#create-pm-user-search').addEventListener('input', e => {
+    let query = e.target.value;
+    console.log('Searched for: ' + query);
+    userSearch.search(query);
+  })
+  
+  document.querySelector('#create-pm-modal').addEventListener('search-result', e => {
+    let userList = document.querySelector('user-list');
+    userList.innerHTML = '';
+    e.detail.forEach(user => {
+      userList.innerHTML += `<p>${user.alias}</p>`
+    })
+  })
+})
+

@@ -16,6 +16,7 @@ const port = 3000;
 
 const registerRouter = require('./server_routes/register');
 const userRouter = require('./server_routes/user');
+const searchRouter = require('./server_routes/search');
 const loginRouter = require('./server_routes/login');
 const chatRouter = require('./server_routes/chat');
 const chatroomRouter = require('./server_routes/chatroom');
@@ -48,15 +49,10 @@ server.use(express.static(path.join(__dirname, 'public')));
 
 server.use('/register', registerRouter);
 server.use('/user', userRouter);
+server.use('/search', searchRouter);
 server.use('/chat', chatRouter);
 server.use('/login', loginRouter);
 server.use('/chatroom', chatroomRouter);
-
-// var msgDB = monk('localhost:27017/messages');
-// server.use(function (req, res, next) {
-//   req.db = msgDB;
-//   next();
-// });
 
 // catch 404 and forward to error handler
 server.use(function (req, res, next) {

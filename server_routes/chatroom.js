@@ -4,7 +4,7 @@ const router = express.Router();
 router.put('/', (req, res) => {
   var pipelineDB = req.db;
   var collection = pipelineDB.get('chatrooms');
-
+  console.log('Recieved message from app >');
   console.log(req.body);
   collection.insert({ //Inserts message to DB
     'alias': req.body.alias,
@@ -18,7 +18,8 @@ router.put('/', (req, res) => {
     ]
   }, (err, message_in_db) => { //Gets message back from database
     if (err) throw err;
-    //   console.log(message_in_db);
+    console.log('Inserted message in DB >');
+    console.log(message_in_db);
     res.json(JSON.stringify(message_in_db)); //Returns message to app.js
   });
 });
