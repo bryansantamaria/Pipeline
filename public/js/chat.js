@@ -69,24 +69,24 @@ fetch('user/' + uid).then(userdata => {
   html.alias.innerText = chatGlobals.user.alias;
 })
 
-/*fetch('/chatroom/General').then(res => {
+fetch('/chatroom/General').then(res => {
   return res.json();
-  console.log(res);
 }).then(chatroom => {
   chatroom = JSON.parse(chatroom);
 
   console.log(chatroom[0]);
 
-  chatroom[0].messages.forEach(msg => {
+  chatroom.forEach(msg => {
     let chatModule = new ChatModule(
       msg.message,
       msg.alias,
       'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
-      msg.timestamp
+      msg.timestamp,
+      msg._id
     )
     chatModule.render(document.querySelector('message-root'))
   })
-})*/
+})
 
 var socket = io();
 
@@ -134,13 +134,6 @@ document.querySelector('#edit-btn').addEventListener('click', () => {
 $("form").submit(function (e) {
   e.preventDefault();
   if ($("#messageValue").val() == "") { } else {
-    /*let chatMessage = new ChatModule(
-      $("#messageValue").val(),
-      chatGlobals.user.alias,
-      'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
-      getTodaysDate()
-    );*/
-
     let chatMessage = {
       alias: chatGlobals.user.alias,
       message: $("#messageValue").val(),
@@ -183,7 +176,7 @@ socket.on('chat message', function (chatObject) {
   console.log(chatObject);
 
   //Loads in the now parsed chatobject and loads it's content into chatmessageModel
-  let chatmessageModel = new ChatModule(
+  let chatMessage = new ChatModule(
     chatObject.content,
     chatObject.alias,
     'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
@@ -191,10 +184,10 @@ socket.on('chat message', function (chatObject) {
     chatObject._id
   );
 
-  console.log(chatmessageModel);
+  console.log(chatMessage);
 
-  chatMessages.push(chatmessageModel);
-  chatmessageModel.render(document.querySelector('message-root'));
+  chatMessages.push(chatMessage);
+  chatMessage.render(document.querySelector('message-root'));
 });
 
 
@@ -204,8 +197,8 @@ socket.on('edit', edited_message => {
   console.log('Edit from server >')
   console.log(edited_message);
   chatMessages.forEach(message => {
-    if (message.content._id == edited_message._id) {
-      message.edit(edited_message.content, false);
+    if (message._id == edited_message._id) {
+      message.edit(edited_message.message, false);
     }
   });
 });
@@ -259,27 +252,7 @@ document.querySelector('#user-settings').setAttribute("data-target", "#edit-prof
 document.querySelector('user-name').setAttribute("data-toggle", "modal")
 document.querySelector('user-name').setAttribute("data-target", "#edit-profile-modal")
 
-let chatMessages = []; /*= [
-  new ChatModule(
-    'Aliquam elit eros, suscipit quis semper eget, consectetur eget nisi. Donec consectetur quis nibh eget viverra. Aenean pulvinar mollis arcu, porta faucibus nibh pellentesque sit amet. Ut non tristique lorem, ut maximus mi. Quisque iaculis elit sed risus ultrices, blandit iaculis neque scelerisque.',
-    'Fabian Johansson',
-    'https://scontent-arn2-1.xx.fbcdn.net/v/t1.0-9/74617601_2692609500763768_5275050151155597312_o.jpg?_nc_cat=103&_nc_ohc=XBoYWDubAUUAQmTc4DVWQe_05mCnZ0CL3rXU91R8LK5tH670PwiZwEaog&_nc_ht=scontent-arn2-1.xx&oh=d53991ce63884e4faa86b246edbff50b&oe=5E7797AA',
-    '11:26'
-  ),
-  new ChatModule(
-    'Aliquam elit eros, suscipit quis semper eget, consectetur eget nisi. Donec consectetur quis nibh eget viverra. Aenean pulvinar mollis arcu, porta faucibus nibh pellentesque sit amet. Ut non tristique lorem, ut maximus mi. Quisque iaculis elit sed risus ultrices, blandit iaculis neque scelerisque.',
-    'Bryan Santamaria',
-    'https://scontent-arn2-1.xx.fbcdn.net/v/t31.0-8/13580553_10153540477521470_8547081405158753156_o.jpg?_nc_cat=111&_nc_ohc=w1OeQC-JqpUAQnyq8OfuNAvLuI8YrDBMTmZkQo4vtQl-uAZIjfdGDN2lw&_nc_ht=scontent-arn2-1.xx&oh=20045fa1123f617259ecb2a4d768ad27&oe=5E83EB6D',
-    '11:26'
-  ),
-  new ChatModule(
-    'Aliquam elit eros, suscipit quis semper eget, consectetur eget nisi. Donec consectetur quis nibh eget viverra. Aenean pulvinar mollis arcu, porta faucibus nibh pellentesque sit amet. Ut non tristique lorem, ut maximus mi. Quisque iaculis elit sed risus ultrices, blandit iaculis neque scelerisque.',
-    'Alexander Wilson',
-    'https://scontent-arn2-1.xx.fbcdn.net/v/t1.0-9/51721821_10156909845079030_3534192012213354496_n.jpg?_nc_cat=109&_nc_ohc=CabSkySieYMAQlIvjyAJrkabzdmPpbzrfdZN9QL78W5gjN_cxQuE_-7Qg&_nc_ht=scontent-arn2-1.xx&oh=d57a7ebc3db7466ef4e5ec2822247038&oe=5E830A5E',
-    '11:26'
-  )
-
-];*/
+let chatMessages = [];
 
 chatMessages.forEach(msg => {
   msg.render(document.querySelector('message-root'));
