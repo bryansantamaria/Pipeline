@@ -31,8 +31,20 @@
        <% } %>
       </private-message>
     </side-bar>
-    <!-- chat module container, located in views/chatroom.ejs -->
-    <%- include chatroom.ejs %>
+    <!-- chat module container-->
+    <main-content>
+
+      <!--Top bar(Members inside this chatroom/conversation) 75px height, 100% width-->
+      <top-bar></top-bar>
+
+      <message-root></message-root>
+      <is-typing></is-typing>
+      <form>
+        <input autocomplete="off" type="text" id="messageValue" class="form-control"><input type="submit" class="btn btn-success" id="sendMessage" name="button" value="Send"></input>
+      </form>
+
+    </main-content>
+
   </div>
 
 
