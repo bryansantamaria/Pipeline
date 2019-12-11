@@ -59,7 +59,7 @@ router.put('/', (req, res) => {
         // console.log(message_id);
     });
 });
-//not sure if correctly done.
+//GET chatroom.
 router.get('/:chatroom', (req, res) => {
     let pipelineDB = req.db;
     var chatroomCollection = pipelineDB.get("chatrooms");
