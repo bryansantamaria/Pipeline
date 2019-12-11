@@ -49,7 +49,8 @@ fetch('/chatroom').then(res => {
 let chatGlobals = {
   deleteTarget: undefined,
   editTarget: undefined,
-  user: undefined
+  user: undefined,
+  chatroomId: 'dab123'
 }
 
 let html = {
@@ -68,7 +69,7 @@ fetch('user/' + uid).then(userdata => {
   html.alias.innerText = chatGlobals.user.alias;
 })
 
-fetch('/chatroom/General').then(res => {
+/*fetch('/chatroom/General').then(res => {
   return res.json();
   console.log(res);
 }).then(chatroom => {
@@ -85,7 +86,7 @@ fetch('/chatroom/General').then(res => {
     )
     chatModule.render(document.querySelector('message-root'))
   })
-})
+})*/
 
 var socket = io();
 
@@ -133,12 +134,22 @@ document.querySelector('#edit-btn').addEventListener('click', () => {
 $("form").submit(function (e) {
   e.preventDefault();
   if ($("#messageValue").val() == "") { } else {
-    let chatMessage = new ChatModule(
+    /*let chatMessage = new ChatModule(
       $("#messageValue").val(),
       chatGlobals.user.alias,
       'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
       getTodaysDate()
-    );
+    );*/
+
+    let chatMessage = {
+      alias: chatGlobals.user.alias,
+      message: $("#messageValue").val(),
+      avatar: 'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
+      timestamp: getTodaysDate(),
+      chatroom: chatGlobals.chatroomId
+    }
+
+    console.log(chatMessage);
     //Emits the stringified chatMessage object to server.
     socket.emit("chat message", JSON.stringify(chatMessage));
 
@@ -168,12 +179,15 @@ document.querySelector('#update-profile-btn').addEventListener('click', () => {
 socket.on('chat message', function (chatObject) {
   chatObject = JSON.parse(chatObject);
 
+  console.log('Message recieved from server');
+  console.log(chatObject);
+
   //Loads in the now parsed chatobject and loads it's content into chatmessageModel
   let chatmessageModel = new ChatModule(
     chatObject.content,
     chatObject.alias,
     'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
-    chatObject.datetime,
+    chatObject.timestamp,
     chatObject._id
   );
 

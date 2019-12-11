@@ -1,14 +1,15 @@
 const express = require('express');
 const router = express.Router();
 
-router.post('/', (req, res) => {
+router.put('/', (req, res) => {
     var pipelineDB = req.db;
     var collection = pipelineDB.get('chatrooms');
+
     console.log(req.body);
     collection.insert({ //Inserts message to DB
-      'alias': req.body.content.alias,
-      'content': req.body.content.message,
-      'datetime': req.body.content.date,
+      'alias': req.body.alias,
+      'content': req.body.message,
+      'timestamp': req.body.timestamp,
       'attachments': [
         {
           'url': 'localhost:27017/attachments',
@@ -32,7 +33,7 @@ router.post('/', (req, res) => {
       $set: {
         'alias': req.body.alias,
         'content': req.body.message,
-        'datetime': req.body.date
+        'datetime': req.body.timestamp
       }
     }, (err) => {
       if(err) throw err;
