@@ -27,6 +27,25 @@ fetch('user/' + uid).then(userdata => {
   html.alias.innerText = chatGlobals.user.alias;
 })
 
+fetch('/chatroom/General').then(res => {
+  return res.json();
+  console.log(res);
+}).then(chatroom => {
+  chatroom = JSON.parse(chatroom);
+
+  console.log(chatroom[0]);
+
+  chatroom[0].messages.forEach(msg => {
+    let chatModule = new ChatModule(
+      msg.message,
+      msg.alias,
+      'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
+      msg.timestamp
+    )
+    chatModule.render(document.querySelector('message-root'))
+  })
+})
+
 var socket = io();
 
 function updateUser() {
@@ -209,7 +228,3 @@ let chatMessages = []; /*= [
 chatMessages.forEach(msg => {
   msg.render(document.querySelector('message-root'));
 });
-
-
-
-

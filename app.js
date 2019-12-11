@@ -18,6 +18,7 @@ const userRouter = require('./app_routes/user');
 const chatRouter = require('./app_routes/chat');
 const loginRouter = require('./app_routes/login');
 const loginfailedRouter = require('./app_routes/loginfailed');
+const chatroomRouter = require('./app_routes/chatroom');
 
 ///////////////////////////////////////////////////
 /// MIDDLEWARES
@@ -51,6 +52,7 @@ app.use('/user', userRouter);
 app.use('/chat', chatRouter);
 app.use('/login', loginRouter);
 app.use('/loginfailed', loginfailedRouter);
+app.use('/chatroom', chatroomRouter);
 
 ///////////////////////////////////////////////////
 /// SOCKET.IO
@@ -123,5 +125,3 @@ io.on('connection', (socket) => {
 http.listen(port, function () {
   console.log('listening on *:' + port);
 });
-
-
