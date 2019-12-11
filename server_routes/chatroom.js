@@ -1,10 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-//Moved to server.js
 router.post('/', (req, res) => {
-    var msgDB = req.db;
-    var collection = msgDB.get('messages');
+    var pipelineDB = req.db;
+    var collection = pipelineDB.get('chatrooms');
     console.log(req.body);
     collection.insert({ //Inserts message to DB
       'alias': req.body.content.alias,
@@ -25,8 +24,8 @@ router.post('/', (req, res) => {
 
   /* POST Update user. */
   router.put('/', function (req, res) {
-    var msgDB = req.db;
-    var collection = msgDB.get('messages');
+    var pipelineDB = req.db;
+    var collection = pipelineDB.get('messages');
     console.log('Server spits out: ');
     console.log(req.body);
     collection.update({'_id': req.body._id}, {
@@ -50,8 +49,8 @@ router.post('/', (req, res) => {
   router.delete('/', function (req, res) {
     console.log('message to be deleted >')
     console.log(req.body);
-    var msgDB = req.db;
-    var collection = msgDB.get('messages');
+    var pipelineDB = req.db;
+    var collection = pipelineDB.get('messages');
 
     collection.remove({ '_id': req.body._id },{'justOne':true}, (err, message_id) => {
       if (err) throw err;

@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/:id', (req, res) => {
-    var userDB = req.db;
-    var collection = userDB.get("users");
+    var pipelineDB = req.db;
+    var collection = pipelineDB.get("users");
     console.log(req.params.id)
     collection.find({ "_id": req.params.id }, {})
         .then(user => {

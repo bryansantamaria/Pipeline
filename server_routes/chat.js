@@ -3,7 +3,7 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
     var pipelineDB = req.db;
-    var collection = pipelineDB.get("users");
+    var collection = pipelineDB.get("chatroom");
     collection.find({}, {}, function (e, users) {
         res.json(users);
     });
