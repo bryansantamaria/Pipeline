@@ -16,5 +16,23 @@ router.get('/:id', (req, res) => {
         });
 })
 
+router.put('/:id', (req, res) => {
+    var pipelineDB = req.db;
+    var collection = pipelineDB.get("users");
+    console.log(req.params.id)
+    collection.update({ "_id": req.params.id }, {
+        $set: {
+            'alias': req.body.alias,
+        }
+    }).then(user => {
+        console.log(JSON.stringify(user[0]));
+        if (user) {
+            res.send(JSON.stringify(user[0]));
+        } else {
+            res.send(false);
+        }
+    });
+})
+
 
 module.exports = router;

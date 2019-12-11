@@ -15,6 +15,7 @@ const port = 5000;
 
 const registerRouter = require('./app_routes/register');
 const userRouter = require('./app_routes/user');
+const searchRouter = require('./app_routes/search');
 const chatRouter = require('./app_routes/chat');
 const loginRouter = require('./app_routes/login');
 const loginfailedRouter = require('./app_routes/loginfailed');
@@ -49,6 +50,7 @@ app.get('/', (req, res) => {
 
 app.use('/register', registerRouter);
 app.use('/user', userRouter);
+app.use('/search', searchRouter);
 app.use('/chat', chatRouter);
 app.use('/login', loginRouter);
 app.use('/loginfailed', loginfailedRouter);

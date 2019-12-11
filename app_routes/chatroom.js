@@ -3,7 +3,7 @@ const request = require('request-promise');
 const router = express.Router();
 
 router.get("/:chatroom", function(req, res) {
-  request("http://127.0.0.1:3000/chatroom/" + req.params.chatroom, {
+  request("http://127.0.0.1:3000/chatroom/" /*+ req.params.chatroom*/, {
     method: "get",
     headers: {
       "Content-Type": "application/json"

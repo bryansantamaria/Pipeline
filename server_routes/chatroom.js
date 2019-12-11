@@ -4,11 +4,11 @@ const router = express.Router();
 router.put('/', (req, res) => {
   var pipelineDB = req.db;
   var collection = pipelineDB.get('chatrooms');
-
+  console.log('Recieved message from app >');
   console.log(req.body);
   collection.insert({ //Inserts message to DB
     'alias': req.body.alias,
-    'content': req.body.message,
+    'message': req.body.message,
     'timestamp': req.body.timestamp,
     'attachments': [
       {
@@ -18,7 +18,8 @@ router.put('/', (req, res) => {
     ]
   }, (err, message_in_db) => { //Gets message back from database
     if (err) throw err;
-    //   console.log(message_in_db);
+    console.log('Inserted message in DB >');
+    console.log(message_in_db);
     res.json(JSON.stringify(message_in_db)); //Returns message to app.js
   });
 });
@@ -63,10 +64,10 @@ router.delete('/', function (req, res) {
 });
 
 //GET chatroom.
-router.get('/:chatroom', (req, res) => {
+router.get(/*'/:chatroom'*/'/', (req, res) => {
   let pipelineDB = req.db;
   var chatroomCollection = pipelineDB.get("chatrooms");
-  chatroomCollection.find({ "name": req.params.chatroom }, {}, function (err, chatroom) {
+  /*chatroomCollection.find({ "name": req.params.chatroom }, {}, function (err, chatroom) {
     if (err) {
       //Needs to send server an error instead of an empty array.
       throw err;
@@ -75,7 +76,12 @@ router.get('/:chatroom', (req, res) => {
     else {
       res.json(chatroom);
     }
-  });
+  });*/
+
+  chatroomCollection.find({}, (err, messages) => {
+    if (err) throw err;
+    res.json(messages);
+  })
 });
 
 module.exports = router;
