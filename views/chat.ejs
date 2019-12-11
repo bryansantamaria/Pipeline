@@ -23,9 +23,9 @@
       <user-name><i class="fas fa-circle"></i> <label for="user-settings"><span id="alias">Bryan Santamaria </span> <i class="fas fa-cog" id="user-settings"></i></label></user-name>
       <public-channels>
         <div id="channel-title"><i class="fas fa-plus-circle"></i> Channels</div>
-        <div><i class="fas fa-hashtag"></i> Random</div>
-        <div><i class="fas fa-hashtag"></i> General</div>
-        <div><i class="fas fa-hashtag"></i> Discussion</div>
+        <% for(let i=0; i < chatrooms.length; i++){ %>
+            <div id="<%= chatrooms[i]._id %>"><i class="fas fa-hashtag"></i> <%=chatrooms[i].name %></div>
+       <% } %>
       </public-channels>
       <private-message>
         <div id="private-message-title"><i class="fas fa-plus-circle" id="create-private-message"></i> Private Message</div>
@@ -128,7 +128,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <input type="text" class="w-100" placeholder="" id="edit-alias"> 
+          <input type="text" class="w-100" placeholder="" id="edit-alias">
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal" id="update-profile-btn">Save changes</button>
