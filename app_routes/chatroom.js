@@ -15,8 +15,8 @@ router.get("/", function(req, res) {
 });
 
 //GET specific chatroom.
-router.get("/:chatroom", function(req, res) {
-  request("http://127.0.0.1:3000/chatroom/" + req.params.chatroom, {
+router.get("/:_id", function(req, res) {
+  request("http://127.0.0.1:3000/chatroom/" + req.params._id, {
     method: "get",
     headers: {
       "Content-Type": "application/json"

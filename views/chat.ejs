@@ -24,7 +24,7 @@
       <public-channels>
         <div id="channel-title"><i class="fas fa-plus-circle"></i> Channels</div>
         <% for(let i=0; i < chatrooms.length; i++){ %>
-            <div id="<%= chatrooms[i].name %>" class="requestChatroom"><i class="fas fa-hashtag"></i> <%=chatrooms[i].name %></div>
+            <div id="<%= chatrooms[i]._id %>" class="requestChatroom"><i class="fas fa-hashtag"></i> <%=chatrooms[i].name %></div>
        <% } %>
       </public-channels>
       <private-message>

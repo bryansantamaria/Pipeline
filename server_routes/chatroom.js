@@ -75,10 +75,10 @@ router.get('/', (req, res) => {
 
 
 //GET specific chatroom.
-router.get('/:chatroom', (req, res) => {
+router.get('/:_id', (req, res) => {
   let pipelineDB = req.db;
   var chatroomCollection = pipelineDB.get("chatrooms");
-  chatroomCollection.find({name: req.params.chatroom}, (err, chatrooms) => {
+  chatroomCollection.find({_id: req.params._id}, (err, chatrooms) => {
     if (err) throw err;
     res.json(chatrooms);
   });

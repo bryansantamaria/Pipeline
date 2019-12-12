@@ -87,9 +87,9 @@ fetch('user/' + uid).then(userdata => {
 */
 $(".requestChatroom").on("click", function(){
   $('message-root').empty();
-  let chatroomName = this.id;
+  let chatroomID = this.id;
 
-  fetch('/chatroom/'+ chatroomName).then(res => {
+  fetch('/chatroom/'+ chatroomID).then(res => {
     return res.json();
   }).then(chatroom => {
     chatroom = JSON.parse(chatroom);
