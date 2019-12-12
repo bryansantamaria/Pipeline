@@ -61,6 +61,7 @@ export class ChatModule {
     //Appends message to target node
     render(targetNode) {
         this.html.avatar.setAttribute('src', this.content.avatar);
+        this.html.avatar.setAttribute('src', this.content.avatar);
         this.html.message.innerText = this.content.message;
         this.html.timestamp.innerText = this.content.timestamp;
         this.html.alias.innerText = this.content.alias;

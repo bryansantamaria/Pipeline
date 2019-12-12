@@ -9,6 +9,7 @@ router.put('/', (req, res) => {
   collection.insert({ //Inserts message to DB
     'alias': req.body.alias,
     'message': req.body.message,
+    'avatar': req.body.avatar,
     'timestamp': req.body.timestamp,
     'attachments': [
       {

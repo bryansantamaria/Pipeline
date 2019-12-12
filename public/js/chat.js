@@ -128,7 +128,7 @@ $("#msgForm").submit(function (e) {
     let chatMessage = {
       alias: chatGlobals.user.alias,
       message: $("#messageValue").val(),
-      avatar: '/images/BildBryan.png',
+      avatar: chatGlobals.user.avatar,
       timestamp: getTodaysDate(),
       chatroom: chatGlobals.chatroomId
     }
@@ -187,7 +187,7 @@ socket.on('chat message', function (chatObject) {
   let chatMessage = new ChatModule(
     chatObject.message,
     chatObject.alias,
-    '/images/BildBryan.png',
+    chatObject.avatar,
     chatObject.timestamp,
     chatObject._id
   );
