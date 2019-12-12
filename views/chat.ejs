@@ -13,25 +13,27 @@
 </head>
 
 <body>
-    <login-sucess>
-        <h1>Login successful</h1>
-    </login-sucess>
+  <login-sucess>
+    <h1>Login successful</h1>
+  </login-sucess>
   <main-container>
     <!-- Left side bar -->
     <side-bar>
       <img src="img/pipeline.svg" alt="Logo">
-      <user-name><i class="fas fa-circle"></i> <label for="user-settings"><span id="alias">Bryan Santamaria </span> <i class="fas fa-cog" id="user-settings"></i></label></user-name>
+      <user-name><i class="fas fa-circle"></i> <label for="user-settings"><span id="alias">Bryan Santamaria </span> <i
+            class="fas fa-cog" id="user-settings"></i></label></user-name>
       <public-channels>
         <div id="channel-title"><i class="fas fa-plus-circle"></i> Channels</div>
         <% for(let i=0; i < chatrooms.length; i++){ %>
-            <div id="<%= chatrooms[i]._id %>"><i class="fas fa-hashtag"></i> <%=chatrooms[i].name %></div>
-       <% } %>
+        <div id="<%= chatrooms[i]._id %>"><i class="fas fa-hashtag"></i> <%=chatrooms[i].name %></div>
+        <% } %>
       </public-channels>
       <private-message>
-        <div id="private-message-title"><i class="fas fa-plus-circle" id="create-private-message"></i> Private Message</div>
+        <div id="private-message-title"><i class="fas fa-plus-circle" id="create-private-message"></i> Private Message
+        </div>
         <% for(let i=0; i < users.length; i++){ %>
-            <div><i class="fas fa-circle"></i> <%= users[i].alias %></div>
-       <% } %>
+        <div><i class="fas fa-circle"></i> <%= users[i].alias %></div>
+        <% } %>
       </private-message>
     </side-bar>
     <!-- chat module container-->
@@ -40,10 +42,18 @@
       <!--Top bar(git p inside this chatroom/conversation) 75px height, 100% width-->
       <top-bar></top-bar>
 
-      <message-root></message-root>
+      <message-root>
+
+
+        <form name="profile-pic" id="upload-profile-pic" action="/uploadfile" method="POST" enctype="multipart/form-data">
+          <input type="file" name="pfp" id="">
+          <button type="submit">haha XD</button>
+        </form>
+      </message-root>
       <is-typing></is-typing>
       <form>
-        <input autocomplete="off" type="text" id="messageValue" class="form-control"><input type="submit" class="btn btn-success" id="sendMessage" name="button" value="Send"></input>
+        <input autocomplete="off" type="text" id="messageValue" class="form-control"><input type="submit"
+          class="btn btn-success" id="sendMessage" name="button" value="Send"></input>
       </form>
 
     </main-content>
@@ -128,10 +138,18 @@
           </button>
         </div>
         <div class="modal-body">
-          <input type="text" class="w-100" placeholder="" id="edit-alias">
+          <input type="text" class="w-100" placeholder="" id="edit-alias"> <br> <br>
+          <!-- ladda upp bild -->
+          <!-- <form class="form-horizontal" name="profile-pic" id="upload-profile-pic" action="/uploadfile" method="POST" enctype="multipart/form-data">
+            
+            <label class="control-label">Upload profile picture</label>
+            <input type="file" name="profile_picture"><br> <br>
+            <input type="submit" id="submit-profile-pic" class="btn btn-primary" value="Ladda upp">
+          </form> -->
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" id="update-profile-btn">Save changes</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" id="update-profile-btn">Save
+            changes</button>
         </div>
       </div>
     </div>

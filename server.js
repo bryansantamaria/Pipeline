@@ -9,6 +9,7 @@ const monk = require("monk");
 const bodyParser = require("body-parser");
 const pipelineDB = monk('localhost:27017/pipeline');
 const port = 3000;
+const fileUpload = require('express-fileupload');
 
 ///////////////////////////////////////////////////
 /// Routers
@@ -20,18 +21,23 @@ const searchRouter = require('./server_routes/search');
 const loginRouter = require('./server_routes/login');
 const chatRouter = require('./server_routes/chat');
 const chatroomRouter = require('./server_routes/chatroom');
+const uploadFile = require('./server_routes/uploadfile');
 
 ///////////////////////////////////////////////////
 /// MIDDLEWARES
 ///////////////////////////////////////////////////
 
-// Moved to server.js
+//Enable files upload
+server.use(fileUpload({
+  createParentPath: true
+}));
+
 server.use(bodyParser.urlencoded({
   extended: false
 }));
-// Moved to server.js
+
 server.use(bodyParser.json());
-// Moved to server.js
+
 server.use(function (req, res, next) {
   req.db = pipelineDB;
   next();
@@ -53,6 +59,7 @@ server.use('/search', searchRouter);
 server.use('/chat', chatRouter);
 server.use('/login', loginRouter);
 server.use('/chatroom', chatroomRouter);
+server.use('/uploadfile', uploadFile);
 
 // catch 404 and forward to error handler
 server.use(function (req, res, next) {

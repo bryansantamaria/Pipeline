@@ -297,3 +297,12 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 })
 
+/*document.addEventListener('DOMContentLoaded', () => {
+  document.querySelector('#submit-profile-pic').addEventListener('click', () => {
+    console.log('clicked');
+    console.log(document.querySelector('#upload-profile-pic'));
+    //document.querySelector('#upload-profile-pic').submit();
+    document.forms['profile-pic'].submit();
+  })
+})*/
+
