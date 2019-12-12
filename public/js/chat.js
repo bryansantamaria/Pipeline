@@ -73,7 +73,9 @@ fetch('user/' + uid).then(userdata => {
   html.edit_alias.value = chatGlobals.user.alias
   console.log(chatGlobals.user);
   html.alias.innerText = chatGlobals.user.alias;
-})
+  let pictureID = document.getElementById('pictureID');
+  pictureID.value = chatGlobals.user._id;
+});
 
 fetch('/chatroom/General').then(res => {
   return res.json();
@@ -120,13 +122,13 @@ document.querySelector('#edit-btn').addEventListener('click', () => {
   socket.emit('edit', new_message);
 });
 
-$("form").submit(function (e) {
+$("#msgForm").submit(function (e) {
   e.preventDefault();
   if ($("#messageValue").val() == "") { } else {
     let chatMessage = {
       alias: chatGlobals.user.alias,
       message: $("#messageValue").val(),
-      avatar: 'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
+      avatar: '/images/BildBryan.png',
       timestamp: getTodaysDate(),
       chatroom: chatGlobals.chatroomId
     }
@@ -185,7 +187,7 @@ socket.on('chat message', function (chatObject) {
   let chatMessage = new ChatModule(
     chatObject.message,
     chatObject.alias,
-    'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
+    '/images/BildBryan.png',
     chatObject.timestamp,
     chatObject._id
   );

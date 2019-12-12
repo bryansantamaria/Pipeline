@@ -43,15 +43,9 @@
       <top-bar></top-bar>
 
       <message-root>
-
-
-        <form name="profile-pic" id="upload-profile-pic" action="/uploadfile" method="POST" enctype="multipart/form-data">
-          <input type="file" name="pfp" id="">
-          <button type="submit">haha XD</button>
-        </form>
       </message-root>
       <is-typing></is-typing>
-      <form>
+      <form id="msgForm">
         <input autocomplete="off" type="text" id="messageValue" class="form-control"><input type="submit"
           class="btn btn-success" id="sendMessage" name="button" value="Send"></input>
       </form>
@@ -140,12 +134,13 @@
         <div class="modal-body">
           <input type="text" class="w-100" placeholder="" id="edit-alias"> <br> <br>
           <!-- ladda upp bild -->
-          <!-- <form class="form-horizontal" name="profile-pic" id="upload-profile-pic" action="/uploadfile" method="POST" enctype="multipart/form-data">
+          <form class="form-horizontal" name="profile-pic" action="/uploadfile" method="POST" enctype="multipart/form-data">
             
             <label class="control-label">Upload profile picture</label>
+            <input type="hidden" name="_id" id="pictureID">
             <input type="file" name="profile_picture"><br> <br>
             <input type="submit" id="submit-profile-pic" class="btn btn-primary" value="Ladda upp">
-          </form> -->
+          </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal" id="update-profile-btn">Save

@@ -9,7 +9,6 @@ const monk = require("monk");
 const bodyParser = require("body-parser");
 const pipelineDB = monk('localhost:27017/pipeline');
 const port = 3000;
-const fileUpload = require('express-fileupload');
 
 ///////////////////////////////////////////////////
 /// Routers
@@ -26,11 +25,6 @@ const uploadFile = require('./server_routes/uploadfile');
 ///////////////////////////////////////////////////
 /// MIDDLEWARES
 ///////////////////////////////////////////////////
-
-//Enable files upload
-server.use(fileUpload({
-  createParentPath: true
-}));
 
 server.use(bodyParser.urlencoded({
   extended: false

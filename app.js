@@ -10,10 +10,7 @@ const cookieParser = require('cookie-parser');
 const port = 5000;
 const fileUpload = require('express-fileupload');
 
-//Enable files upload
-app.use(fileUpload({
-  createParentPath: true
-}));
+
 ///////////////////////////////////////////////////
 /// Routers
 ///////////////////////////////////////////////////
@@ -38,7 +35,11 @@ app.set('trust proxy', 1) // trust first proxy
 app.use(cookieSession({
   name: 'session',
   keys: ['key1', 'key2']
-}))
+}));
+// //Enable files upload
+// app.use(fileUpload({
+//   createParentPath: true
+// }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
