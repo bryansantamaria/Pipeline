@@ -489,6 +489,7 @@ mentions-root {
           transform: translate(0, -50%);
   width: 30vw;
   z-index: 1000000;
+  border: 1px solid black;
 }
 
 mentions-root p {
