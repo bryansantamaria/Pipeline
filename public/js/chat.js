@@ -76,8 +76,26 @@ fetch('user/' + uid).then(userdata => {
 })
 
 $(".requestChatroom").on("click", function(){
-  let chatroomId = this.id;
+  let chatroomName = this.id;
   console.log(chatroomId);
+
+  fetch('/chatroom/'+ chatroomName).then(res => {
+    return res.json();
+  }).then(chatroom => {
+    chatroom = JSON.parse(chatroom);
+
+    chatroom.forEach(msg => {
+      let chatModule = new ChatModule(
+        msg.message,
+        msg.alias,
+        'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
+        msg.timestamp,
+        msg._id
+      )
+      chatModule.render(document.querySelector('message-root'))
+    })
+  })
+
 });
 
 fetch('/chatroom/General').then(res => {
