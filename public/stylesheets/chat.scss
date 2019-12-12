@@ -278,7 +278,8 @@ user-list {
 
   user-list-item {
     display: block;
-
+    transition: 0.2s all;
+    border-left: 1px solid rgba(0,0,0,0);
     box-sizing: border-box;
     padding: 5px;
     width: 100%;
@@ -286,5 +287,24 @@ user-list {
       background: $darken-light;
       border-left: 1px solid rgba(0,0,0,0.2);
     }
+
+    &:active {
+      background: $lighten-light;
+      border-left: 1px solid rgba(0,0,0,0.2);      
+    }
+  }
+}
+
+mentions-root {
+  position: fixed;
+  display: block;
+  bottom: 70px;
+  left: 50%;
+  transform: translate(0, -50%);
+  width: 30vw;
+  z-index: 1000000;
+
+  p {
+    color: black;
   }
 }

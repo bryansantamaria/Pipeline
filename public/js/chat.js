@@ -320,3 +320,53 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 })
 
+/////////////////////////////////////////////////////
+/// MENTIONS
+/////////////////////////////////////////////////////
+
+let mentions = {
+  inMention: false,
+  start: 0,
+  query: '',
+  users: new Search('user', document.querySelector('mentions-root'))
+}
+
+function isSpace(char) {
+    var space = new RegExp(/^\s$/);
+    return space.test(char.charAt(0));
+};
+
+document.querySelector('#messageValue').addEventListener('input', () => {
+  let msg = document.querySelector('#messageValue');
+
+  if(!mentions.inMention) {
+    document.querySelector('mentions-root').innerHTML = '';
+  }
+
+  if(msg.value.substr(msg.value.length -1 == '@') && isSpace(msg.value.substr(msg.value.length -2)) && !mentions.inMention) {
+    mentions.start = msg.value.length;
+    mentions.inMention = true;
+    mentions.query = '';
+  }
+
+  if(msg.value.charAt(mentions.start - 1) != '@' || (mentions.inMention && isSpace(msg.value.substr(msg.value.length -1)))) {
+    mentions.inMention = false;
+  }
+
+  if(mentions.inMention) {
+    mentions.query = msg.value.substr(mentions.start);
+    console.log(mentions);
+    console.log(msg.value.charAt(mentions.start - 1));
+    mentions.users.search(mentions.query);
+  }
+})
+
+document.querySelector('mentions-root').addEventListener('search-result', e => {
+  console.log(e.detail);
+  document.querySelector('mentions-root').innerHTML = '';
+
+  e.detail.forEach(user => {
+    console.log(user);
+    document.querySelector('mentions-root').innerHTML += `<p>${user.alias}</p>`;
+  })
+})

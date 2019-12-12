@@ -461,6 +461,9 @@ user-list h3 {
 
 user-list user-list-item {
   display: block;
+  -webkit-transition: 0.2s all;
+  transition: 0.2s all;
+  border-left: 1px solid rgba(0, 0, 0, 0);
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   padding: 5px;
@@ -470,5 +473,25 @@ user-list user-list-item {
 user-list user-list-item:hover {
   background: rgba(0, 0, 0, 0.1);
   border-left: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+user-list user-list-item:active {
+  background: rgba(255, 255, 255, 0.1);
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+mentions-root {
+  position: fixed;
+  display: block;
+  bottom: 70px;
+  left: 50%;
+  -webkit-transform: translate(0, -50%);
+          transform: translate(0, -50%);
+  width: 30vw;
+  z-index: 1000000;
+}
+
+mentions-root p {
+  color: black;
 }
 /*# sourceMappingURL=chat.css.map */
