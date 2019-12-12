@@ -91,10 +91,10 @@ $(".requestChatroom").on("click", function(){
         'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
         msg.timestamp,
         msg._id
-      )
+      );
       chatModule.render(document.querySelector('message-root'))
-    })
-  })
+    });
+  });
 });
 
 var socket = io();
