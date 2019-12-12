@@ -8,6 +8,8 @@ const request = require('request-promise');
 const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
 const port = 5000;
+const fileUpload = require('express-fileupload');
+
 
 ///////////////////////////////////////////////////
 /// Routers
@@ -20,6 +22,7 @@ const chatRouter = require('./app_routes/chat');
 const loginRouter = require('./app_routes/login');
 const loginfailedRouter = require('./app_routes/loginfailed');
 const chatroomRouter = require('./app_routes/chatroom');
+const uploadFile = require('./app_routes/uploadfile');
 
 ///////////////////////////////////////////////////
 /// MIDDLEWARES
@@ -32,7 +35,11 @@ app.set('trust proxy', 1) // trust first proxy
 app.use(cookieSession({
   name: 'session',
   keys: ['key1', 'key2']
-}))
+}));
+// //Enable files upload
+// app.use(fileUpload({
+//   createParentPath: true
+// }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -55,6 +62,7 @@ app.use('/chat', chatRouter);
 app.use('/login', loginRouter);
 app.use('/loginfailed', loginfailedRouter);
 app.use('/chatroom', chatroomRouter);
+app.use('/uploadfile', uploadFile);
 
 ///////////////////////////////////////////////////
 /// SOCKET.IO
