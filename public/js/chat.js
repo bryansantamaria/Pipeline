@@ -77,14 +77,17 @@ fetch('user/' + uid).then(userdata => {
 
 $(".requestChatroom").on("click", function(){
   let chatroomName = this.id;
-  console.log(chatroomId);
+  console.log(chatroomName);
+  $('message-root').innerHTML = '';
 
   fetch('/chatroom/'+ chatroomName).then(res => {
     return res.json();
   }).then(chatroom => {
     chatroom = JSON.parse(chatroom);
-
-    chatroom.forEach(msg => {
+    console.log(chatroom[0]);
+    let chatroomMessages = chatroom[0].messages;
+    console.log(chatroomMessages);
+    chatroomMessages.forEach(msg => {
       let chatModule = new ChatModule(
         msg.message,
         msg.alias,
@@ -95,9 +98,8 @@ $(".requestChatroom").on("click", function(){
       chatModule.render(document.querySelector('message-root'))
     })
   })
-
 });
-
+/*
 fetch('/chatroom/General').then(res => {
   return res.json();
 }).then(chatroom => {
@@ -114,6 +116,7 @@ fetch('/chatroom/General').then(res => {
     chatModule.render(document.querySelector('message-root'))
   })
 })
+*/
 
 var socket = io();
 
