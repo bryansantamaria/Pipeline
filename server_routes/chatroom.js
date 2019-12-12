@@ -63,6 +63,7 @@ router.delete('/', function (req, res) {
   });
 });
 
+//GET all chatrooms.
 router.get('/', (req, res) => {
   let pipelineDB = req.db;
   var chatroomCollection = pipelineDB.get("chatrooms");
