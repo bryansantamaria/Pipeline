@@ -6,6 +6,10 @@ import {
   Search
 } from "./search-module.js";
 
+import {
+  UserListItem
+} from "./userlistitem-module.js";
+
 
 //Exempelkod för fetchning och rendering av chattrum XD
 /*class ChatRoom {
@@ -73,24 +77,33 @@ fetch('user/' + uid).then(userdata => {
   html.edit_alias.value = chatGlobals.user.alias
   console.log(chatGlobals.user);
   html.alias.innerText = chatGlobals.user.alias;
-})
+}).then(() => {
+  fetch('/chatroom/General').then(res => {
+    return res.json();
+  }).then(chatroom => {
+    chatroom = JSON.parse(chatroom);
 
-fetch('/chatroom/General').then(res => {
-  return res.json();
-}).then(chatroom => {
-  chatroom = JSON.parse(chatroom);
+    console.log(chatGlobals.user._id);
+  
+    chatroom.forEach(msg => {
+      let chatMessage = new ChatModule(
+        msg.message,
+        msg.alias,
+        'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
+        msg.timestamp,
+        msg._id
+      )
+  
+      if(chatGlobals.user.alias == chatMessage.content.alias) {
+        chatMessage.setupEventListeners();
+      }
 
-  chatroom.forEach(msg => {
-    let chatModule = new ChatModule(
-      msg.message,
-      msg.alias,
-      'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
-      msg.timestamp,
-      msg._id
-    )
-    chatModule.render(document.querySelector('message-root'))
+      chatMessage.render(document.querySelector('message-root'))
+    })
   })
 })
+
+
 
 var socket = io();
 
@@ -195,6 +208,10 @@ socket.on('chat message', function (chatObject) {
     console.log(chatMessage);
   }
 
+  if(chatGlobals.user.alias == chatMessage.content.alias) {
+    chatMessage.setupEventListeners();
+  }
+
   chatMessages.push(chatMessage);
   chatMessage.render(document.querySelector('message-root'));
 });
@@ -290,9 +307,15 @@ document.addEventListener('DOMContentLoaded', () => {
   
   document.querySelector('#create-pm-modal').addEventListener('search-result', e => {
     let userList = document.querySelector('user-list');
-    userList.innerHTML = '';
+
+    while(userList.firstChild) {
+      userList.removeChild(userList.firstChild);
+    }
+    console.log(e.detail);
+
     e.detail.forEach(user => {
-      userList.innerHTML += `<p>${user.alias}</p>`
+      let item = new UserListItem(document.querySelector('user-list'), user);
+      item.render();
     })
   })
 })

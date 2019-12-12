@@ -408,6 +408,10 @@ main-container main-content message-root {
   overflow-y: scroll;
 }
 
+main-container main-content is-typing {
+  display: none;
+}
+
 main-container main-content form {
   -webkit-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
           box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
@@ -424,7 +428,6 @@ main-container main-content form {
 }
 
 main-container main-content form #messageValue {
-  width: 80%;
   display: inline;
 }
 
@@ -439,5 +442,33 @@ main-container main-content form #sendMessage {
 
 #user-search {
   padding: 5px;
+}
+
+#search-result {
+  margin-top: 20px;
+}
+
+user-list {
+  display: block;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+user-list h3 {
+  margin-top: 20px;
+}
+
+user-list user-list-item {
+  display: block;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 5px;
+  width: 100%;
+}
+
+user-list user-list-item:hover {
+  background: rgba(0, 0, 0, 0.1);
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
 }
 /*# sourceMappingURL=chat.css.map */

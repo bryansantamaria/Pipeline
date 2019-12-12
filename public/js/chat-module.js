@@ -22,12 +22,13 @@ export class ChatModule {
             timestamp: date,
             _id: id
         }
-
-        this.setupEventListeners();
     }
 
     //Registrers unique event listeners for each button in each message container
     setupEventListeners() {
+        this.html.container.appendChild(this.html.editBtn);
+        this.html.container.appendChild(this.html.deleteBtn);
+
         this.html.editBtn.addEventListener('click', () => {
             document.dispatchEvent(new CustomEvent('edit-init', {
                 detail: {html : this.html.message, content: this.content}
@@ -82,8 +83,6 @@ export class ChatModule {
         this.html.container.appendChild(this.html.message);
         this.html.container.appendChild(this.html.timestamp);
         this.html.container.appendChild(this.html.alias);
-        this.html.container.appendChild(this.html.editBtn);
-        this.html.container.appendChild(this.html.deleteBtn);
 
         targetNode.appendChild(this.html.container);
     }

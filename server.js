@@ -4,7 +4,6 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const server = express();
-const mongo = require("mongodb");
 const monk = require("monk");
 const bodyParser = require("body-parser");
 const pipelineDB = monk('localhost:27017/pipeline');
