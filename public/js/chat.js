@@ -75,6 +75,11 @@ fetch('user/' + uid).then(userdata => {
   html.alias.innerText = chatGlobals.user.alias;
 })
 
+$(".requestChatroom").on("click", function(){
+  let chatroomId = this.id;
+  console.log(chatroomId);
+});
+
 fetch('/chatroom/General').then(res => {
   return res.json();
 }).then(chatroom => {
@@ -219,7 +224,7 @@ socket.on('edit', edited_message => {
 //Loopa igenom alla chatmeddelanden, kontrollera id och radera meddelandet.
 socket.on('delete', delete_message => {
   delete_message = JSON.parse(delete_message);
-  
+
   if(debug) {
     console.log('Delete request from server for msg >');
     console.log(delete_message);
@@ -287,7 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Searched for: ' + query);
     userSearch.search(query);
   })
-  
+
   document.querySelector('#create-pm-modal').addEventListener('search-result', e => {
     let userList = document.querySelector('user-list');
     userList.innerHTML = '';
@@ -296,4 +301,3 @@ document.addEventListener('DOMContentLoaded', () => {
     })
   })
 })
-
