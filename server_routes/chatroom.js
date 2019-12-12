@@ -63,25 +63,25 @@ router.delete('/', function (req, res) {
   });
 });
 
-//GET chatroom.
-router.get(/*'/:chatroom'*/'/', (req, res) => {
+//GET all chatrooms.
+router.get('/', (req, res) => {
   let pipelineDB = req.db;
   var chatroomCollection = pipelineDB.get("chatrooms");
-  /*chatroomCollection.find({ "name": req.params.chatroom }, {}, function (err, chatroom) {
-    if (err) {
-      //Needs to send server an error instead of an empty array.
-      throw err;
-      res.send("The chatroom you requested isn't available, please join one that exist." + err);
-    }
-    else {
-      res.json(chatroom);
-    }
-  });*/
-
-  chatroomCollection.find({}, (err, messages) => {
+  chatroomCollection.find({}, (err, chatrooms) => {
     if (err) throw err;
-    res.json(messages);
-  })
+    res.json(chatrooms);
+  });
+});
+
+
+//GET specific chatroom.
+router.get('/:_id', (req, res) => {
+  let pipelineDB = req.db;
+  var chatroomCollection = pipelineDB.get("chatrooms");
+  chatroomCollection.find({_id: req.params._id}, (err, chatrooms) => {
+    if (err) throw err;
+    res.json(chatrooms);
+  });
 });
 
 module.exports = router;

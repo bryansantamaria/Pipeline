@@ -77,31 +77,39 @@ fetch('user/' + uid).then(userdata => {
   html.edit_alias.value = chatGlobals.user.alias
   console.log(chatGlobals.user);
   html.alias.innerText = chatGlobals.user.alias;
-}).then(() => {
+});
+/*
+.then(() => {
   fetch('/chatroom/General').then(res => {
     return res.json();
   }).then(chatroom => {
     chatroom = JSON.parse(chatroom);
+*/
+$(".requestChatroom").on("click", function(){
+  $('message-root').empty();
+  let chatroomID = this.id;
 
-    console.log(chatGlobals.user._id);
-  
-    chatroom.forEach(msg => {
+  fetch('/chatroom/'+ chatroomID).then(res => {
+    return res.json();
+  }).then(chatroom => {
+    chatroom = JSON.parse(chatroom);
+    let chatroomMessages = chatroom[0].messages;
+    chatroomMessages.forEach(msg => {
       let chatMessage = new ChatModule(
         msg.message,
         msg.alias,
         'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
         msg.timestamp,
         msg._id
-      )
-  
-      if(chatGlobals.user.alias == chatMessage.content.alias) {
+      );
+      if(chatGlobals.user.alias == msg.alias) {
         chatMessage.setupEventListeners();
       }
 
       chatMessage.render(document.querySelector('message-root'))
-    })
-  })
-})
+    });
+  });
+});
 
 
 
@@ -236,7 +244,7 @@ socket.on('edit', edited_message => {
 //Loopa igenom alla chatmeddelanden, kontrollera id och radera meddelandet.
 socket.on('delete', delete_message => {
   delete_message = JSON.parse(delete_message);
-  
+
   if(debug) {
     console.log('Delete request from server for msg >');
     console.log(delete_message);
@@ -304,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Searched for: ' + query);
     userSearch.search(query);
   })
-  
+
   document.querySelector('#create-pm-modal').addEventListener('search-result', e => {
     let userList = document.querySelector('user-list');
 
