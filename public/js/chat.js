@@ -78,15 +78,12 @@ fetch('user/' + uid).then(userdata => {
 $(".requestChatroom").on("click", function(){
   $('message-root').empty();
   let chatroomName = this.id;
-  console.log(chatroomName);
 
   fetch('/chatroom/'+ chatroomName).then(res => {
     return res.json();
   }).then(chatroom => {
     chatroom = JSON.parse(chatroom);
-    console.log(chatroom[0]);
     let chatroomMessages = chatroom[0].messages;
-    console.log(chatroomMessages);
     chatroomMessages.forEach(msg => {
       let chatModule = new ChatModule(
         msg.message,
@@ -99,24 +96,6 @@ $(".requestChatroom").on("click", function(){
     })
   })
 });
-/*
-fetch('/chatroom/General').then(res => {
-  return res.json();
-}).then(chatroom => {
-  chatroom = JSON.parse(chatroom);
-
-  chatroom.forEach(msg => {
-    let chatModule = new ChatModule(
-      msg.message,
-      msg.alias,
-      'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
-      msg.timestamp,
-      msg._id
-    )
-    chatModule.render(document.querySelector('message-root'))
-  })
-})
-*/
 
 var socket = io();
 
