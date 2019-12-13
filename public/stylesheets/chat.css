@@ -448,7 +448,7 @@ main-container main-content message-root {
 }
 
 main-container main-content is-typing {
-  display: none;
+  color: black;
 }
 
 main-container main-content form {

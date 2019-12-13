@@ -25,7 +25,7 @@ let chatGlobals = {
   addToRoom: []
 }
 
-let debug = true;
+let debug = false;
 
 let html = {
   edit_alias: document.querySelector('#edit-alias'),
@@ -200,6 +200,22 @@ socket.on('chat message', function (chatObject) {
   chatMessages.push(chatMessage);
   chatMessage.render(document.querySelector('message-root'));
 });
+
+  socket.on('typing', (user) => {
+    $('#typing').html(user + ' is typing...');
+  });
+
+$('#messageValue').keyup((e) => {
+  if (e.which === 13) {
+    socket.emit('typing', false);
+  } else if ($('#messageValue').val() !== '') {
+    socket.emit('typing', chatGlobals.user.alias, true);
+    console.log('TRUEEE');
+  } else {
+    socket.emit('typing', false);
+  }
+});
+
 
 
 //Loopa igenom alla chatmeddelanden, kontrollera id och rendera ut det nya editerade meddelandet.
