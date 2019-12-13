@@ -2,8 +2,9 @@ const express = require('express');
 const request = require('request-promise');
 const router = express.Router();
 
-router.get('/user/:username', (req, res) => {
-  request('http://127.0.0.1:3000/search/user/' + req.params.username, {
+router.get('/user/:query', (req, res) => {
+  console.log('Query recieved: ' + req.params.query)
+  request('http://127.0.0.1:3000/search/user/' + req.params.query, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'

@@ -14,6 +14,8 @@ export class Search {
                 this.targetElement.dispatchEvent(new CustomEvent('search-result', {
                     detail: JSON.parse(this.result)
                 }))
+            }).catch(error => {
+                console.error(error);
             })
         }
     }

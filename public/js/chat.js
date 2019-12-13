@@ -6,6 +6,10 @@ import {
   Search
 } from "./search-module.js";
 
+import {
+  UserListItem
+} from "./userlistitem-module.js";
+
 
 //Exempelkod för fetchning och rendering av chattrum XD
 /*class ChatRoom {
@@ -76,23 +80,41 @@ fetch('user/' + uid).then(userdata => {
   let pictureID = document.getElementById('pictureID');
   pictureID.value = chatGlobals.user._id;
 });
+/*
+.then(() => {
+  fetch('/chatroom/General').then(res => {
+    return res.json();
+  }).then(chatroom => {
+    chatroom = JSON.parse(chatroom);
+*/
+$(".requestChatroom").on("click", function(){
+  $('message-root').empty();
+  let chatroomID = this.id;
 
-fetch('/chatroom/General').then(res => {
-  return res.json();
-}).then(chatroom => {
-  chatroom = JSON.parse(chatroom);
+  fetch('/chatroom/'+ chatroomID).then(res => {
+    return res.json();
+  }).then(chatroom => {
+    chatroom = JSON.parse(chatroom);
+    let chatroomMessages = chatroom[0].messages;
+    chatroomMessages.forEach(msg => {
+      let chatMessage = new ChatModule(
+        msg.message,
+        msg.alias,
+        'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
+        msg.timestamp,
+        msg._id
+      );
+      if(chatGlobals.user.alias == msg.alias) {
+        chatMessage.setupEventListeners();
+      }
 
-  chatroom.forEach(msg => {
-    let chatModule = new ChatModule(
-      msg.message,
-      msg.alias,
-      'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
-      msg.timestamp,
-      msg._id
-    )
-    chatModule.render(document.querySelector('message-root'))
-  })
-})
+      chatMessage.render(document.querySelector('message-root'))
+    });
+  });
+});
+
+
+
 
 var socket = io();
 
@@ -197,6 +219,10 @@ socket.on('chat message', function (chatObject) {
     console.log(chatMessage);
   }
 
+  if(chatGlobals.user.alias == chatMessage.content.alias) {
+    chatMessage.setupEventListeners();
+  }
+
   chatMessages.push(chatMessage);
   chatMessage.render(document.querySelector('message-root'));
 });
@@ -221,7 +247,7 @@ socket.on('edit', edited_message => {
 //Loopa igenom alla chatmeddelanden, kontrollera id och radera meddelandet.
 socket.on('delete', delete_message => {
   delete_message = JSON.parse(delete_message);
-  
+
   if(debug) {
     console.log('Delete request from server for msg >');
     console.log(delete_message);
@@ -289,22 +315,70 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Searched for: ' + query);
     userSearch.search(query);
   })
-  
+
   document.querySelector('#create-pm-modal').addEventListener('search-result', e => {
     let userList = document.querySelector('user-list');
-    userList.innerHTML = '';
+
+    while(userList.firstChild) {
+      userList.removeChild(userList.firstChild);
+    }
+    console.log(e.detail);
+
     e.detail.forEach(user => {
-      userList.innerHTML += `<p>${user.alias}</p>`
+      let item = new UserListItem(document.querySelector('user-list'), user);
+      item.render();
     })
   })
 })
 
-/*document.addEventListener('DOMContentLoaded', () => {
-  document.querySelector('#submit-profile-pic').addEventListener('click', () => {
-    console.log('clicked');
-    console.log(document.querySelector('#upload-profile-pic'));
-    //document.querySelector('#upload-profile-pic').submit();
-    document.forms['profile-pic'].submit();
-  })
-})*/
 
+/////////////////////////////////////////////////////
+/// MENTIONS
+/////////////////////////////////////////////////////
+
+let mentions = {
+  inMention: false,
+  start: 0,
+  query: '',
+  users: new Search('user', document.querySelector('mentions-root'))
+}
+
+function isSpace(char) {
+    var space = new RegExp(/^\s$/);
+    return space.test(char.charAt(0));
+};
+
+document.querySelector('#messageValue').addEventListener('input', () => {
+  let msg = document.querySelector('#messageValue');
+
+  if(!mentions.inMention) {
+    document.querySelector('mentions-root').innerHTML = '';
+  }
+
+  if(msg.value.substr(msg.value.length -1 == '@') && isSpace(msg.value.substr(msg.value.length -2)) && !mentions.inMention) {
+    mentions.start = msg.value.length;
+    mentions.inMention = true;
+    mentions.query = '';
+  }
+
+  if(msg.value.charAt(mentions.start - 1) != '@' || (mentions.inMention && isSpace(msg.value.substr(msg.value.length -1)))) {
+    mentions.inMention = false;
+  }
+
+  if(mentions.inMention) {
+    mentions.query = msg.value.substr(mentions.start);
+    console.log(mentions);
+    console.log(msg.value.charAt(mentions.start - 1));
+    mentions.users.search(mentions.query);
+  }
+})
+
+document.querySelector('mentions-root').addEventListener('search-result', e => {
+  console.log(e.detail);
+  document.querySelector('mentions-root').innerHTML = '';
+
+  e.detail.forEach(user => {
+    console.log(user);
+    document.querySelector('mentions-root').innerHTML += `<p>${user.alias}</p>`;
+  })
+})

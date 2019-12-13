@@ -231,7 +231,7 @@ main-container {
       overflow-y: scroll;
     }
     is-typing{
-  
+      display:none;
     }
     form{
       box-shadow: 0px 4px 10px $darken-light;
@@ -241,7 +241,6 @@ main-container {
       padding-left: 1em;
       padding-right: 1em;
       #messageValue{
-        width: 80%;
         display: inline;
         //grid-row-start: 1;
         //grid-row-end: 2;
@@ -263,4 +262,50 @@ main-container {
 
 #user-search {
   padding: 5px;
+}
+
+#search-result {
+  margin-top: 20px;
+}
+
+user-list {
+  display: block;
+  padding: 10px;
+  box-sizing: border-box;
+  h3 {
+    margin-top: 20px;
+  }
+
+  user-list-item {
+    display: block;
+    transition: 0.2s all;
+    border-left: 1px solid rgba(0,0,0,0);
+    box-sizing: border-box;
+    padding: 5px;
+    width: 100%;
+    &:hover {
+      background: $darken-light;
+      border-left: 1px solid rgba(0,0,0,0.2);
+    }
+
+    &:active {
+      background: $lighten-light;
+      border-left: 1px solid rgba(0,0,0,0.2);      
+    }
+  }
+}
+
+mentions-root {
+  position: fixed;
+  display: block;
+  bottom: 70px;
+  left: 50%;
+  transform: translate(0, -50%);
+  width: 30vw;
+  z-index: 1000000;
+  border: 1px solid black;;
+
+  p {
+    color: black;
+  }
 }
