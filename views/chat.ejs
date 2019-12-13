@@ -32,7 +32,7 @@
         <div id="private-message-title"><i class="fas fa-plus-circle" id="create-private-message"></i> Private Message
         </div>
         <% for(let i=0; i < users.length; i++){ %>
-        <div><i class="fas fa-circle"></i> <%= users[i].alias %></div>
+        <div id="<%= users[i]._id %>" class="requestChatroom"><i class="fas fa-circle"></i> <%= users[i].alias %></div>
         <% } %>
       </private-message>
     </side-bar>
@@ -137,7 +137,7 @@
           <input type="text" class="w-100" placeholder="" id="edit-alias"> <br> <br>
           <!-- ladda upp bild -->
           <form class="form-horizontal" name="profile-pic" action="/uploadfile" method="POST" enctype="multipart/form-data">
-            
+
             <label class="control-label">Upload profile picture</label>
             <input type="hidden" name="_id" id="pictureID">
             <input type="file" name="profile_picture"><br> <br>
