@@ -1,7 +1,7 @@
 // import { Socket } from "dgram";
 
 export class ChatModule {
-    constructor(message, alias, avatar, date, id) {
+    constructor(message, alias, avatar, date, id, mentions) {
         //Creates HTML elements
         this.html = {
             container: document.createElement('msg-container'),
@@ -20,7 +20,8 @@ export class ChatModule {
             alias: alias,
             avatar: avatar,
             timestamp: date,
-            _id: id
+            _id: id,
+            mentions: mentions || []
         }
     }
 
@@ -63,7 +64,15 @@ export class ChatModule {
     render(targetNode) {
         this.html.avatar.setAttribute('src', this.content.avatar);
         this.html.avatar.setAttribute('src', this.content.avatar);
-        this.html.message.innerText = this.content.message;
+        let messageWithMentions = this.content.message;
+        this.content.mentions.forEach(mention => {
+            console.log('Current mention');
+            console.log(`@${mention.alias}`)
+            messageWithMentions = messageWithMentions.replace(`@${mention.alias}`, `<span class="mention" mention="${mention._id}">@${mention.alias}</span>`)
+        });
+
+        console.log(messageWithMentions);
+        this.html.message.innerHTML = `${messageWithMentions}`;
         this.html.timestamp.innerText = this.content.timestamp;
         this.html.alias.innerText = this.content.alias;
         this.html.editBtn.innerHTML = '<i class="fas fa-pen"></i>';

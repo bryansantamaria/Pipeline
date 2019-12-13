@@ -9,6 +9,7 @@ router.put('/', (req, res) => {
   collection.insert({ //Inserts message to DB
     'alias': req.body.alias,
     'message': req.body.message,
+    'mentions': req.body.mentions,
     'avatar': req.body.avatar,
     'timestamp': req.body.timestamp,
     'attachments': [
@@ -36,7 +37,9 @@ router.put('/edit', function (req, res) {
     $set: {
       'alias': req.body.alias,
       'content': req.body.message,
-      'datetime': req.body.timestamp
+      'avatar': req.body.avatar,
+      'timestamp': req.body.timestamp,
+      'mentions': req.body.mentions
     }
   }, (err) => {
     if (err) throw err;

@@ -35,6 +35,13 @@ login-sucess {
   }
 }
 
+.mention {
+  color: rgb(35, 60, 143);
+  margin-left: 0em;
+  cursor: pointer;
+  font-size: 1em;
+}
+
 msg-container {
   display: grid;
   grid-template-columns: 70px auto 1fr 30px 30px;
@@ -60,7 +67,6 @@ msg-container {
       width: 100%;
     }
   }
-
 
   p {
     grid-column: 2 / 4;
@@ -219,6 +225,7 @@ main-container {
     clip-path: inset(0% 0% 0% 0%);
     transition-timing-function: ease-out;
     transition: 0.8s all;
+    background: white;
   
     top-bar {
       background: rgb(251, 251, 251);
@@ -229,6 +236,7 @@ main-container {
       box-sizing: border-box;
       grid-row: 2;
       overflow-y: scroll;
+      z-index: -2;
     }
     is-typing{
       display:none;
@@ -240,6 +248,8 @@ main-container {
       align-items: center;
       padding-left: 1em;
       padding-right: 1em;
+      z-index: 1000000;
+      background: white;
       #messageValue{
         display: inline;
         //grid-row-start: 1;
@@ -254,6 +264,14 @@ main-container {
       }
     }
   }
+}
+
+#mention-alert {
+  position: fixed;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  z-index: 100000;
 }
 
 #edit-message, #user-search {
@@ -297,15 +315,38 @@ user-list {
 
 mentions-root {
   position: fixed;
-  display: block;
+  display: flex;
+  flex-direction: column-reverse;
+  align-content: flex-end;
   bottom: 70px;
-  left: 50%;
-  transform: translate(0, -50%);
-  width: 30vw;
-  z-index: 1000000;
-  border: 1px solid black;;
+  left: $sidebar-width;
+  //transform: translate(50%, 0);
+  width: 20vw;
+  z-index: -1;
+  padding: 10px;
+  border-radius: 10px;
+  //box-shadow: 0 0 10px 5px rgba(0,0,0,0.05);
+  border: 1px solid rgba(0,0,0,0.05);
 
-  p {
+  mentions-item {
     color: black;
+    border: 1px solid rgba(0,0,0,0);
+    user-select: none;
+    padding-left: 5px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    &:hover {
+      background-color: rgba(0,0,0,0.05);
+    }
+
+    &:active {
+      border: 1px solid rgba(0,0,0,0.1);
+      background-color: rgba(0,0,0,0.06);
+
+    }
+  }
+
+  .hidden {
+    display: none;
   }
 }

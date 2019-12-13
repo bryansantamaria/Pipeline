@@ -10,6 +10,10 @@ import {
   UserListItem
 } from "./userlistitem-module.js";
 
+import {
+  MentionsItem
+} from "./mentions-item-module.js";
+
 
 //Exempelkod för fetchning och rendering av chattrum XD
 /*class ChatRoom {
@@ -100,9 +104,10 @@ $(".requestChatroom").on("click", function(){
       let chatMessage = new ChatModule(
         msg.message,
         msg.alias,
-        'https://icon-library.net/images/icon-for-user/icon-for-user-8.jpg',
+        msg.avatar,
         msg.timestamp,
-        msg._id
+        msg._id,
+        msg.mentions
       );
       if(chatGlobals.user.alias == msg.alias) {
         chatMessage.setupEventListeners();
@@ -152,8 +157,15 @@ $("#msgForm").submit(function (e) {
       message: $("#messageValue").val(),
       avatar: chatGlobals.user.avatar,
       timestamp: getTodaysDate(),
-      chatroom: chatGlobals.chatroomId
+      chatroom: chatGlobals.chatroomId,
+      mentions: mentions.inLatestMessage
     }
+
+    mentions.inLatestMessage.forEach(mention => {
+      socket.emit('mention', {by: chatGlobals.user, for: mention});
+    })
+
+    mentions.inLatestMessage = [];
 
     if(debug) {
       console.log('Message sent to server >');
@@ -211,7 +223,8 @@ socket.on('chat message', function (chatObject) {
     chatObject.alias,
     chatObject.avatar,
     chatObject.timestamp,
-    chatObject._id
+    chatObject._id,
+    chatObject.mentions
   );
 
   if(debug) {
@@ -259,6 +272,18 @@ socket.on('delete', delete_message => {
     }
   });
 });
+
+socket.on('mention', mention => {
+  if(mention.for._id == chatGlobals.user._id) {
+    document.querySelector('#mention-message').innerText = `${mention.by.alias} mentioned you.`
+    document.querySelector('#mention-alert').classList.add('show');
+  }
+})
+
+document.querySelector('#mention-dismiss').addEventListener('click', () => {
+  document.querySelector('#mention-alert').classList.remove('show');
+})
+
 
 
 //Genererar dagens datum och tid, convertar från millisekunder.
@@ -340,7 +365,13 @@ let mentions = {
   inMention: false,
   start: 0,
   query: '',
-  users: new Search('user', document.querySelector('mentions-root'))
+  users: new Search('user', document.querySelector('mentions-root')),
+  clear: () => {
+    mentions.query = '';
+    document.querySelector('mentions-root').innerHTML = '';
+    document.querySelector('mentions-root').classList.add('hidden')
+  },
+  inLatestMessage: []
 }
 
 function isSpace(char) {
@@ -349,16 +380,17 @@ function isSpace(char) {
 };
 
 document.querySelector('#messageValue').addEventListener('input', () => {
+
   let msg = document.querySelector('#messageValue');
 
   if(!mentions.inMention) {
-    document.querySelector('mentions-root').innerHTML = '';
+    mentions.clear();
   }
 
-  if(msg.value.substr(msg.value.length -1 == '@') && isSpace(msg.value.substr(msg.value.length -2)) && !mentions.inMention) {
+  if(msg.value.substr(msg.value.length -1 == '@') && (isSpace(msg.value.substr(msg.value.length -2)) || msg.value.length == 1) && !mentions.inMention) {
     mentions.start = msg.value.length;
     mentions.inMention = true;
-    mentions.query = '';
+    mentions.clear();
   }
 
   if(msg.value.charAt(mentions.start - 1) != '@' || (mentions.inMention && isSpace(msg.value.substr(msg.value.length -1)))) {
@@ -367,6 +399,7 @@ document.querySelector('#messageValue').addEventListener('input', () => {
 
   if(mentions.inMention) {
     mentions.query = msg.value.substr(mentions.start);
+    document.querySelector('mentions-root').classList.remove('hidden')
     console.log(mentions);
     console.log(msg.value.charAt(mentions.start - 1));
     mentions.users.search(mentions.query);
@@ -379,6 +412,23 @@ document.querySelector('mentions-root').addEventListener('search-result', e => {
 
   e.detail.forEach(user => {
     console.log(user);
-    document.querySelector('mentions-root').innerHTML += `<p>${user.alias}</p>`;
+    let mentionsItem = new MentionsItem(document.querySelector('mentions-root'), user);
+    mentionsItem.render();
   })
+})
+
+document.querySelector('mentions-root').addEventListener('mention-user', e => {
+  mentions.inMention = false;
+  let msg = document.querySelector('#messageValue');
+  console.log(e.detail);
+
+  msg.value = msg.value.replace(`@${mentions.query}`, `@${e.detail.alias} `);
+
+  mentions.inLatestMessage.push(e.detail);
+
+  console.log('Mentioned in message >');
+  console.log(mentions.inLatestMessage);
+
+  msg.focus();
+  mentions.clear();
 })

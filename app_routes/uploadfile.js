@@ -22,10 +22,7 @@ router.post('/', async (req, res) => {
             let height;
             sharp(req.files.profile_picture.data)
                 .jpeg()
-                .toFile('img.jpg')
-                .then(img => {
-                    
-                })
+                .toBuffer()
                 .then(img => {
                     fs.writeFile('./public/images/' + req.body._id + '.jpg', img, (err) => {
                         if (err) throw err

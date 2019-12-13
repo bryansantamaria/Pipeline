@@ -130,6 +130,10 @@ io.on('connection', (socket) => {
     });
   });
 
+  socket.on('mention', mention => {
+    io.emit('mention', mention)
+  })
+
   socket.on('disconnect', (user) => {
     socket.broadcast.emit('newUser', socket.username + ' Disconnected')
   });

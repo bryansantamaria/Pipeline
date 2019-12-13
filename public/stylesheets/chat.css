@@ -180,6 +180,13 @@ login-sucess h1 {
   grid-column: 2;
 }
 
+.mention {
+  color: #233c8f;
+  margin-left: 0em;
+  cursor: pointer;
+  font-size: 1em;
+}
+
 msg-container {
   display: -ms-grid;
   display: grid;
@@ -392,6 +399,7 @@ main-container main-content {
           transition-timing-function: ease-out;
   -webkit-transition: 0.8s all;
   transition: 0.8s all;
+  background: white;
 }
 
 main-container main-content top-bar {
@@ -406,6 +414,7 @@ main-container main-content message-root {
   -ms-grid-row: 2;
   grid-row: 2;
   overflow-y: scroll;
+  z-index: -2;
 }
 
 main-container main-content is-typing {
@@ -425,6 +434,8 @@ main-container main-content form {
           align-items: center;
   padding-left: 1em;
   padding-right: 1em;
+  z-index: 1000000;
+  background: white;
 }
 
 main-container main-content form #messageValue {
@@ -434,6 +445,14 @@ main-container main-content form #messageValue {
 main-container main-content form #sendMessage {
   margin-left: 1%;
   width: 19%;
+}
+
+#mention-alert {
+  position: fixed;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  z-index: 100000;
 }
 
 #edit-message, #user-search {
@@ -482,17 +501,46 @@ user-list user-list-item:active {
 
 mentions-root {
   position: fixed;
-  display: block;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: column-reverse;
+          flex-direction: column-reverse;
+  -ms-flex-line-pack: end;
+      align-content: flex-end;
   bottom: 70px;
-  left: 50%;
-  -webkit-transform: translate(0, -50%);
-          transform: translate(0, -50%);
-  width: 30vw;
-  z-index: 1000000;
-  border: 1px solid black;
+  left: 330px;
+  width: 20vw;
+  z-index: -1;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-mentions-root p {
+mentions-root mentions-item {
   color: black;
+  border: 1px solid rgba(0, 0, 0, 0);
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  padding-left: 5px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+mentions-root mentions-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+mentions-root mentions-item:active {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+mentions-root .hidden {
+  display: none;
 }
 /*# sourceMappingURL=chat.css.map */
