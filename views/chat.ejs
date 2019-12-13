@@ -47,6 +47,8 @@
     <!-- chat module container-->
     <main-content>
 
+      <overlay-root class="hidden"></overlay-root>
+
       <!--Top bar(git p inside this chatroom/conversation) 75px height, 100% width-->
       <top-bar></top-bar>
 
@@ -117,12 +119,16 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" id="create-pm-body">
           <input type="text" class="w-100" placeholder="Search for user..." id="create-pm-user-search">
-          <h3 id="search-result">Search results</h3>
+          <h5 id="search-result">Search results</h5>
           <user-list>
 
           </user-list>
+
+          <users-to-add>
+
+          </users-to-add>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal" id="create-pm-btn">Add to chat</button>
@@ -143,10 +149,12 @@
           </button>
         </div>
         <div class="modal-body">
+          <p>Alias</p>
           <input type="text" class="w-100" placeholder="" id="edit-alias"> <br> <br>
           <!-- ladda upp bild -->
           <form class="form-horizontal" name="profile-pic" action="/uploadfile" method="POST" enctype="multipart/form-data">
-            
+            <p>Profile picture</p>
+            <img src="" alt="" id="edit-profile-preview" class="w-50">
             <label class="control-label">Upload profile picture</label>
             <input type="hidden" name="_id" id="pictureID">
             <input type="file" name="profile_picture"><br> <br>

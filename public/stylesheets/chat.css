@@ -1,4 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700,900&display=swap");
+::-webkit-scrollbar {
+  display: none;
+}
+
 @-webkit-keyframes clippedIn {
   0% {
     -webkit-clip-path: polygon(0% 0%, 0% 0%, -200px 100%, 0% 100%);
@@ -13,6 +17,7 @@
             clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
   }
 }
+
 @keyframes clippedIn {
   0% {
     -webkit-clip-path: polygon(0% 0%, 0% 0%, -200px 100%, 0% 100%);
@@ -194,6 +199,7 @@ msg-container {
       grid-template-columns: 70px auto 1fr 30px 30px;
   -ms-grid-rows: 24px 1fr;
       grid-template-rows: 24px 1fr;
+  padding-bottom: 10px;
   border-bottom: 1px solid #D2D2D2;
   margin-top: 20px;
   -webkit-box-sizing: border-box;
@@ -206,6 +212,7 @@ msg-container {
           transform-origin: center left;
   -webkit-clip-path: inset(0 0 0 0);
           clip-path: inset(0 0 0 0);
+  z-index: -1;
 }
 
 msg-container avatar-container {
@@ -289,7 +296,7 @@ main-container side-bar public-channels div, main-container side-bar private-mes
   margin-top: 10px;
   background: rgba(0, 0, 0, 0.1);
   margin-left: -30px;
-  padding-left: 30px;
+  padding-left: 60px;
   padding-top: 3px;
   padding-bottom: 3px;
   -webkit-user-select: none;
@@ -312,9 +319,24 @@ main-container side-bar public-channels div:active, main-container side-bar priv
 main-container side-bar public-channels #channel-title, main-container side-bar private-message #private-message-title {
   background: rgba(0, 0, 0, 0.2);
   margin-left: -30px;
-  padding-left: 30px;
+  padding-left: 60px;
   padding-top: 5px;
   padding-bottom: 5px;
+}
+
+overlay-root {
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.05);
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+overlay-root .hidden {
+  display: none;
 }
 
 main-container {
@@ -373,13 +395,21 @@ main-container side-bar user-name #user-settings:hover {
 
 main-container side-bar public-channels {
   margin-top: 50px;
+  margin-left: -20px;
   -ms-grid-row: 3;
   grid-row: 3;
+  overflow-y: scroll;
+  overflow-x: visible;
+  scrollbar-width: none;
 }
 
 main-container side-bar private-message {
   -ms-grid-row: 4;
   grid-row: 4;
+  margin-left: -20px;
+  overflow-y: scroll;
+  overflow-x: visible;
+  scrollbar-width: none;
 }
 
 main-container main-content {
@@ -434,8 +464,9 @@ main-container main-content form {
           align-items: center;
   padding-left: 1em;
   padding-right: 1em;
-  z-index: 1000000;
+  z-index: 2;
   background: white;
+  width: 100%;
 }
 
 main-container main-content form #messageValue {
@@ -447,38 +478,21 @@ main-container main-content form #sendMessage {
   width: 19%;
 }
 
-#mention-alert {
-  position: fixed;
-  width: 100vw;
-  top: 0;
-  left: 0;
-  z-index: 100000;
+/*#edit-profile-preview {
+
+}*/
+#create-pm-body h5 {
+  font-size: 1em;
 }
 
-#edit-message, #user-search {
-  width: 100%;
-}
-
-#user-search {
-  padding: 5px;
-}
-
-#search-result {
-  margin-top: 20px;
-}
-
-user-list {
+#create-pm-body user-list {
   display: block;
-  padding: 10px;
+  padding: 2px 10px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
 
-user-list h3 {
-  margin-top: 20px;
-}
-
-user-list user-list-item {
+#create-pm-body user-list user-list-item {
   display: block;
   -webkit-transition: 0.2s all;
   transition: 0.2s all;
@@ -487,16 +501,45 @@ user-list user-list-item {
           box-sizing: border-box;
   padding: 5px;
   width: 100%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  margin-bottom: 10px;
 }
 
-user-list user-list-item:hover {
-  background: rgba(0, 0, 0, 0.1);
-  border-left: 1px solid rgba(0, 0, 0, 0.2);
+#create-pm-body user-list user-list-item:hover {
+  background: rgba(0, 0, 0, 0.02);
 }
 
-user-list user-list-item:active {
-  background: rgba(255, 255, 255, 0.1);
-  border-left: 1px solid rgba(0, 0, 0, 0.2);
+#create-pm-body user-list user-list-item:active {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+#create-pm-body #edit-message, #create-pm-body #user-search {
+  width: 100%;
+}
+
+#create-pm-body #create-pm-user-search {
+  padding: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+#create-pm-body #search-result {
+  margin-top: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding-bottom: 10px;
+}
+
+#mention-alert {
+  position: fixed;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  z-index: 100000;
 }
 
 mentions-root {
@@ -510,13 +553,15 @@ mentions-root {
           flex-direction: column-reverse;
   -ms-flex-line-pack: end;
       align-content: flex-end;
-  bottom: 70px;
+  bottom: 65px;
   left: 330px;
   width: 20vw;
-  z-index: -1;
+  z-index: 3;
   padding: 10px;
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0);
+  background: white;
 }
 
 mentions-root mentions-item {

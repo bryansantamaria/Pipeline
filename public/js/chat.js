@@ -14,47 +14,6 @@ import {
   MentionsItem
 } from "./mentions-item-module.js";
 
-
-//Exempelkod för fetchning och rendering av chattrum XD
-/*class ChatRoom {
-  constructor(id, type, name) {
-    this.name = name;
-    this.id = id;
-    this.type = type;
-  }
-
-  render() {
-    document.querySelector('private-message').innerHTML += `
-    <div id=${this.id}><i class="fas fa-circle"></i> ${this.name}</div>
-    `;
-
-    document.querySelector('#' + this.id).addEventListener('click', ()=> {
-      fetch('/chatroom/' + this.id).then(res => {
-        return res.json()
-      }
-      ). then(msg => {
-        //rendera meddelandet
-      });
-    })
-  }
-}
-//Fetchar alla chatrum
-fetch('/chatroom').then(res => {
-  return res.json();
-}).then(chatrooms => {
-  chatrooms = JSON.parse(chatrooms);
-
-  chatrooms.forEach(room => {
-    let currentRoom = new ChatRoom(
-      room.id,
-      room.type,
-      room.name
-    );
-
-    currentRoom.render();
-  })
-})*/
-
 ////////////////////////////////////////////////
 //Globals
 ////////////////////////////////////////////////
@@ -62,7 +21,8 @@ let chatGlobals = {
   deleteTarget: undefined,
   editTarget: undefined,
   user: undefined,
-  chatroomId: 'dab123'
+  chatroomId: 'dab123',
+  addToRoom: []
 }
 
 let debug = true;
@@ -83,6 +43,7 @@ fetch('user/' + uid).then(userdata => {
   html.alias.innerText = chatGlobals.user.alias;
   let pictureID = document.getElementById('pictureID');
   pictureID.value = chatGlobals.user._id;
+  document.querySelector('#edit-profile-preview').setAttribute('src', `/images/${chatGlobals.user._id}.jpg`);
 });
 /*
 .then(() => {
@@ -329,7 +290,7 @@ chatMessages.forEach(msg => {
 });
 
 /////////////////////////////////////////////////////
-/// USER SEARCH
+/// CREATE PM
 /////////////////////////////////////////////////////
 
 let userSearch = new Search('user', document.querySelector('#create-pm-modal'));
@@ -347,12 +308,20 @@ document.addEventListener('DOMContentLoaded', () => {
     while(userList.firstChild) {
       userList.removeChild(userList.firstChild);
     }
-    console.log(e.detail);
 
     e.detail.forEach(user => {
       let item = new UserListItem(document.querySelector('user-list'), user);
       item.render();
     })
+  })
+
+  //Adds the user clicked on to list of users in new chat room
+  document.querySelector('user-list').addEventListener('user-added', e => {
+    if(!chatGlobals.addToRoom.some(user => user._id == e.detail._id)) {
+      chatGlobals.addToRoom.push(e.detail);
+    }
+    
+    console.log(chatGlobals.addToRoom);
   })
 })
 
@@ -369,7 +338,8 @@ let mentions = {
   clear: () => {
     mentions.query = '';
     document.querySelector('mentions-root').innerHTML = '';
-    document.querySelector('mentions-root').classList.add('hidden')
+    document.querySelector('mentions-root').classList.add('hidden');
+    document.querySelector('overlay-root').classList.add('hidden');
   },
   inLatestMessage: []
 }
@@ -403,6 +373,8 @@ document.querySelector('#messageValue').addEventListener('input', () => {
     console.log(mentions);
     console.log(msg.value.charAt(mentions.start - 1));
     mentions.users.search(mentions.query);
+
+    document.querySelector('overlay-root').classList.remove('hidden');
   }
 })
 
