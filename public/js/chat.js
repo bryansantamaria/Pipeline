@@ -87,6 +87,8 @@ fetch('user/' + uid).then(userdata => {
   }).then(chatroom => {
     chatroom = JSON.parse(chatroom);
 */
+
+//Fetch request to app.js route chatroom/chatroomId.
 $(".requestChatroom").on("click", function(){
   $('message-root').empty();
   let chatroomID = this.id;
