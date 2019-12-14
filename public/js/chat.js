@@ -25,7 +25,7 @@ let chatGlobals = {
   deleteTarget: undefined,
   editTarget: undefined,
   user: undefined,
-  chatroomId: 'dab123',
+  chatroomId: '5deeabc57873593ac0902e8e',
   addToRoom: []
 }
 
@@ -51,9 +51,10 @@ fetch('user/' + uid).then(userdata => {
 });
 
 $(".requestChatroom").on("click", function(){
+  console.log(chatGlobals);
   $('message-root').empty();
   let chatroomID = this.id;
-
+  chatGlobals.chatroomId = chatroomID;
   fetch('/chatroom/'+ chatroomID).then(res => {
     return res.json();
   }).then(chatroom => {
@@ -118,7 +119,6 @@ document.querySelector('#create-pm-btn').addEventListener('click', () => {
     document.getElementById(chatroom._id).addEventListener('click', e => {
       $('message-root').empty();
       let chatroomID = e.target.id;
-    
       fetch('/chatroom/'+ chatroomID).then(res => {
         return res.json();
       }).then(chatroom => {
@@ -136,14 +136,14 @@ document.querySelector('#create-pm-btn').addEventListener('click', () => {
           if(chatGlobals.user.alias == msg.alias) {
             chatMessage.setupEventListeners();
           }
-    
+
           chatMessage.render(document.querySelector('message-root'))
         });
       });
     });
   });
 
-  chatGlobals.addToRoom = []; 
+  chatGlobals.addToRoom = [];
 })
 
 //Delete events
@@ -172,6 +172,7 @@ document.querySelector('#edit-btn').addEventListener('click', () => {
 $("#msgForm").submit(function (e) {
   e.preventDefault();
   if ($("#messageValue").val() == "") { } else {
+    console.log();
     let chatMessage = {
       alias: chatGlobals.user.alias,
       message: $("#messageValue").val(),
@@ -407,7 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let addToRoom = new AddToChat(document.querySelector('users-to-add'), e.detail);
       addToRoomModules.push(addToRoom);
       addToRoom.render();
-    } 
+    }
     if(debug) console.log(chatGlobals.addToRoom);
   })
 
