@@ -10,7 +10,6 @@
   <link rel='stylesheet' href='/stylesheets/chat.css' />
   <script src="https://kit.fontawesome.com/fcc82c8a72.js" crossorigin="anonymous"></script>
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <script></script>
 </head>
 
 <body>
@@ -19,23 +18,34 @@
   </login-sucess>
   <main-container>
 
+    <!-- Mention alert -->
     <div class="alert alert-success alert-dismissible fade" role="alert" id="mention-alert">
       <strong>New mention! </strong><span id="mention-message">Text haha</span>
       <button type="button" class="close" aria-label="Close">
         <span aria-hidden="true" id="mention-dismiss">&times;</span>
       </button>
     </div>
+
     <!-- Left side bar -->
     <side-bar>
       <img src="img/pipeline.svg" alt="Logo">
-      <user-name><i class="fas fa-circle"></i> <label for="user-settings"><span id="alias">Bryan Santamaria </span> <i
-            class="fas fa-cog" id="user-settings"></i></label></user-name>
+      <user-name>
+        <i class="fas fa-circle"></i> 
+        <label for="user-settings">
+          <span id="alias">Bryan Santamaria </span> 
+          <i class="fas fa-cog" id="user-settings"></i>
+        </label>
+      </user-name>
+
+      <!-- Public channels -->
       <public-channels>
         <div id="channel-title"><i class="fas fa-plus-circle"></i> Channels</div>
         <% for(let i=0; i < chatrooms.length; i++){ %>
             <div id="<%= chatrooms[i]._id %>" class="requestChatroom"><i class="fas fa-hashtag"></i> <%=chatrooms[i].name %></div>
        <% } %>
       </public-channels>
+
+      <!-- Private messages -->
       <private-message>
         <div id="private-message-title"><i class="fas fa-plus-circle" id="create-private-message"></i> Private Message
         </div>
@@ -44,9 +54,9 @@
         <% } %>
       </private-message>
     </side-bar>
+
     <!-- chat module container-->
     <main-content>
-
       <overlay-root class="hidden"></overlay-root>
 
       <!--Top bar(git p inside this chatroom/conversation) 75px height, 100% width-->
@@ -60,9 +70,7 @@
           class="btn btn-success" id="sendMessage" name="button" value="Send"></input>
       </form>
 
-      <mentions-root class="hidden">
-      </mentions-root>
-
+      <mentions-root class="hidden"></mentions-root>
     </main-content>
   </main-container>
 
@@ -122,13 +130,9 @@
         <div class="modal-body" id="create-pm-body">
           <input type="text" class="w-100" placeholder="Search for user..." id="create-pm-user-search">
           <h5 id="search-result">Search results</h5>
-          <user-list>
-
-          </user-list>
-
-          <users-to-add>
-
-          </users-to-add>
+          <user-list></user-list>
+          <h5 id="users-to-add">Users to add</h5>
+          <users-to-add></users-to-add>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" data-dismiss="modal" id="create-pm-btn">Add to chat</button>

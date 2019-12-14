@@ -293,9 +293,7 @@ main-container {
   }
 }
 
-/*#edit-profile-preview {
-
-}*/
+/*#edit-profile-preview {}*/
 
 #create-pm-body {
   h5 {
@@ -389,6 +387,44 @@ mentions-root {
 
   .hidden {
     display: none;
+  }
+}
+
+users-to-add {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+  add-to-chat-item {
+    min-width: 60px;
+    padding: 5px;
+    height: 30px;
+    background: white;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: 5px;
+    box-shadow: 0 0 5px 2px rgba(0,0,0,0.02);
+    display: flex;
+    grid-template-columns: 1fr 12px;
+    align-items: center;
+    box-sizing: border-box;
+    align-content: center;
+    align-items: center;
+    margin-right: 10px;
+    
+    p {
+      color: #181818;
+      font-size: 0.8em;
+      height: 100%;
+      align-self: center;
+      padding: 0;
+      padding-top: 0.55em;
+      user-select: none;
+    }
+
+    span {
+      cursor: pointer;
+      padding: 0;
+    }
   }
 }
 
