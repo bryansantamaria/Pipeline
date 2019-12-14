@@ -3,13 +3,14 @@ const request = require('request-promise');
 const router = express.Router();
 
 router.get('/:id', (req, res) => {
+    console.log(req.params);
     request('http://127.0.0.1:3000/user/' + req.params.id, {
         method: 'get',
         headers: {
             'Content-Type': 'application/json'
         }
     }).then(user => {
-        res.json(user)
+        res.json(user);
     });
 })
 

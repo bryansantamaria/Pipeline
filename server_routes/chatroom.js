@@ -78,12 +78,12 @@ router.get('/', (req, res) => {
 });
 
 //POST new chatroom with given id.
-router.post("/:_id", (req,res) => {
+router.post("/", (req,res) => {
   let pipelineDB = req.db;
   let chatroomCollection = pipelineDB.get("chatrooms");
-  chatroomCollection.insert({"id": req.params._id, "name":"sad"}, (err,newChatroom)=>{
+  chatroomCollection.insert({"members": req.body, 'type': 'privateMessage', 'messages': []}, (err,newChatroom)=>{
     if (err) throw err;
-    res.json(newChatroom);
+    res.json(JSON.stringify(newChatroom));
   });
 });
 
@@ -96,106 +96,5 @@ router.get('/:_id', (req, res) => {
     res.json(chatrooms);
   });
 });
-
-/*
-router.get("/:_id", async (req,res) => {
-  let pipelineDB = req.db;
-  let mySoul = [];
-  let chatroomCollection = pipelineDB.get("chatrooms");
-  mySoul = await chatroomCollection.find({_id: req.params._id}).then(chatroom => {
-    return chatroom;
-  });
-  res.json(mySoul);
-});
-*/
-
-/*
-router.get('/', async (req, res) => {
-    let usersArray = [];
-    let chatroomsArray = [];
-    var pipelineDB = req.db;
-
-    var collection = pipelineDB.get("users");
-    usersArray = await collection.find().then(users => {
-      return users;
-    });
-    let chatroomCollection = pipelineDB.get("chatrooms");
-    chatroomsArray = await chatroomCollection.find().then(chatrooms => {
-      return chatrooms;
-    });
-    console.log(usersArray);
-    //console.log(usersArray);
-    let chatObject = {
-      users: usersArray,
-      chatrooms: chatroomsArray
-    };
-    res.send(chatObject);
-});
-*/
-
-/*
-router.get('/:_id', (req, res) => {
-  let pipelineDB = req.db;
-  var chatroomCollection = pipelineDB.get("chatrooms");
-  let checkIfIdExist = chatroomCollection.find({_id: req.paramas._id}, (err, chatrooms) => {
-    if (chatrooms=="") {
-      res.send("lol")
-    }
-    else if (err) throw err;
-    else {
-      res.json(chatrooms);
-    }
-  });
-  //chatroomCollection.find({_id: req.params._id}, (err, chatrooms) => {
-  //  if (err) throw err;
-  //  res.json(chatrooms);
-  //});
-});
-*/
-/*
-router.get('/:_id', (req, res) => {
-  let pipelineDB = req.db;
-  var chatroomCollection = pipelineDB.get("chatrooms");
-  chatroomCollection.update(
-    { _id: req.params._id},
-    {
-       //$set: { item: "apple" },
-       $setOnInsert: {
-         name:"createIfNotExist",
-         members: ["member1","member2","member3"],
-         messages: [{
-           alias: "testUser",
-           message:"my first test message",
-           timestamp: "2019-12-13 13:00"
-         }]
-      }
-    },
-    { upsert: true }
-  );
-  /*
-  chatroomCollection.find({_id: req.params._id}, (err, chatrooms) => {
-    if (err) throw err;
-    res.json(chatrooms);
-  });
-});
-*/
-/*
-chatroomCollection.update(
-  { _id: req.params._id},
-  {
-     //$set: { item: "apple" },
-     $setOnInsert: {
-       name:"createIfNotExist",
-       members: ["member1","member2","member3"],
-       messages: [{
-         alias: "testUser",
-         message:"my first test message",
-         timestamp: "2019-12-13 13:00"
-       }]
-    }
-  },
-  { upsert: true }
-);
-*/
 
 module.exports = router;

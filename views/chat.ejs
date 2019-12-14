@@ -47,11 +47,10 @@
 
       <!-- Private messages -->
       <private-message>
-        <div id="private-message-title"><i class="fas fa-plus-circle" id="create-private-message"></i> Private Message
-        </div>
-        <% for(let i=0; i < users.length; i++){ %>
-        <div id="<%= users[i]._id %>" class="requestChatroom"><i class="fas fa-circle"></i> <%= users[i].alias %></div>
-        <% } %>
+        <div id="private-message-title"><i class="fas fa-plus-circle" id="create-private-message"></i> Private Message</div>
+        <%# for(let i=0; i < users.length; i++){ %>
+        <!--<div id="<%#= users[i]._id %>" class="requestChatroom"><i class="fas fa-circle"></i> <%#= users[i].alias %></div>-->
+        <%# } %>
       </private-message>
     </side-bar>
 

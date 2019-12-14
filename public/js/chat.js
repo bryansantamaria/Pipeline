@@ -83,6 +83,69 @@ var socket = io();
 //CRUD-events
 ////////////////////////////////////////////////
 
+//Create private chat
+document.querySelector('#create-pm-btn').addEventListener('click', () => {
+  let usersInNewRoom = chatGlobals.addToRoom;
+  usersInNewRoom.push(chatGlobals.user);
+
+  fetch('/chatroom', {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(usersInNewRoom)
+  }).then(res => res.json())
+    .then(chatroom => {
+    chatroom = JSON.parse(JSON.parse(chatroom));
+    console.log(chatroom);
+    let usersInChatroom = '';
+    chatroom.members.forEach(user => {
+      /*if(!user._id == chatGlobals.user._id) {
+        usersInChatroom += user.alias + ' ';
+      }*/
+
+      usersInChatroom += user.alias + ' ';
+    })
+
+    console.log(chatroom._id);
+
+    let chatroomListItem = `<div id="${chatroom._id}" class="requestChatroom"><i class="fas fa-circle"></i>${usersInChatroom}</div>`;
+
+    document.querySelector('private-message').innerHTML += chatroomListItem;
+
+    let selectionID = '#' + chatroom._id;
+
+    document.getElementById(chatroom._id).addEventListener('click', e => {
+      $('message-root').empty();
+      let chatroomID = e.target.id;
+    
+      fetch('/chatroom/'+ chatroomID).then(res => {
+        return res.json();
+      }).then(chatroom => {
+        chatroom = JSON.parse(chatroom);
+        let chatroomMessages = chatroom[0].messages;
+        chatroomMessages.forEach(msg => {
+          let chatMessage = new ChatModule(
+            msg.message,
+            msg.alias,
+            msg.avatar,
+            msg.timestamp,
+            msg._id,
+            msg.mentions
+          );
+          if(chatGlobals.user.alias == msg.alias) {
+            chatMessage.setupEventListeners();
+          }
+    
+          chatMessage.render(document.querySelector('message-root'))
+        });
+      });
+    });
+  });
+
+  chatGlobals.addToRoom = []; 
+})
+
 //Delete events
 document.addEventListener('delete-init', e => {
   chatGlobals.deleteTarget = e.detail;
