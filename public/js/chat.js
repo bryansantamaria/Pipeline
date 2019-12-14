@@ -105,6 +105,7 @@ document.querySelector('#edit-btn').addEventListener('click', () => {
   socket.emit('edit', new_message);
 });
 
+//Send message
 $("#msgForm").submit(function (e) {
   e.preventDefault();
   if ($("#messageValue").val() == "") { } else {
@@ -306,12 +307,21 @@ chatMessages.forEach(msg => {
 /////////////////////////////////////////////////////
 
 let userSearch = new Search('user', document.querySelector('#create-pm-modal'));
+let addToRoomModules = [];
 
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#create-pm-user-search').addEventListener('input', e => {
     let query = e.target.value;
     if(debug) console.log('Searched for: ' + query);
     userSearch.search(query);
+
+    if(query == '') {
+      let userList = document.querySelector('user-list');
+
+      while(userList.firstChild) {
+        userList.removeChild(userList.firstChild);
+      }
+    }
   });
 
   document.querySelector('#create-pm-modal').addEventListener('search-result', e => {
@@ -332,6 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(!chatGlobals.addToRoom.some(user => user._id == e.detail._id)) {
       chatGlobals.addToRoom.push(e.detail);
       let addToRoom = new AddToChat(document.querySelector('users-to-add'), e.detail);
+      addToRoomModules.push(addToRoom);
       addToRoom.render();
     } 
     if(debug) console.log(chatGlobals.addToRoom);
@@ -342,7 +353,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if(debug) console.log(chatGlobals.addToRoom);
   })
 })
-
 
 /////////////////////////////////////////////////////
 /// MENTIONS

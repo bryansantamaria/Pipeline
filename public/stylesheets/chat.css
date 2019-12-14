@@ -479,15 +479,22 @@ main-container main-content form #sendMessage {
 }
 
 /*#edit-profile-preview {}*/
+#create-pm-body {
+  background: #fafafa;
+}
+
 #create-pm-body h5 {
   font-size: 1em;
 }
 
 #create-pm-body user-list {
   display: block;
-  padding: 2px 10px;
+  padding: 2px 5px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  background: white;
+  border-radius: 15px;
+  min-height: 50px;
 }
 
 #create-pm-body user-list user-list-item {
@@ -498,14 +505,16 @@ main-container main-content form #sendMessage {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   padding: 5px;
+  padding-left: 15px;
   width: 100%;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: 5px;
+  border-radius: 15px;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 #create-pm-body user-list user-list-item:hover {
@@ -520,16 +529,13 @@ main-container main-content form #sendMessage {
   width: 100%;
 }
 
-#create-pm-body #create-pm-user-search {
-  padding: 5px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
+#create-pm-body #search-result {
+  margin-top: 5px;
+  padding-bottom: 10px;
 }
 
-#create-pm-body #search-result {
+#create-pm-body #users-to-add {
   margin-top: 20px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  padding-bottom: 10px;
 }
 
 #mention-alert {
@@ -594,6 +600,7 @@ users-to-add {
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+  margin-top: 10px;
 }
 
 users-to-add add-to-chat-item {
@@ -601,10 +608,10 @@ users-to-add add-to-chat-item {
   padding: 5px;
   height: 30px;
   background: white;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(0, 0, 0, 0.05);
   border-radius: 5px;
-  -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.02);
-          box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.02);
+  -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.01);
+          box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.01);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -639,5 +646,32 @@ users-to-add add-to-chat-item p {
 users-to-add add-to-chat-item span {
   cursor: pointer;
   padding: 0;
+}
+
+#create-pm-header {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 30px;
+      grid-template-columns: 1fr 30px;
+  -ms-grid-rows: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+}
+
+#create-pm-header h5 {
+  -ms-grid-column: 1;
+  grid-column: 1;
+  -ms-grid-row: 1;
+  grid-row: 1;
+}
+
+#create-pm-header #create-pm-user-search {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  grid-column: 1 / 3;
+  -ms-grid-row: 2;
+  grid-row: 2;
+  padding: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
 }
 /*# sourceMappingURL=chat.css.map */
