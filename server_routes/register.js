@@ -14,6 +14,11 @@ router.post('/', (req, res) => {
             "alias": req.body.username
         }, (err, user_in_db) => {
             if (err) throw err;
+            collection.update({'_id': user_in_db._id}, {
+                $set: {
+                    'avatar': '/images/' + user_in_db._id + '.jpg'
+                }
+            })
             res.send(JSON.stringify(user_in_db));
         });
     });

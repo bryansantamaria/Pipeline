@@ -5,6 +5,11 @@ $lighten-light: rgba(255, 255, 255, 0.1);
 
 $sidebar-width: 330px;
 
+::-webkit-scrollbar {
+  display: none;
+}
+
+
 @keyframes clippedIn {
     0% {
       clip-path: polygon(0% 0%, 0% 0%, -200px 100%, 0% 100%);

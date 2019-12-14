@@ -17,11 +17,13 @@
     "express": "~4.16.1",
     "express-fileupload": "^1.1.6",
     "http-errors": "^1.6.3",
+    "image-convert": "^0.1.33",
     "mongodb": "^3.3.5",
     "monk": "^7.1.1",
     "morgan": "^1.9.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.5",
+    "sharp": "^0.23.4",
     "socket.io": "^2.3.0"
   }
 }

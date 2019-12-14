@@ -80,11 +80,12 @@ io.on('connection', (socket) => {
       socket.emit('userOnline', `You ${user} are online`);
     });
 
-    // is Typing
-    socket.on('typing', (isTyping) => {
-      socket.broadcast.emit('updateTyping', user, isTyping);
-    });
   });
+    //Socket on tar emot data från klienten, Socket emit skickar data till klienten.
+    // is Typing
+    socket.on('typing', (user) => {
+      socket.broadcast.emit('typing', user);
+    });
 
   socket.on('chat message', function (chatMessage) {  //Lyssnar på eventet 'chat message'
     console.log(chatMessage);
@@ -129,6 +130,10 @@ io.on('connection', (socket) => {
       io.emit('delete', JSON.parse(message));           //Emits chat message to all clients
     });
   });
+
+  socket.on('mention', mention => {
+    io.emit('mention', mention)
+  })
 
   socket.on('disconnect', (user) => {
     socket.broadcast.emit('newUser', socket.username + ' Disconnected')

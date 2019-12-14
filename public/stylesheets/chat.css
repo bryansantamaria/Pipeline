@@ -1,4 +1,8 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700,900&display=swap");
+::-webkit-scrollbar {
+  display: none;
+}
+
 @-webkit-keyframes clippedIn {
   0% {
     -webkit-clip-path: polygon(0% 0%, 0% 0%, -200px 100%, 0% 100%);
@@ -13,6 +17,7 @@
             clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
   }
 }
+
 @keyframes clippedIn {
   0% {
     -webkit-clip-path: polygon(0% 0%, 0% 0%, -200px 100%, 0% 100%);
@@ -180,6 +185,13 @@ login-sucess h1 {
   grid-column: 2;
 }
 
+.mention {
+  color: #233c8f;
+  margin-left: 0em;
+  cursor: pointer;
+  font-size: 1em;
+}
+
 msg-container {
   display: -ms-grid;
   display: grid;
@@ -187,6 +199,7 @@ msg-container {
       grid-template-columns: 70px auto 1fr 30px 30px;
   -ms-grid-rows: 24px 1fr;
       grid-template-rows: 24px 1fr;
+  padding-bottom: 10px;
   border-bottom: 1px solid #D2D2D2;
   margin-top: 20px;
   -webkit-box-sizing: border-box;
@@ -199,6 +212,7 @@ msg-container {
           transform-origin: center left;
   -webkit-clip-path: inset(0 0 0 0);
           clip-path: inset(0 0 0 0);
+  z-index: -1;
 }
 
 msg-container avatar-container {
@@ -282,7 +296,7 @@ main-container side-bar public-channels div, main-container side-bar private-mes
   margin-top: 10px;
   background: rgba(0, 0, 0, 0.1);
   margin-left: -30px;
-  padding-left: 30px;
+  padding-left: 60px;
   padding-top: 3px;
   padding-bottom: 3px;
   -webkit-user-select: none;
@@ -305,9 +319,24 @@ main-container side-bar public-channels div:active, main-container side-bar priv
 main-container side-bar public-channels #channel-title, main-container side-bar private-message #private-message-title {
   background: rgba(0, 0, 0, 0.2);
   margin-left: -30px;
-  padding-left: 30px;
+  padding-left: 60px;
   padding-top: 5px;
   padding-bottom: 5px;
+}
+
+overlay-root {
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.05);
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+overlay-root .hidden {
+  display: none;
 }
 
 main-container {
@@ -366,13 +395,21 @@ main-container side-bar user-name #user-settings:hover {
 
 main-container side-bar public-channels {
   margin-top: 50px;
+  margin-left: -20px;
   -ms-grid-row: 3;
   grid-row: 3;
+  overflow-y: scroll;
+  overflow-x: visible;
+  scrollbar-width: none;
 }
 
 main-container side-bar private-message {
   -ms-grid-row: 4;
   grid-row: 4;
+  margin-left: -20px;
+  overflow-y: scroll;
+  overflow-x: visible;
+  scrollbar-width: none;
 }
 
 main-container main-content {
@@ -392,6 +429,7 @@ main-container main-content {
           transition-timing-function: ease-out;
   -webkit-transition: 0.8s all;
   transition: 0.8s all;
+  background: white;
 }
 
 main-container main-content top-bar {
@@ -406,10 +444,11 @@ main-container main-content message-root {
   -ms-grid-row: 2;
   grid-row: 2;
   overflow-y: scroll;
+  z-index: -2;
 }
 
 main-container main-content is-typing {
-  display: none;
+  color: black;
 }
 
 main-container main-content form {
@@ -425,6 +464,9 @@ main-container main-content form {
           align-items: center;
   padding-left: 1em;
   padding-right: 1em;
+  z-index: 2;
+  background: white;
+  width: 100%;
 }
 
 main-container main-content form #messageValue {
@@ -436,30 +478,26 @@ main-container main-content form #sendMessage {
   width: 19%;
 }
 
-#edit-message, #user-search {
-  width: 100%;
+/*#edit-profile-preview {}*/
+#create-pm-body {
+  background: #fafafa;
 }
 
-#user-search {
-  padding: 5px;
+#create-pm-body h5 {
+  font-size: 1em;
 }
 
-#search-result {
-  margin-top: 20px;
-}
-
-user-list {
+#create-pm-body user-list {
   display: block;
-  padding: 10px;
+  padding: 2px 5px;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  background: white;
+  border-radius: 15px;
+  min-height: 50px;
 }
 
-user-list h3 {
-  margin-top: 20px;
-}
-
-user-list user-list-item {
+#create-pm-body user-list user-list-item {
   display: block;
   -webkit-transition: 0.2s all;
   transition: 0.2s all;
@@ -467,32 +505,173 @@ user-list user-list-item {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   padding: 5px;
+  padding-left: 15px;
+  width: 100%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 15px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+#create-pm-body user-list user-list-item:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+#create-pm-body user-list user-list-item:active {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+#create-pm-body #edit-message, #create-pm-body #user-search {
   width: 100%;
 }
 
-user-list user-list-item:hover {
-  background: rgba(0, 0, 0, 0.1);
-  border-left: 1px solid rgba(0, 0, 0, 0.2);
+#create-pm-body #search-result {
+  margin-top: 5px;
+  padding-bottom: 10px;
 }
 
-user-list user-list-item:active {
-  background: rgba(255, 255, 255, 0.1);
-  border-left: 1px solid rgba(0, 0, 0, 0.2);
+#create-pm-body #users-to-add {
+  margin-top: 20px;
+}
+
+#mention-alert {
+  position: fixed;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  z-index: 100000;
 }
 
 mentions-root {
   position: fixed;
-  display: block;
-  bottom: 70px;
-  left: 50%;
-  -webkit-transform: translate(0, -50%);
-          transform: translate(0, -50%);
-  width: 30vw;
-  z-index: 1000000;
-  border: 1px solid black;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: column-reverse;
+          flex-direction: column-reverse;
+  -ms-flex-line-pack: end;
+      align-content: flex-end;
+  bottom: 65px;
+  left: 330px;
+  width: 20vw;
+  z-index: 3;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0);
+  background: white;
 }
 
-mentions-root p {
+mentions-root mentions-item {
   color: black;
+  border: 1px solid rgba(0, 0, 0, 0);
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  padding-left: 5px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+mentions-root mentions-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+mentions-root mentions-item:active {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+mentions-root .hidden {
+  display: none;
+}
+
+users-to-add {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+users-to-add add-to-chat-item {
+  min-width: 60px;
+  padding: 5px;
+  height: 30px;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 5px;
+  -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.01);
+          box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.01);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-grid-columns: 1fr 12px;
+      grid-template-columns: 1fr 12px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
+
+users-to-add add-to-chat-item p {
+  color: #181818;
+  font-size: 0.8em;
+  height: 100%;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  padding: 0;
+  padding-top: 0.55em;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+users-to-add add-to-chat-item span {
+  cursor: pointer;
+  padding: 0;
+}
+
+#create-pm-header {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 30px;
+      grid-template-columns: 1fr 30px;
+  -ms-grid-rows: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+}
+
+#create-pm-header h5 {
+  -ms-grid-column: 1;
+  grid-column: 1;
+  -ms-grid-row: 1;
+  grid-row: 1;
+}
+
+#create-pm-header #create-pm-user-search {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 2;
+  grid-column: 1 / 3;
+  -ms-grid-row: 2;
+  grid-row: 2;
+  padding: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
 }
 /*# sourceMappingURL=chat.css.map */
