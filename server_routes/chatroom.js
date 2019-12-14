@@ -73,9 +73,17 @@ router.get('/', (req, res) => {
   });
 });
 
+//POST new chatroom with given id.
+router.post("/:_id", (req,res) => {
+  let pipelineDB = req.db;
+  let chatroomCollection = pipelineDB.get("chatrooms");
+  chatroomCollection.insert({"id": req.params._id, "name":"sad"}, (err,newChatroom)=>{
+    if (err) throw err;
+    res.json(newChatroom);
+  });
+});
 
 //GET specific chatroom.
-/*
 router.get('/:_id', (req, res) => {
   let pipelineDB = req.db;
   var chatroomCollection = pipelineDB.get("chatrooms");
@@ -84,8 +92,8 @@ router.get('/:_id', (req, res) => {
     res.json(chatrooms);
   });
 });
-*/
 
+/*
 router.get("/:_id", async (req,res) => {
   let pipelineDB = req.db;
   let mySoul = [];
@@ -95,15 +103,8 @@ router.get("/:_id", async (req,res) => {
   });
   res.json(mySoul);
 });
+*/
 
-router.post("/:_id", async (req,res) => {
-  let pipelineDB = req.db;
-  let chatroomCollection = pipelineDB.get("chatrooms");
-  newChatroom = await chatroomCollection.insert({_id: req.params._id, name:"sad"}).then(chatroom => {
-    return chatroom;
-  });
-  res.json(newChatroom);
-});
 /*
 router.get('/', async (req, res) => {
     let usersArray = [];
