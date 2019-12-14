@@ -478,9 +478,7 @@ main-container main-content form #sendMessage {
   width: 19%;
 }
 
-/*#edit-profile-preview {
-
-}*/
+/*#edit-profile-preview {}*/
 #create-pm-body h5 {
   font-size: 1em;
 }
@@ -587,5 +585,59 @@ mentions-root mentions-item:active {
 
 mentions-root .hidden {
   display: none;
+}
+
+users-to-add {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+users-to-add add-to-chat-item {
+  min-width: 60px;
+  padding: 5px;
+  height: 30px;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.02);
+          box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.02);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-grid-columns: 1fr 12px;
+      grid-template-columns: 1fr 12px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  -ms-flex-line-pack: center;
+      align-content: center;
+  align-items: center;
+  margin-right: 10px;
+}
+
+users-to-add add-to-chat-item p {
+  color: #181818;
+  font-size: 0.8em;
+  height: 100%;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  padding: 0;
+  padding-top: 0.55em;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+users-to-add add-to-chat-item span {
+  cursor: pointer;
+  padding: 0;
 }
 /*# sourceMappingURL=chat.css.map */

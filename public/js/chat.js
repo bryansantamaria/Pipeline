@@ -14,6 +14,10 @@ import {
   MentionsItem
 } from "./mentions-item-module.js";
 
+import {
+  AddToChat
+} from "./add-to-chat-module.js";
+
 ////////////////////////////////////////////////
 //Globals
 ////////////////////////////////////////////////
@@ -45,13 +49,7 @@ fetch('user/' + uid).then(userdata => {
   pictureID.value = chatGlobals.user._id;
   document.querySelector('#edit-profile-preview').setAttribute('src', `/images/${chatGlobals.user._id}.jpg`);
 });
-/*
-.then(() => {
-  fetch('/chatroom/General').then(res => {
-    return res.json();
-  }).then(chatroom => {
-    chatroom = JSON.parse(chatroom);
-*/
+
 $(".requestChatroom").on("click", function(){
   $('message-root').empty();
   let chatroomID = this.id;
@@ -78,9 +76,6 @@ $(".requestChatroom").on("click", function(){
     });
   });
 });
-
-
-
 
 var socket = io();
 
@@ -158,6 +153,7 @@ function updateUser() {
   }
 }
 
+//Sends request to server for user
 document.querySelector('#update-profile-btn').addEventListener('click', () => {
   chatGlobals.user.alias = html.edit_alias.value;
   html.alias.innerText = chatGlobals.user.alias;
@@ -201,7 +197,6 @@ socket.on('chat message', function (chatObject) {
   chatMessage.render(document.querySelector('message-root'));
 });
 
-
 //Loopa igenom alla chatmeddelanden, kontrollera id och rendera ut det nya editerade meddelandet.
 socket.on('edit', edited_message => {
   edited_message = JSON.parse(edited_message);
@@ -234,6 +229,7 @@ socket.on('delete', delete_message => {
   });
 });
 
+//Displays mention alert if user is mentioned
 socket.on('mention', mention => {
   if(mention.for._id == chatGlobals.user._id) {
     document.querySelector('#mention-message').innerText = `${mention.by.alias} mentioned you.`
@@ -241,11 +237,10 @@ socket.on('mention', mention => {
   }
 })
 
+//Dismisses mention alert
 document.querySelector('#mention-dismiss').addEventListener('click', () => {
   document.querySelector('#mention-alert').classList.remove('show');
-})
-
-
+});
 
 //Genererar dagens datum och tid, convertar från millisekunder.
 function getTodaysDate(date) {
@@ -274,14 +269,14 @@ function getTodaysDate(date) {
 ////////////////////////////////////////////////
 
 //Cursed bootstrap attributes
-document.querySelector('#private-message-title').setAttribute("data-toggle", "modal")
-document.querySelector('#private-message-title').setAttribute("data-target", "#create-pm-modal")
+document.querySelector('#private-message-title').setAttribute("data-toggle", "modal");
+document.querySelector('#private-message-title').setAttribute("data-target", "#create-pm-modal");
 
-document.querySelector('#user-settings').setAttribute("data-toggle", "modal")
-document.querySelector('#user-settings').setAttribute("data-target", "#edit-profile-modal")
+document.querySelector('#user-settings').setAttribute("data-toggle", "modal");
+document.querySelector('#user-settings').setAttribute("data-target", "#edit-profile-modal");
 
-document.querySelector('user-name').setAttribute("data-toggle", "modal")
-document.querySelector('user-name').setAttribute("data-target", "#edit-profile-modal")
+document.querySelector('user-name').setAttribute("data-toggle", "modal");
+document.querySelector('user-name').setAttribute("data-target", "#edit-profile-modal");
 
 let chatMessages = [];
 
@@ -298,9 +293,9 @@ let userSearch = new Search('user', document.querySelector('#create-pm-modal'));
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#create-pm-user-search').addEventListener('input', e => {
     let query = e.target.value;
-    console.log('Searched for: ' + query);
+    if(debug) console.log('Searched for: ' + query);
     userSearch.search(query);
-  })
+  });
 
   document.querySelector('#create-pm-modal').addEventListener('search-result', e => {
     let userList = document.querySelector('user-list');
@@ -312,16 +307,22 @@ document.addEventListener('DOMContentLoaded', () => {
     e.detail.forEach(user => {
       let item = new UserListItem(document.querySelector('user-list'), user);
       item.render();
-    })
-  })
+    });
+  });
 
   //Adds the user clicked on to list of users in new chat room
   document.querySelector('user-list').addEventListener('user-added', e => {
     if(!chatGlobals.addToRoom.some(user => user._id == e.detail._id)) {
       chatGlobals.addToRoom.push(e.detail);
-    }
-    
-    console.log(chatGlobals.addToRoom);
+      let addToRoom = new AddToChat(document.querySelector('users-to-add'), e.detail);
+      addToRoom.render();
+    } 
+    if(debug) console.log(chatGlobals.addToRoom);
+  })
+
+  document.querySelector('users-to-add').addEventListener('user-removed', e => {
+    chatGlobals.addToRoom = chatGlobals.addToRoom.filter(user => user._id != e.detail._id)
+    if(debug) console.log(chatGlobals.addToRoom);
   })
 })
 
@@ -370,8 +371,8 @@ document.querySelector('#messageValue').addEventListener('input', () => {
   if(mentions.inMention) {
     mentions.query = msg.value.substr(mentions.start);
     document.querySelector('mentions-root').classList.remove('hidden')
-    console.log(mentions);
-    console.log(msg.value.charAt(mentions.start - 1));
+    if(debug) console.log(mentions);
+    if(debug) console.log(msg.value.charAt(mentions.start - 1));
     mentions.users.search(mentions.query);
 
     document.querySelector('overlay-root').classList.remove('hidden');
@@ -379,11 +380,11 @@ document.querySelector('#messageValue').addEventListener('input', () => {
 })
 
 document.querySelector('mentions-root').addEventListener('search-result', e => {
-  console.log(e.detail);
+  if(debug) console.log(e.detail);
   document.querySelector('mentions-root').innerHTML = '';
 
   e.detail.forEach(user => {
-    console.log(user);
+    if(debug) console.log(user);
     let mentionsItem = new MentionsItem(document.querySelector('mentions-root'), user);
     mentionsItem.render();
   })
@@ -392,14 +393,14 @@ document.querySelector('mentions-root').addEventListener('search-result', e => {
 document.querySelector('mentions-root').addEventListener('mention-user', e => {
   mentions.inMention = false;
   let msg = document.querySelector('#messageValue');
-  console.log(e.detail);
+  if(debug) console.log(e.detail);
 
   msg.value = msg.value.replace(`@${mentions.query}`, `@${e.detail.alias} `);
 
   mentions.inLatestMessage.push(e.detail);
 
-  console.log('Mentioned in message >');
-  console.log(mentions.inLatestMessage);
+  if(debug) console.log('Mentioned in message >');
+  if(debug) console.log(mentions.inLatestMessage);
 
   msg.focus();
   mentions.clear();
