@@ -72,9 +72,22 @@ $(".requestChatroom").on("click", function(){
       if(chatGlobals.user.alias == msg.alias) {
         chatMessage.setupEventListeners();
       }
-
-      chatMessage.render(document.querySelector('message-root'))
+      chatMessage.render(document.querySelector('message-root'));
     });
+    let chatroomMembers = chatroom[0].members;
+    for (var member = 0; member < chatroomMembers.length; member++) {
+      let span = document.createElement('span');
+      span.style.color = "black";
+      if (chatroom[0].type === "privateMessage") {
+        span.innerHTML = chatroomMembers[member].alias;
+        console.log(span);
+        document.getElementById("topBar").appendChild(span);
+      } else {
+        span.innerHTML = chatroomMembers[member];
+        console.log(span);
+        document.getElementById("topBar").appendChild(span);
+      }
+    }
   });
 });
 
@@ -321,6 +334,10 @@ socket.on('mention', mention => {
     document.querySelector('#mention-alert').classList.add('show');
   }
 })
+
+socket.on("disconnect", () => {
+  console.log(socket.disconnected);
+});
 
 //Dismisses mention alert
 document.querySelector('#mention-dismiss').addEventListener('click', () => {
