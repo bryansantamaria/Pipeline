@@ -29,7 +29,7 @@ let chatGlobals = {
   addToRoom: []
 }
 
-let debug = false;
+let debug = true;
 
 let html = {
   edit_alias: document.querySelector('#edit-alias'),
@@ -55,9 +55,9 @@ $(".requestChatroom").on("click", function(){
   $('message-root').empty();
   let chatroomID = this.id;
   chatGlobals.chatroomId = chatroomID;
-  fetch('/chatroom/'+ chatroomID).then(res => {
-    return res.json();
-  }).then(chatroom => {
+  console.log(chatGlobals.chatroomId);
+  fetch('/chatroom/'+ chatroomID).then(res => res.json())
+  .then(chatroom => {
     chatroom = JSON.parse(chatroom);
     let chatroomMessages = chatroom[0].messages;
     chatroomMessages.forEach(msg => {
@@ -119,6 +119,8 @@ document.querySelector('#create-pm-btn').addEventListener('click', () => {
     document.getElementById(chatroom._id).addEventListener('click', e => {
       $('message-root').empty();
       let chatroomID = e.target.id;
+      console.log(chatroomID);
+      chatGlobals.chatroomId = chatroomID;
       fetch('/chatroom/'+ chatroomID).then(res => {
         return res.json();
       }).then(chatroom => {
@@ -172,7 +174,7 @@ document.querySelector('#edit-btn').addEventListener('click', () => {
 $("#msgForm").submit(function (e) {
   e.preventDefault();
   if ($("#messageValue").val() == "") { } else {
-    console.log();
+
     let chatMessage = {
       alias: chatGlobals.user.alias,
       message: $("#messageValue").val(),
@@ -191,6 +193,7 @@ $("#msgForm").submit(function (e) {
     if(debug) {
       console.log('Message sent to server >');
       console.log(chatMessage);
+      console.log(chatGlobals.chatroomId);
     }
 
     //Emits the stringified chatMessage object to server.

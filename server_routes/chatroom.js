@@ -1,11 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const mongo = require('mongodb');
 
 router.put('/', (req, res) => {
   var pipelineDB = req.db;
   var collection = pipelineDB.get('chatrooms');
+  let _id = new mongo.ObjectId();
   console.log('Recieved message from app >');
   console.log(req.body);
+  console.log('Recieved message from app >');
+  console.log(_id);
   collection.update({
       _id: req.body.chatroom
     },
@@ -13,20 +17,23 @@ router.put('/', (req, res) => {
     {
       $push: {
         messages: {
+          _id: _id,
           alias: req.body.alias,
           message: req.body.message,
           avatar: req.body.avatar,
           timestamp: req.body.timestamp,
-          mentions: req.body.mentions/*,,
-          attachments: [{url: 'localhost:27017/attachments',filename: 'test.jpg'}]
-          */
+          mentions: req.body.mentions
         }
       }
     }, (err, message_in_db) => { //Gets message back from database
       if (err) throw err;
       console.log('Inserted message in DB >');
       console.log(message_in_db);
-      res.json(JSON.stringify(message_in_db)); //Returns message to app.js
+      collection.find({'_id': req.body.chatroom}, (err, chatroom) => {
+        console.log(chatroom);
+        message_in_db = chatroom[0].messages.find(message => message._id = _id);
+        res.json(JSON.stringify(message_in_db)); //Returns message to app.js
+      });
     });
 });
 
