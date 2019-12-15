@@ -56,7 +56,7 @@
         <%#= chatrooms[i] %>
         <% for(let id = 0; id < chatrooms.length; id++){ %>
           <% if(chatrooms[id].type === 'privateMessage'){ %>
-            <div id="<%#= chatrooms[i]._id %>" class="requestChatroom">
+            <div id="<%= chatrooms[id]._id %>" class="requestChatroom">
               <i class="fas fa-circle"></i>
               <% for(let member = 0; member < chatrooms[id].members.length; member++){ %>
                 <%= chatrooms[id].members[member].alias %>
