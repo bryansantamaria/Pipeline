@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import url("https://fonts.googleapis.com/css?family=Montserrat:400,500,700,900&display=swap");
 ::-webkit-scrollbar {
   display: none;
@@ -494,12 +495,54 @@ main-container main-content form #sendMessage {
 #edit-modal-container {
   display: -ms-grid;
   display: grid;
-  -ms-grid-rows: auto 1fr 1fr;
-      grid-template-rows: auto 1fr 1fr;
+  -ms-grid-columns: 1fr;
+      grid-template-columns: 1fr;
+  -ms-grid-rows: 150px, 20px, 20px, 250px;
+      grid-template-rows: 150px, 20px, 20px, 250px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-color: #beb2be;
 }
 
-#edit-modal-container img {
+#edit-modal-container #edit-profile-preview {
+  -o-object-fit: cover;
+     object-fit: cover;
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-column: 1/2;
+  -ms-grid-row: 1;
+  grid-row: 1;
   width: 100%;
+  height: 230px;
+}
+
+#edit-modal-container #edit-text-alias {
+  -ms-grid-column: 1;
+  grid-column: 1/1;
+  -ms-grid-row: 2;
+  grid-row: 2;
+  margin-top: 15px;
+  margin-bottom: 0px;
+  border: solid 1px black;
+}
+
+#edit-modal-container #edit-alias {
+  -ms-grid-column: 1;
+  grid-column: 1/1;
+  -ms-grid-row: 3;
+  grid-row: 3;
+  width: 300px;
+  padding: 5px;
+  border-radius: 3px;
+  border: solid 1px black;
+}
+
+#edit-modal-container #edit-form  {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-column: 1/2;
+  -ms-grid-row: 4;
+      grid-row-start: 4;
+  border: solid 1px black;
 }
 
 /*#edit-profile-preview {}*/

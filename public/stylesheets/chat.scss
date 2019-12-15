@@ -312,12 +312,43 @@ main-container {
 
 #edit-modal-container {
   display:grid;
-  grid-template-rows: auto 1fr 1fr;
-
-  img {
+  grid-template-columns: 1fr;
+  grid-template-rows: 150px, 20px, 20px, 250px;
+  border: 1px solid $darken-heavy;
+  // @extend %sidebar-color;
+  background-color: rgb(190, 178, 190);
+  
+  #edit-profile-preview {
+    object-fit: cover;
+    grid-column: 1/2;
+    grid-row:1;
     width: 100%;
+    height: 230px;
+    
   }
+  #edit-text-alias{
+    grid-column: 1/1;
+    grid-row: 2;
+    margin-top: 15px;
+    margin-bottom: 0px;
+    border: solid 1px black;
+  }
+  #edit-alias {
+    grid-column: 1/1;
+    grid-row: 3;
+    width: 300px;
+    padding: 5px;
+    border-radius: 3px;
+    border: solid 1px black;
+  }
+  #edit-form {
+    grid-column: 1/2;
+    grid-row-start: 4;
+    border: solid 1px black;
+  }
+
 }
+
 /*#edit-profile-preview {}*/
 
 #create-pm-body {

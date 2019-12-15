@@ -174,14 +174,13 @@
           </button>
         </div>
         <div class="modal-body" id="edit-modal-container">
-          <img src="" alt="" id="edit-profile-preview" class="w-50">
-          <p>Alias</p>
-          <input type="text" class="w-100" placeholder="" id="edit-alias"> <br> <br>
+          <img src="" alt="" id="edit-profile-preview" >
+          <p id="edit-text-alias">Alias</p>
+          <input type="text" placeholder="" id="edit-alias"> <br> <br>
           <!-- ladda upp bild -->
-          <form class="form-horizontal" name="profile-pic" action="/uploadfile" method="POST"
+          <form class="form-horizontal" id="edit-form" name="profile-pic" action="/uploadfile" method="POST"
             enctype="multipart/form-data">
-            <p>Profile picture</p>
-
+            <p id="edit-email">Email address: </p>
             <label class="control-label">Upload profile picture</label>
             <input type="hidden" name="_id" id="pictureID">
             <input type="file" name="profile_picture"><br> <br>
