@@ -70,28 +70,45 @@ app.use('/uploadfile', uploadFile);
 
 
 let usersOnline = [];
+let noOfUsers;
 //Socket on tar emot data från klienten, Socket emit skickar data till klienten.
 io.on('connection', (socket) => {
   let id = socket.id;
 
   socket.on('new-user-online', (users) => {
-
     usersOnline.push(users);
     io.emit('new-user-online', usersOnline);
   });
-  socket.on('disconnect', (user) => {
+
+  socket.on('disconnect', () => {
+    noOfUsers = usersOnline.length;
+
     usersOnline.forEach(user => {
       io.emit('checkOnline', user);
     });
-  })
-  io.emit('disconnect', {user: usersOnline, status: socket.disconnected});
+
+    usersOnline = [];
+  });
+
+  //io.emit('disconnect', {user: usersOnline, status: socket.disconnected});
   
   socket.on('checkOnline', (user) => {
     usersOnline.push(user);
+
+    console.log('User verified online >');
+    console.log(user);
+
+    if(usersOnline.length == noOfUsers -1) {
+      io.emit('new-user-online', usersOnline);
+      console.log('Users online after disconnect >')
+      console.log(usersOnline);
+    }
   });
+
+
   setInterval(function(){ 
     
-    usersOnline = [];
+
   }, 3000);
 
   // is Typing

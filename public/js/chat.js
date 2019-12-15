@@ -52,32 +52,32 @@ fetch('user/' + uid).then(userdata => {
   document.querySelector('#edit-profile-preview').setAttribute('src', `/images/${chatGlobals.user._id}.jpg`);
 });
 
-$(".requestChatroom").on("click", function(){
+$(".requestChatroom").on("click", function () {
   console.log(chatGlobals);
   $('message-root').empty();
   let chatroomID = this.id;
   chatGlobals.chatroomId = chatroomID;
   console.log(chatGlobals.chatroomId);
-  fetch('/chatroom/'+ chatroomID).then(res => res.json())
-  .then(chatroom => {
-    chatroom = JSON.parse(chatroom);
-    let chatroomMessages = chatroom[0].messages;
-    chatroomMessages.forEach(msg => {
-      let chatMessage = new ChatModule(
-        msg.message,
-        msg.alias,
-        msg.avatar,
-        msg.timestamp,
-        msg._id,
-        msg.mentions
-      );
-      if (chatGlobals.user.alias == msg.alias) {
-        chatMessage.setupEventListeners();
-      }
+  fetch('/chatroom/' + chatroomID).then(res => res.json())
+    .then(chatroom => {
+      chatroom = JSON.parse(chatroom);
+      let chatroomMessages = chatroom[0].messages;
+      chatroomMessages.forEach(msg => {
+        let chatMessage = new ChatModule(
+          msg.message,
+          msg.alias,
+          msg.avatar,
+          msg.timestamp,
+          msg._id,
+          msg.mentions
+        );
+        if (chatGlobals.user.alias == msg.alias) {
+          chatMessage.setupEventListeners();
+        }
 
-      chatMessage.render(document.querySelector('message-root'))
+        chatMessage.render(document.querySelector('message-root'))
+      });
     });
-  });
 });
 
 var socket = io();
@@ -107,43 +107,45 @@ document.querySelector('#create-pm-btn').addEventListener('click', () => {
           usersInChatroom += user.alias + ' ';
         }*/
 
-    console.log(chatroom._id);
+        console.log(chatroom._id);
 
-    let chatroomListItem = `<div id="${chatroom._id}" class="requestChatroom"><i class="fas fa-circle"></i>${usersInChatroom}</div>`;
+        let chatroomListItem = `<div id="${chatroom._id}" class="requestChatroom"><i class="fas fa-circle"></i>${usersInChatroom}</div>`;
 
-    document.querySelector('private-message').innerHTML += chatroomListItem;
+        document.querySelector('private-message').innerHTML += chatroomListItem;
 
-    let selectionID = '#' + chatroom._id;
+        let selectionID = '#' + chatroom._id;
 
-    document.getElementById(chatroom._id).addEventListener('click', e => {
-      $('message-root').empty();
-      let chatroomID = e.target.id;
-      console.log(chatroomID);
-      chatGlobals.chatroomId = chatroomID;
-      fetch('/chatroom/'+ chatroomID).then(res => {
-        return res.json();
-      }).then(chatroom => {
-        chatroom = JSON.parse(chatroom);
-        let chatroomMessages = chatroom[0].messages;
-        chatroomMessages.forEach(msg => {
-          let chatMessage = new ChatModule(
-            msg.message,
-            msg.alias,
-            msg.avatar,
-            msg.timestamp,
-            msg._id,
-            msg.mentions
-          );
-          if(chatGlobals.user.alias == msg.alias) {
-            chatMessage.setupEventListeners();
-          }
+        document.getElementById(chatroom._id).addEventListener('click', e => {
+          $('message-root').empty();
+          let chatroomID = e.target.id;
+          console.log(chatroomID);
+          chatGlobals.chatroomId = chatroomID;
+          fetch('/chatroom/' + chatroomID).then(res => {
+            return res.json();
+          }).then(chatroom => {
+            chatroom = JSON.parse(chatroom);
+            let chatroomMessages = chatroom[0].messages;
+            chatroomMessages.forEach(msg => {
+              let chatMessage = new ChatModule(
+                msg.message,
+                msg.alias,
+                msg.avatar,
+                msg.timestamp,
+                msg._id,
+                msg.mentions
+              );
+              if (chatGlobals.user.alias == msg.alias) {
+                chatMessage.setupEventListeners();
+              }
 
-          chatMessage.render(document.querySelector('message-root'))
+              chatMessage.render(document.querySelector('message-root'))
+            });
+          });
         });
-      });
-    });
 
-  chatGlobals.addToRoom = [];
+        chatGlobals.addToRoom = [];
+      })
+    })
 })
 
 //Delete events
@@ -264,37 +266,41 @@ socket.on('chat message', function (chatObject) {
 });
 //Socket on får data från server, Socket emit skickar data till servern.
 socket.on('new-user-online', users => {
-  let div = document.createElement('div');
-  for(let i = 0; i < users.length; i ++) {
+  while(document.getElementById('users-online').firstChild) {
+    document.getElementById('users-online').removeChild(document.getElementById('users-online').firstChild);
+  }
+
+  for (let i = 0; i < users.length; i++) {
+    let div = document.createElement('div');
     div.innerText = users[i].alias;
     div.id = users[i]._id;
     // div.setAttribute('class', 'fas fa-circle');
+    document.getElementById('users-online').appendChild(div);
   }
-  document.getElementById('users-online').appendChild(div);
 });
 
 socket.on('checkOnline', (status) => {
-  if(status._id === chatGlobals.user._id) {
+  if (status._id === chatGlobals.user._id) {
     socket.emit('checkOnline', status);
   }
 })
 
-socket.on('disconnect', (statusUser) => {
+/*socket.on('disconnect', (statusUser) => {
+  console.log(statusUser.status);
+  if (statusUser.status) {
     console.log(statusUser.status);
-    if(statusUser.status) {
-      console.log(statusUser.status);
-      let id = document.getElementById(statusUser.user._id);
-      for(let i = 0; i < statusUser.user.alias.length; i++) {
-        if(statusUser.user._id == id.id) {
-          console.log(id.id);
+    let id = document.getElementById(statusUser.user._id);
+    for (let i = 0; i < statusUser.user.alias.length; i++) {
+      if (statusUser.user._id == id.id) {
+        console.log(id.id);
         id.innerHTML = '';
-        }
       }
-      const filterResult = statusUser.alias.filter(alias => statusUser.user._id == id.id);
-      console.log(filterResult);
-      console.log(statusUser.alias);
     }
-});
+    const filterResult = statusUser.alias.filter(alias => statusUser.user._id == id.id);
+    console.log(filterResult);
+    console.log(statusUser.alias);
+  }
+});*/
 
 //Shows when a user is typing, end on enter.
 socket.on('typing', (alias) => {
@@ -444,7 +450,7 @@ document.addEventListener('DOMContentLoaded', () => {
       addToRoomModules.push(addToRoom);
       addToRoom.render();
     }
-    if(debug) console.log(chatGlobals.addToRoom);
+    if (debug) console.log(chatGlobals.addToRoom);
   })
 
   document.querySelector('users-to-add').addEventListener('user-removed', e => {
