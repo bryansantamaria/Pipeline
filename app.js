@@ -100,8 +100,9 @@ io.on('connection', (socket) => {
   });
 
   socket.on('chat message', function (chatMessage) {  //Lyssnar på eventet 'chat message'
+    console.log('Chat message from client >');
     console.log(chatMessage);
-    request('http://127.0.0.1:3000/chatroom/', {       //POST request to server.js containing message
+    request('http://127.0.0.1:3000/chatroom', {       //POST request to server.js containing message
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -111,7 +112,7 @@ io.on('connection', (socket) => {
       console.log('Chat message recieved:' + JSON.parse(message));
       io.emit('chat message', JSON.parse(message));   //Emits chat message to all clients
     }).catch(error => {
-      console.error(error);
+      console.error('it broke :(');
     });
   });
 

@@ -25,7 +25,7 @@ let chatGlobals = {
   deleteTarget: undefined,
   editTarget: undefined,
   user: undefined,
-  chatroomId: 'dab123',
+  chatroomId: '5deeabc57873593ac0902e8e',
   addToRoom: []
 }
 
@@ -52,13 +52,14 @@ fetch('user/' + uid).then(userdata => {
   document.querySelector('#edit-profile-preview').setAttribute('src', `/images/${chatGlobals.user._id}.jpg`);
 });
 
-$(".requestChatroom").on("click", function () {
+$(".requestChatroom").on("click", function(){
+  console.log(chatGlobals);
   $('message-root').empty();
   let chatroomID = this.id;
-
-  fetch('/chatroom/' + chatroomID).then(res => {
-    return res.json();
-  }).then(chatroom => {
+  chatGlobals.chatroomId = chatroomID;
+  console.log(chatGlobals.chatroomId);
+  fetch('/chatroom/'+ chatroomID).then(res => res.json())
+  .then(chatroom => {
     chatroom = JSON.parse(chatroom);
     let chatroomMessages = chatroom[0].messages;
     chatroomMessages.forEach(msg => {
@@ -106,41 +107,38 @@ document.querySelector('#create-pm-btn').addEventListener('click', () => {
           usersInChatroom += user.alias + ' ';
         }*/
 
-        usersInChatroom += user.alias + ' ';
-      })
+    console.log(chatroom._id);
 
-      console.log(chatroom._id);
+    let chatroomListItem = `<div id="${chatroom._id}" class="requestChatroom"><i class="fas fa-circle"></i>${usersInChatroom}</div>`;
 
-      let chatroomListItem = `<div id="${chatroom._id}" class="requestChatroom"><i class="fas fa-circle"></i>${usersInChatroom}</div>`;
+    document.querySelector('private-message').innerHTML += chatroomListItem;
 
-      document.querySelector('private-message').innerHTML += chatroomListItem;
+    let selectionID = '#' + chatroom._id;
 
-      let selectionID = '#' + chatroom._id;
+    document.getElementById(chatroom._id).addEventListener('click', e => {
+      $('message-root').empty();
+      let chatroomID = e.target.id;
+      console.log(chatroomID);
+      chatGlobals.chatroomId = chatroomID;
+      fetch('/chatroom/'+ chatroomID).then(res => {
+        return res.json();
+      }).then(chatroom => {
+        chatroom = JSON.parse(chatroom);
+        let chatroomMessages = chatroom[0].messages;
+        chatroomMessages.forEach(msg => {
+          let chatMessage = new ChatModule(
+            msg.message,
+            msg.alias,
+            msg.avatar,
+            msg.timestamp,
+            msg._id,
+            msg.mentions
+          );
+          if(chatGlobals.user.alias == msg.alias) {
+            chatMessage.setupEventListeners();
+          }
 
-      document.getElementById(chatroom._id).addEventListener('click', e => {
-        $('message-root').empty();
-        let chatroomID = e.target.id;
-
-        fetch('/chatroom/' + chatroomID).then(res => {
-          return res.json();
-        }).then(chatroom => {
-          chatroom = JSON.parse(chatroom);
-          let chatroomMessages = chatroom[0].messages;
-          chatroomMessages.forEach(msg => {
-            let chatMessage = new ChatModule(
-              msg.message,
-              msg.alias,
-              msg.avatar,
-              msg.timestamp,
-              msg._id,
-              msg.mentions
-            );
-            if (chatGlobals.user.alias == msg.alias) {
-              chatMessage.setupEventListeners();
-            }
-
-            chatMessage.render(document.querySelector('message-root'))
-          });
+          chatMessage.render(document.querySelector('message-root'))
         });
       });
     });
@@ -174,6 +172,7 @@ document.querySelector('#edit-btn').addEventListener('click', () => {
 $("#msgForm").submit(function (e) {
   e.preventDefault();
   if ($("#messageValue").val() == "") { } else {
+
     let chatMessage = {
       alias: chatGlobals.user.alias,
       message: $("#messageValue").val(),
@@ -192,6 +191,7 @@ $("#msgForm").submit(function (e) {
     if (debug) {
       console.log('Message sent to server >');
       console.log(chatMessage);
+      console.log(chatGlobals.chatroomId);
     }
 
     //Emits the stringified chatMessage object to server.
@@ -444,7 +444,7 @@ document.addEventListener('DOMContentLoaded', () => {
       addToRoomModules.push(addToRoom);
       addToRoom.render();
     }
-    if (debug) console.log(chatGlobals.addToRoom);
+    if(debug) console.log(chatGlobals.addToRoom);
   })
 
   document.querySelector('users-to-add').addEventListener('user-removed', e => {
