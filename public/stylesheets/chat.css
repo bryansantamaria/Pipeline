@@ -227,7 +227,7 @@ msg-container avatar-container {
   max-height: 70px;
 }
 
-msg-container avatar-container img {
+msg-container avatar-container #edit-profile-preview {
   width: 100%;
 }
 
@@ -292,7 +292,7 @@ msg-container .fa-times:hover {
   color: #c03838;
 }
 
-main-container side-bar public-channels div, main-container side-bar private-message div {
+main-container side-bar public-channels div, main-container side-bar private-message div, main-container side-bar users-online #users-online {
   margin-top: 10px;
   background: rgba(0, 0, 0, 0.1);
   margin-left: -30px;
@@ -307,16 +307,16 @@ main-container side-bar public-channels div, main-container side-bar private-mes
   transition: 0.2s all;
 }
 
-main-container side-bar public-channels div:hover, main-container side-bar private-message div:hover {
+main-container side-bar public-channels div:hover, main-container side-bar private-message div:hover, main-container side-bar users-online #users-online:hover {
   background: rgba(0, 0, 0, 0.2);
   cursor: pointer;
 }
 
-main-container side-bar public-channels div:active, main-container side-bar private-message div:active {
+main-container side-bar public-channels div:active, main-container side-bar private-message div:active, main-container side-bar users-online #users-online:active {
   background: rgba(255, 255, 255, 0.1);
 }
 
-main-container side-bar public-channels #channel-title, main-container side-bar private-message #private-message-title {
+main-container side-bar public-channels #channel-title, main-container side-bar private-message #private-message-title, main-container side-bar users-online #online-users-title {
   background: rgba(0, 0, 0, 0.2);
   margin-left: -30px;
   padding-left: 60px;
@@ -412,6 +412,19 @@ main-container side-bar private-message {
   scrollbar-width: none;
 }
 
+main-container side-bar users-online {
+  -ms-grid-row: 5;
+  grid-row: 5;
+  margin-left: -20px;
+  overflow-y: scroll;
+  overflow-x: visible;
+  scrollbar-width: none;
+}
+
+main-container side-bar users-online i {
+  color: #8ecf2d;
+}
+
 main-container main-content {
   -ms-grid-column: 2;
   grid-column: 2;
@@ -478,9 +491,20 @@ main-container main-content form #sendMessage {
   width: 19%;
 }
 
+#edit-modal-container {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: auto 1fr 1fr;
+      grid-template-rows: auto 1fr 1fr;
+}
+
+#edit-modal-container img {
+  width: 100%;
+}
+
 /*#edit-profile-preview {}*/
 #create-pm-body {
-  background: #fafafa;
+  background: whitesmoke;
 }
 
 #create-pm-body h5 {

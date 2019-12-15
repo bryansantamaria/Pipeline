@@ -74,19 +74,25 @@ let usersOnline = [];
 io.on('connection', (socket) => {
   let id = socket.id;
 
-  socket.on('new-user-online', (users) => { 
+  socket.on('new-user-online', (users) => {
+
     usersOnline.push(users);
-    io.emit('new-user-online', {user: usersOnline, socketId: socket.id});
+    io.emit('new-user-online', usersOnline);
   });
-
-  socket.on('disconnect', (users) => {
+  socket.on('disconnect', (user) => {
+    usersOnline.forEach(user => {
+      io.emit('checkOnline', user);
+    });
+  })
+  io.emit('disconnect', {user: usersOnline, status: socket.disconnected});
+  
+  socket.on('checkOnline', (user) => {
+    usersOnline.push(user);
+  });
+  setInterval(function(){ 
     
-      console.log(socket.disconnected);
-      console.log(users);
-      console.log(id);
-    io.emit('disconnect', {status: socket.disconnected, alias: usersOnline, socketId: id});
-  });
-
+    usersOnline = [];
+  }, 3000);
 
   // is Typing
   socket.on('typing', (user) => {

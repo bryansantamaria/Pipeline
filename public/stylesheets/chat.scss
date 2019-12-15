@@ -65,7 +65,7 @@ msg-container {
     width: 100%;
     max-height: 70px;
 
-    img {
+    #edit-profile-preview {
       width: 100%;
     }
   }
@@ -239,6 +239,23 @@ main-container {
         @extend %channel-light;
       }
     }
+    users-online {
+      grid-row: 5;
+      margin-left: -20px;
+      overflow-y: scroll;
+      overflow-x: visible;
+      scrollbar-width: none;
+      i {
+        color: rgb(142, 207, 45);
+      }
+      #online-users-title {
+        @extend %channel-dark;
+      }
+      #users-online {
+        @extend %channel-light;
+      }
+    }
+
   }
 
   main-content {
@@ -293,6 +310,14 @@ main-container {
   }
 }
 
+#edit-modal-container {
+  display:grid;
+  grid-template-rows: auto 1fr 1fr;
+
+  img {
+    width: 100%;
+  }
+}
 /*#edit-profile-preview {}*/
 
 #create-pm-body {

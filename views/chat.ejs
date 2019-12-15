@@ -30,9 +30,9 @@
     <side-bar>
       <img src="img/pipeline.svg" alt="Logo">
       <user-name>
-        <i class="fas fa-circle"></i> 
+        <i class="fas fa-circle"></i>
         <label for="user-settings">
-          <span id="alias">Bryan Santamaria </span> 
+          <span id="alias">Bryan Santamaria </span>
           <i class="fas fa-cog" id="user-settings"></i>
         </label>
       </user-name>
@@ -41,19 +41,25 @@
       <public-channels>
         <div id="channel-title"><i class="fas fa-plus-circle"></i> Channels</div>
         <% for(let i=0; i < chatrooms.length; i++){ %>
-            <div id="<%= chatrooms[i]._id %>" class="requestChatroom"><i class="fas fa-hashtag"></i> <%=chatrooms[i].name %></div>
-       <% } %>
+        <div id="<%= chatrooms[i]._id %>" class="requestChatroom"><i class="fas fa-hashtag"></i> <%=chatrooms[i].name %>
+        </div>
+        <% } %>
       </public-channels>
 
       <!-- Private messages -->
       <private-message>
-        <div id="private-message-title"><i class="fas fa-plus-circle" id="create-private-message"></i> Private Message</div>
+        <div id="private-message-title"><i class="fas fa-plus-circle" id="create-private-message"></i> Private Message
+        </div>
         <%# for(let i=0; i < users.length; i++){ %>
         <!--<div id="<%#= users[i]._id %>" class="requestChatroom"><i class="fas fa-circle"></i> <%#= users[i].alias %></div>-->
         <%# } %>
       </private-message>
 
-      <users-online id="users-online"></users-online>
+      <users-online>
+        <div id="online-users-title"><i class="fas fa-circle"></i> Online users</div>
+        <div id="users-online"></div>
+      </users-online>
+
     </side-bar>
 
     <!-- chat module container-->
@@ -153,13 +159,15 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" id="edit-modal-container">
+          <img src="" alt="" id="edit-profile-preview" class="w-50">
           <p>Alias</p>
           <input type="text" class="w-100" placeholder="" id="edit-alias"> <br> <br>
           <!-- ladda upp bild -->
-          <form class="form-horizontal" name="profile-pic" action="/uploadfile" method="POST" enctype="multipart/form-data">
+          <form class="form-horizontal" name="profile-pic" action="/uploadfile" method="POST"
+            enctype="multipart/form-data">
             <p>Profile picture</p>
-            <img src="" alt="" id="edit-profile-preview" class="w-50">
+
             <label class="control-label">Upload profile picture</label>
             <input type="hidden" name="_id" id="pictureID">
             <input type="file" name="profile_picture"><br> <br>

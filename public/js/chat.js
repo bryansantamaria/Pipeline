@@ -44,8 +44,8 @@ fetch('user/' + uid).then(userdata => {
   chatGlobals.user = JSON.parse(jsondata);
   html.edit_alias.value = chatGlobals.user.alias
   console.log(chatGlobals.user.alias);
-  socket.emit('new-user-online', chatGlobals.user.alias);
-  socket.emit('disconnect', chatGlobals.user.alias);
+  socket.emit('new-user-online', chatGlobals.user);
+  console.log(chatGlobals.user);
   html.alias.innerText = chatGlobals.user.alias;
   let pictureID = document.getElementById('pictureID');
   pictureID.value = chatGlobals.user._id;
@@ -265,25 +265,34 @@ socket.on('chat message', function (chatObject) {
 //Socket on får data från server, Socket emit skickar data till servern.
 socket.on('new-user-online', users => {
   let div = document.createElement('div');
-
-  for(let i = 0; i < users.user.length; i ++) {
-    div.innerText = users.user[i];
-    div.id = users.socketId;
+  for(let i = 0; i < users.length; i ++) {
+    div.innerText = users[i].alias;
+    div.id = users[i]._id;
+    // div.setAttribute('class', 'fas fa-circle');
   }
   document.getElementById('users-online').appendChild(div);
 });
 
+socket.on('checkOnline', (status) => {
+  if(status._id === chatGlobals.user._id) {
+    socket.emit('checkOnline', status);
+  }
+})
+
 socket.on('disconnect', (statusUser) => {
-    
+    console.log(statusUser.status);
     if(statusUser.status) {
-      let id = document.getElementById(statusUser.socketId);
-      console.log(statusUser.socketId);
-      for(let i = 0; i < statusUser.alias.length; i++) {
-        if(statusUser.socketId == id.id) {
+      console.log(statusUser.status);
+      let id = document.getElementById(statusUser.user._id);
+      for(let i = 0; i < statusUser.user.alias.length; i++) {
+        if(statusUser.user._id == id.id) {
           console.log(id.id);
         id.innerHTML = '';
         }
       }
+      const filterResult = statusUser.alias.filter(alias => statusUser.user._id == id.id);
+      console.log(filterResult);
+      console.log(statusUser.alias);
     }
 });
 
