@@ -29,7 +29,7 @@ let chatGlobals = {
   addToRoom: []
 }
 
-let debug = false;
+let debug = true;
 
 let html = {
   edit_alias: document.querySelector('#edit-alias'),
@@ -43,18 +43,20 @@ fetch('user/' + uid).then(userdata => {
 }).then(jsondata => {
   chatGlobals.user = JSON.parse(jsondata);
   html.edit_alias.value = chatGlobals.user.alias
-  console.log(chatGlobals.user);
+  console.log(chatGlobals.user.alias);
+  socket.emit('new-user-online', chatGlobals.user.alias);
+  socket.emit('disconnect', chatGlobals.user.alias);
   html.alias.innerText = chatGlobals.user.alias;
   let pictureID = document.getElementById('pictureID');
   pictureID.value = chatGlobals.user._id;
   document.querySelector('#edit-profile-preview').setAttribute('src', `/images/${chatGlobals.user._id}.jpg`);
 });
 
-$(".requestChatroom").on("click", function(){
+$(".requestChatroom").on("click", function () {
   $('message-root').empty();
   let chatroomID = this.id;
 
-  fetch('/chatroom/'+ chatroomID).then(res => {
+  fetch('/chatroom/' + chatroomID).then(res => {
     return res.json();
   }).then(chatroom => {
     chatroom = JSON.parse(chatroom);
@@ -68,7 +70,7 @@ $(".requestChatroom").on("click", function(){
         msg._id,
         msg.mentions
       );
-      if(chatGlobals.user.alias == msg.alias) {
+      if (chatGlobals.user.alias == msg.alias) {
         chatMessage.setupEventListeners();
       }
 
@@ -96,54 +98,54 @@ document.querySelector('#create-pm-btn').addEventListener('click', () => {
     body: JSON.stringify(usersInNewRoom)
   }).then(res => res.json())
     .then(chatroom => {
-    chatroom = JSON.parse(JSON.parse(chatroom));
-    console.log(chatroom);
-    let usersInChatroom = '';
-    chatroom.members.forEach(user => {
-      /*if(!user._id == chatGlobals.user._id) {
+      chatroom = JSON.parse(JSON.parse(chatroom));
+      console.log(chatroom);
+      let usersInChatroom = '';
+      chatroom.members.forEach(user => {
+        /*if(!user._id == chatGlobals.user._id) {
+          usersInChatroom += user.alias + ' ';
+        }*/
+
         usersInChatroom += user.alias + ' ';
-      }*/
+      })
 
-      usersInChatroom += user.alias + ' ';
-    })
+      console.log(chatroom._id);
 
-    console.log(chatroom._id);
+      let chatroomListItem = `<div id="${chatroom._id}" class="requestChatroom"><i class="fas fa-circle"></i>${usersInChatroom}</div>`;
 
-    let chatroomListItem = `<div id="${chatroom._id}" class="requestChatroom"><i class="fas fa-circle"></i>${usersInChatroom}</div>`;
+      document.querySelector('private-message').innerHTML += chatroomListItem;
 
-    document.querySelector('private-message').innerHTML += chatroomListItem;
+      let selectionID = '#' + chatroom._id;
 
-    let selectionID = '#' + chatroom._id;
+      document.getElementById(chatroom._id).addEventListener('click', e => {
+        $('message-root').empty();
+        let chatroomID = e.target.id;
 
-    document.getElementById(chatroom._id).addEventListener('click', e => {
-      $('message-root').empty();
-      let chatroomID = e.target.id;
-    
-      fetch('/chatroom/'+ chatroomID).then(res => {
-        return res.json();
-      }).then(chatroom => {
-        chatroom = JSON.parse(chatroom);
-        let chatroomMessages = chatroom[0].messages;
-        chatroomMessages.forEach(msg => {
-          let chatMessage = new ChatModule(
-            msg.message,
-            msg.alias,
-            msg.avatar,
-            msg.timestamp,
-            msg._id,
-            msg.mentions
-          );
-          if(chatGlobals.user.alias == msg.alias) {
-            chatMessage.setupEventListeners();
-          }
-    
-          chatMessage.render(document.querySelector('message-root'))
+        fetch('/chatroom/' + chatroomID).then(res => {
+          return res.json();
+        }).then(chatroom => {
+          chatroom = JSON.parse(chatroom);
+          let chatroomMessages = chatroom[0].messages;
+          chatroomMessages.forEach(msg => {
+            let chatMessage = new ChatModule(
+              msg.message,
+              msg.alias,
+              msg.avatar,
+              msg.timestamp,
+              msg._id,
+              msg.mentions
+            );
+            if (chatGlobals.user.alias == msg.alias) {
+              chatMessage.setupEventListeners();
+            }
+
+            chatMessage.render(document.querySelector('message-root'))
+          });
         });
       });
     });
-  });
 
-  chatGlobals.addToRoom = []; 
+  chatGlobals.addToRoom = [];
 })
 
 //Delete events
@@ -182,12 +184,12 @@ $("#msgForm").submit(function (e) {
     }
 
     mentions.inLatestMessage.forEach(mention => {
-      socket.emit('mention', {by: chatGlobals.user, for: mention});
+      socket.emit('mention', { by: chatGlobals.user, for: mention });
     })
 
     mentions.inLatestMessage = [];
 
-    if(debug) {
+    if (debug) {
       console.log('Message sent to server >');
       console.log(chatMessage);
     }
@@ -211,7 +213,7 @@ function updateUser() {
     body: JSON.stringify(chatGlobals.user),
   })
 
-  if(debug) {
+  if (debug) {
     console.log('Sent edit request to server >');
     console.log(chatGlobals.user);
   }
@@ -233,7 +235,7 @@ document.querySelector('#update-profile-btn').addEventListener('click', () => {
 socket.on('chat message', function (chatObject) {
   chatObject = JSON.parse(chatObject);
 
-  if(debug) {
+  if (debug) {
     console.log('Message recieved from server >');
     console.log(chatObject);
   }
@@ -248,22 +250,48 @@ socket.on('chat message', function (chatObject) {
     chatObject.mentions
   );
 
-  if(debug) {
+  if (debug) {
     console.log('Message recieved from server >');
     console.log(chatMessage);
   }
 
-  if(chatGlobals.user.alias == chatMessage.content.alias) {
+  if (chatGlobals.user.alias == chatMessage.content.alias) {
     chatMessage.setupEventListeners();
   }
 
   chatMessages.push(chatMessage);
   chatMessage.render(document.querySelector('message-root'));
 });
+//Socket on får data från server, Socket emit skickar data till servern.
+socket.on('new-user-online', users => {
+  let div = document.createElement('div');
 
-  socket.on('typing', (user) => {
-    $('#typing').html(user + ' is typing...');
-  });
+  for(let i = 0; i < users.user.length; i ++) {
+    div.innerText = users.user[i];
+    div.id = users.socketId;
+  }
+  document.getElementById('users-online').appendChild(div);
+});
+
+socket.on('disconnect', (statusUser) => {
+    
+    if(statusUser.status) {
+      let id = document.getElementById(statusUser.socketId);
+      console.log(statusUser.socketId);
+      for(let i = 0; i < statusUser.alias.length; i++) {
+        if(statusUser.socketId == id.id) {
+          console.log(id.id);
+        id.innerHTML = '';
+        }
+      }
+    }
+});
+
+//Shows when a user is typing, end on enter.
+socket.on('typing', (alias) => {
+  $('#typing').html(alias + ' is typing...');
+  console.log(chatGlobals.user.alias);
+});
 
 $('#messageValue').keyup((e) => {
   if (e.which === 13) {
@@ -271,18 +299,17 @@ $('#messageValue').keyup((e) => {
   } else if ($('#messageValue').val() !== '') {
     socket.emit('typing', chatGlobals.user.alias, true);
     console.log('TRUEEE');
+    console.log(chatGlobals.user.alias);
   } else {
     socket.emit('typing', false);
   }
 });
 
-
-
 //Loopa igenom alla chatmeddelanden, kontrollera id och rendera ut det nya editerade meddelandet.
 socket.on('edit', edited_message => {
   edited_message = JSON.parse(edited_message);
 
-  if(debug) {
+  if (debug) {
     console.log('Edit from server >')
     console.log(edited_message);
   }
@@ -298,7 +325,7 @@ socket.on('edit', edited_message => {
 socket.on('delete', delete_message => {
   delete_message = JSON.parse(delete_message);
 
-  if(debug) {
+  if (debug) {
     console.log('Delete request from server for msg >');
     console.log(delete_message);
   }
@@ -312,7 +339,7 @@ socket.on('delete', delete_message => {
 
 //Displays mention alert if user is mentioned
 socket.on('mention', mention => {
-  if(mention.for._id == chatGlobals.user._id) {
+  if (mention.for._id == chatGlobals.user._id) {
     document.querySelector('#mention-message').innerText = `${mention.by.alias} mentioned you.`
     document.querySelector('#mention-alert').classList.add('show');
   }
@@ -375,13 +402,13 @@ let addToRoomModules = [];
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#create-pm-user-search').addEventListener('input', e => {
     let query = e.target.value;
-    if(debug) console.log('Searched for: ' + query);
+    if (debug) console.log('Searched for: ' + query);
     userSearch.search(query);
 
-    if(query == '') {
+    if (query == '') {
       let userList = document.querySelector('user-list');
 
-      while(userList.firstChild) {
+      while (userList.firstChild) {
         userList.removeChild(userList.firstChild);
       }
     }
@@ -390,7 +417,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#create-pm-modal').addEventListener('search-result', e => {
     let userList = document.querySelector('user-list');
 
-    while(userList.firstChild) {
+    while (userList.firstChild) {
       userList.removeChild(userList.firstChild);
     }
 
@@ -402,18 +429,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   //Adds the user clicked on to list of users in new chat room
   document.querySelector('user-list').addEventListener('user-added', e => {
-    if(!chatGlobals.addToRoom.some(user => user._id == e.detail._id)) {
+    if (!chatGlobals.addToRoom.some(user => user._id == e.detail._id)) {
       chatGlobals.addToRoom.push(e.detail);
       let addToRoom = new AddToChat(document.querySelector('users-to-add'), e.detail);
       addToRoomModules.push(addToRoom);
       addToRoom.render();
-    } 
-    if(debug) console.log(chatGlobals.addToRoom);
+    }
+    if (debug) console.log(chatGlobals.addToRoom);
   })
 
   document.querySelector('users-to-add').addEventListener('user-removed', e => {
     chatGlobals.addToRoom = chatGlobals.addToRoom.filter(user => user._id != e.detail._id)
-    if(debug) console.log(chatGlobals.addToRoom);
+    if (debug) console.log(chatGlobals.addToRoom);
   })
 })
 
@@ -436,33 +463,33 @@ let mentions = {
 }
 
 function isSpace(char) {
-    var space = new RegExp(/^\s$/);
-    return space.test(char.charAt(0));
+  var space = new RegExp(/^\s$/);
+  return space.test(char.charAt(0));
 };
 
 document.querySelector('#messageValue').addEventListener('input', () => {
 
   let msg = document.querySelector('#messageValue');
 
-  if(!mentions.inMention) {
+  if (!mentions.inMention) {
     mentions.clear();
   }
 
-  if(msg.value.substr(msg.value.length -1 == '@') && (isSpace(msg.value.substr(msg.value.length -2)) || msg.value.length == 1) && !mentions.inMention) {
+  if (msg.value.substr(msg.value.length - 1 == '@') && (isSpace(msg.value.substr(msg.value.length - 2)) || msg.value.length == 1) && !mentions.inMention) {
     mentions.start = msg.value.length;
     mentions.inMention = true;
     mentions.clear();
   }
 
-  if(msg.value.charAt(mentions.start - 1) != '@' || (mentions.inMention && isSpace(msg.value.substr(msg.value.length -1)))) {
+  if (msg.value.charAt(mentions.start - 1) != '@' || (mentions.inMention && isSpace(msg.value.substr(msg.value.length - 1)))) {
     mentions.inMention = false;
   }
 
-  if(mentions.inMention) {
+  if (mentions.inMention) {
     mentions.query = msg.value.substr(mentions.start);
     document.querySelector('mentions-root').classList.remove('hidden')
-    if(debug) console.log(mentions);
-    if(debug) console.log(msg.value.charAt(mentions.start - 1));
+    if (debug) console.log(mentions);
+    if (debug) console.log(msg.value.charAt(mentions.start - 1));
     mentions.users.search(mentions.query);
 
     document.querySelector('overlay-root').classList.remove('hidden');
@@ -470,11 +497,11 @@ document.querySelector('#messageValue').addEventListener('input', () => {
 })
 
 document.querySelector('mentions-root').addEventListener('search-result', e => {
-  if(debug) console.log(e.detail);
+  if (debug) console.log(e.detail);
   document.querySelector('mentions-root').innerHTML = '';
 
   e.detail.forEach(user => {
-    if(debug) console.log(user);
+    if (debug) console.log(user);
     let mentionsItem = new MentionsItem(document.querySelector('mentions-root'), user);
     mentionsItem.render();
   })
@@ -483,14 +510,14 @@ document.querySelector('mentions-root').addEventListener('search-result', e => {
 document.querySelector('mentions-root').addEventListener('mention-user', e => {
   mentions.inMention = false;
   let msg = document.querySelector('#messageValue');
-  if(debug) console.log(e.detail);
+  if (debug) console.log(e.detail);
 
   msg.value = msg.value.replace(`@${mentions.query}`, `@${e.detail.alias} `);
 
   mentions.inLatestMessage.push(e.detail);
 
-  if(debug) console.log('Mentioned in message >');
-  if(debug) console.log(mentions.inLatestMessage);
+  if (debug) console.log('Mentioned in message >');
+  if (debug) console.log(mentions.inLatestMessage);
 
   msg.focus();
   mentions.clear();

@@ -68,24 +68,30 @@ app.use('/uploadfile', uploadFile);
 /// SOCKET.IO
 ///////////////////////////////////////////////////
 
+
+let usersOnline = [];
+//Socket on tar emot data från klienten, Socket emit skickar data till klienten.
 io.on('connection', (socket) => {
-  socket.on('newUser', (user) => {
-    socket.username = user;
+  let id = socket.id;
 
-    //New user is online
-    socket.broadcast.emit('newUser', `${user}: Is now online!`);
-
-    //You are online
-    socket.on('userOnline', (user) => {
-      socket.emit('userOnline', `You ${user} are online`);
-    });
-
+  socket.on('new-user-online', (users) => { 
+    usersOnline.push(users);
+    io.emit('new-user-online', {user: usersOnline, socketId: socket.id});
   });
-    //Socket on tar emot data från klienten, Socket emit skickar data till klienten.
-    // is Typing
-    socket.on('typing', (user) => {
-      socket.broadcast.emit('typing', user);
-    });
+
+  socket.on('disconnect', (users) => {
+    
+      console.log(socket.disconnected);
+      console.log(users);
+      console.log(id);
+    io.emit('disconnect', {status: socket.disconnected, alias: usersOnline, socketId: id});
+  });
+
+
+  // is Typing
+  socket.on('typing', (user) => {
+    socket.broadcast.emit('typing', user);
+  });
 
   socket.on('chat message', function (chatMessage) {  //Lyssnar på eventet 'chat message'
     console.log(chatMessage);
@@ -135,9 +141,9 @@ io.on('connection', (socket) => {
     io.emit('mention', mention)
   })
 
-  socket.on('disconnect', (user) => {
-    socket.broadcast.emit('newUser', socket.username + ' Disconnected')
-  });
+  // socket.on('disconnect', (user) => {
+  //   socket.broadcast.emit('newUser', socket.username + ' Disconnected')
+  // });
 });
 
 http.listen(port, function () {
