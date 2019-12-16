@@ -58,26 +58,40 @@ $(".requestChatroom").on("click", function () {
   let chatroomID = this.id;
   chatGlobals.chatroomId = chatroomID;
   console.log(chatGlobals.chatroomId);
-  fetch('/chatroom/' + chatroomID).then(res => res.json())
-    .then(chatroom => {
-      chatroom = JSON.parse(chatroom);
-      let chatroomMessages = chatroom[0].messages;
-      chatroomMessages.forEach(msg => {
-        let chatMessage = new ChatModule(
-          msg.message,
-          msg.alias,
-          msg.avatar,
-          msg.timestamp,
-          msg._id,
-          msg.mentions
-        );
-        if (chatGlobals.user.alias == msg.alias) {
-          chatMessage.setupEventListeners();
-        }
-
-        chatMessage.render(document.querySelector('message-root'))
-      });
+  fetch('/chatroom/'+ chatroomID).then(res => res.json())
+  .then(chatroom => {
+    chatroom = JSON.parse(chatroom);
+    let chatroomMessages = chatroom[0].messages;
+    chatroomMessages.forEach(msg => {
+      let chatMessage = new ChatModule(
+        msg.message,
+        msg.alias,
+        msg.avatar,
+        msg.timestamp,
+        msg._id,
+        msg.mentions
+      );
+      if(chatGlobals.user.alias == msg.alias) {
+        chatMessage.setupEventListeners();
+      }
+      chatMessage.render(document.querySelector('message-root'));
     });
+    let chatroomMembers = chatroom[0].members;
+    let topBar = document.getElementById("topBar")
+    topBar.innerHTML = '';
+    for (var memberInArray = 0; memberInArray < chatroomMembers.length; memberInArray++) {
+      let member = document.createElement('span');
+      member.classList.add("membersInChatroom");
+      if (chatroom[0].type === "privateMessage") {
+        member.innerHTML = chatroomMembers[memberInArray].alias;
+        topBar.insertBefore(member, topBar.childNodes[0]);
+      }
+      else {
+        member.innerHTML = chatroomMembers[memberInArray];
+        topBar.insertBefore(member, topBar.childNodes[0]);
+      }
+    }
+  });
 });
 
 var socket = io();
@@ -359,6 +373,10 @@ socket.on('mention', mention => {
     document.querySelector('#mention-alert').classList.add('show');
   }
 })
+
+socket.on("disconnect", () => {
+  console.log(socket.disconnected);
+});
 
 //Dismisses mention alert
 document.querySelector('#mention-dismiss').addEventListener('click', () => {
