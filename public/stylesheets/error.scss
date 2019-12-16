@@ -1,0 +1,47 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,700,900&display=swap');
+@import 'global';
+$sidebar-color: linear-gradient(270deg, #616070 0%, #685d74 100%);
+
+$edit-green-color: #02805A;
+
+// Button colors.
+$theme-colors: ( 
+    "warning": $edit-green-color,
+    'secondary': white
+);
+// Required
+@import "../../node_modules/bootstrap/scss/functions";
+@import "../../node_modules/bootstrap/scss/variables";
+@import "../../node_modules/bootstrap/scss/mixins";
+@import "../../node_modules/bootstrap/scss/buttons";
+@import "../../node_modules/bootstrap/scss/modal";
+body{
+    background:$sidebar-color;
+}
+h1 {
+    font-size: 3em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #ffff;
+    font-weight: 400;
+    margin-top: 0.5rem;
+}
+.jumbotron {
+    width: 700px;
+    height: 430px;
+    // display: grid;
+    // grid-template-columns: 1fr;
+    // grid-template-rows: 1fr, 1fr, 1fr, 50px;
+    img {
+        max-width:100%;
+        padding-right: 10px;
+        margin-left: -20px;
+    }
+    h2 {
+        font-size: 6rem;
+        color: black;
+        line-height: 1;
+        font-weight: 300;
+        letter-spacing: 20px;
+    }
+}

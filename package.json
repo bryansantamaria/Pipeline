@@ -16,7 +16,7 @@
     "ejs": "~2.6.1",
     "express": "~4.16.1",
     "express-fileupload": "^1.1.6",
-    "http-errors": "^1.6.3",
+    "http-errors": "^1.7.3",
     "image-convert": "^0.1.33",
     "mongodb": "^3.3.5",
     "monk": "^7.1.1",

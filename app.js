@@ -9,6 +9,7 @@ const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
 const port = 5000;
 const fileUpload = require('express-fileupload');
+var createError = require('http-errors');
 
 
 ///////////////////////////////////////////////////
@@ -64,6 +65,22 @@ app.use('/loginfailed', loginfailedRouter);
 app.use('/chatroom', chatroomRouter);
 app.use('/uploadfile', uploadFile);
 
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  next(createError(404));
+});
+
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
 ///////////////////////////////////////////////////
 /// SOCKET.IO
 ///////////////////////////////////////////////////
@@ -105,12 +122,6 @@ io.on('connection', (socket) => {
     }
   });
 
-
-  setInterval(function(){ 
-    
-
-  }, 3000);
-
   // is Typing
   socket.on('typing', (user) => {
     socket.broadcast.emit('typing', user);
@@ -125,9 +136,10 @@ io.on('connection', (socket) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: message.chatMessage,                              //Message body
+      body: JSON.stringify(message.chatMessage)                              //Message body
     }).then(message_from_db => {                              //recieves message + id from server
-      console.log('Chat message recieved:' + JSON.parse(message_from_db));
+      console.log('\n\nChat message recieved from db >');
+      console.log(JSON.parse(message_from_db)); 
       io.sockets.in(message.roomId).emit('chat message', JSON.parse(message_from_db));   //Emits chat message to all clients
     }).catch(error => {
       console.error('it broke :(');
@@ -136,7 +148,12 @@ io.on('connection', (socket) => {
 
   socket.on('joinedRoom', id => {
     socket.leave(socket.room);
+    console.log('Joined room: ' + id);
     socket.join(id);
+  })
+
+  socket.on('createdChatroom', chatroom => {
+    io.emit('createdChatroom', chatroom);
   })
 
   socket.on('edit', function (chatMessage) {          //Lyssnar på eventet 'chat message'

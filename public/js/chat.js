@@ -78,7 +78,9 @@ document.querySelector('#create-pm-btn').addEventListener('click', () => {
     body: JSON.stringify(usersInNewRoom)
   }).then(res => res.json())
     .then(chatroom => {
-      createPM(JSON.parse(chatroom));
+      chatroom = JSON.parse(chatroom);
+      console.log(chatroom);
+      socket.emit('createdChatroom', chatroom);
     });
 })
 
@@ -129,28 +131,30 @@ function joinChatRoom(e) {
 }
 
 function createPM(chatroom) {
-  console.log(chatroom);
-  let usersInChatroom = ' ';
-  chatroom.members.forEach(user => {
-    usersInChatroom += user.alias + ' ';
-  });
-
-  let div = document.createElement('div');
-  let i = document.createElement('i');
-  let text = document.createTextNode(usersInChatroom);
-  div.id = chatroom._id;
-  div.classList.add('requestChatroom');
-  i.classList.add('fas', 'fa-circle');
-  div.appendChild(i);
-  div.appendChild(text);
-
-  document.querySelector('private-message').appendChild(div);
-
-  div.addEventListener('click', e => {
-    joinChatRoom(e);
-  });
-
-  chatGlobals.addToRoom = [];
+  if(chatroom.members.some(user => user._id == chatGlobals.user._id)) {
+    console.log(chatroom);
+    let usersInChatroom = ' ';
+    chatroom.members.forEach(user => {
+      usersInChatroom += user.alias + ' ';
+    });
+  
+    let div = document.createElement('div');
+    let i = document.createElement('i');
+    let text = document.createTextNode(usersInChatroom);
+    div.id = chatroom._id;
+    div.classList.add('requestChatroom');
+    i.classList.add('fas', 'fa-circle');
+    div.appendChild(i);
+    div.appendChild(text);
+  
+    document.querySelector('private-message').appendChild(div);
+  
+    div.addEventListener('click', e => {
+      joinChatRoom(e);
+    });
+  
+    chatGlobals.addToRoom = [];
+  }
 }
 
 function createChannel() {
@@ -206,7 +210,7 @@ $("#msgForm").submit(function (e) {
     }
 
     //Emits the stringified chatMessage object to server.
-    socket.emit("chat message", { roomId: chatGlobals.chatroomId, chatMessage: JSON.stringify(chatMessage) });
+    socket.emit("chat message", { roomId: chatGlobals.chatroomId, chatMessage: chatMessage });
 
     $("#messageValue").val('');
   }
@@ -301,6 +305,13 @@ socket.on('checkOnline', (status) => {
     socket.emit('checkOnline', status);
   }
 });
+
+socket.on('createdChatroom', chatroom => {
+  console.log(chatroom);
+  if(chatroom.members.some(member => member._id == chatGlobals.user._id)) {
+    createPM(chatroom);
+  }
+})
 
 //Shows when a user is typing, end on enter.
 socket.on('typing', (alias) => {
