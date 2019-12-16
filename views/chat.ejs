@@ -54,21 +54,20 @@
       <private-message>
         <div id="private-message-title"><i class="fas fa-plus-circle" id="create-private-message"></i> Private Message</div>
         <%#= chatrooms[i] %>
-        <%# for(let id = 0; id < chatrooms.length; id++){ %>
-          <%# if(chatrooms[id].type === 'privateMessage'){ %>
-            <!--<div id="<%#= chatrooms[id]._id %>" class="requestChatroom">
+        <% for(let id = 0; id < chatrooms.length; id++){ %>
+          <% if(chatrooms[id].type === 'privateMessage'){ %>
+            <div id="<%= chatrooms[id]._id %>" class="requestChatroom">
               <i class="fas fa-circle"></i>
-              <%# for(let member = 0; member < chatrooms[id].members.length; member++){ %>
-                <%#= chatrooms[id].members[member].alias %>
-              <%# } %>
-            </div>-->
-          <%# } %>
-        <%# } %>
+              <% for(let member = 0; member < chatrooms[id].members.length; member++){ %>
+                <%= chatrooms[id].members[member].alias %>
+              <% } %>
+            </div>
+          <% } %>
+        <% } %>
         <%# for(let i=0; i < users.length; i++){ %>
         <!--<div id="<%#= users[i]._id %>" class="requestChatroom"><i class="fas fa-circle"></i> <%#= users[i].alias %></div>-->
         <%# } %>
       </private-message>
-
       <users-online>
         <div id="online-users-title"><i class="fas fa-circle"></i> Online users</div>
         <div id="users-online"></div>
