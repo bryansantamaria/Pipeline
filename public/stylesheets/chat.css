@@ -1445,11 +1445,35 @@ main-container main-content #msgForm #sendMessage {
   height: 230px;
 }
 
+#edit-modal-container form  {
+  -ms-grid-column: 1;
+  -ms-grid-column-span: 1;
+  grid-column: 1/2;
+  -ms-grid-row: 2;
+  grid-row: 2;
+  border: solid 1px black;
+}
+
+#edit-modal-container .btn-uploadFile {
+  margin-top: 9px;
+  color: black;
+  font-weight: 500;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+#edit-modal-container #submit-profile-pic {
+  margin-top: 2px;
+}
+
+#edit-modal-container #filebtn {
+  display: none;
+}
+
 #edit-modal-container #edit-text-alias {
   -ms-grid-column: 1;
   grid-column: 1/1;
-  -ms-grid-row: 2;
-  grid-row: 2;
+  -ms-grid-row: 3;
+  grid-row: 3;
   margin-top: 15px;
   margin-bottom: 0px;
   font-weight: bold;
@@ -1458,8 +1482,8 @@ main-container main-content #msgForm #sendMessage {
 #edit-modal-container #edit-alias {
   -ms-grid-column: 1;
   grid-column: 1/1;
-  -ms-grid-row: 3;
-  grid-row: 3;
+  -ms-grid-row: 4;
+  grid-row: 4;
   width: 300px;
   padding: 5px;
   border-radius: 3px;
@@ -1469,8 +1493,8 @@ main-container main-content #msgForm #sendMessage {
 #edit-modal-container #edit-text-email {
   -ms-grid-column: 1;
   grid-column: 1/1;
-  -ms-grid-row: 4;
-  grid-row: 4;
+  -ms-grid-row: 5;
+  grid-row: 5;
   margin-top: 15px;
   margin-bottom: 0px;
   font-weight: bold;
@@ -1479,31 +1503,12 @@ main-container main-content #msgForm #sendMessage {
 #edit-modal-container #edit-email {
   -ms-grid-column: 1;
   grid-column: 1/1;
-  -ms-grid-row: 5;
-  grid-row: 5;
+  -ms-grid-row: 6;
+  grid-row: 6;
   width: 300px;
   padding: 5px;
   border-radius: 3px;
   border: solid 1px black;
-}
-
-#edit-modal-container #edit-form  {
-  -ms-grid-column: 1;
-  -ms-grid-column-span: 1;
-  grid-column: 1/2;
-  -ms-grid-row: 6;
-      grid-row-start: 6;
-  border: solid 1px black;
-}
-
-#edit-modal-container #filebtn {
-  display: none;
-}
-
-#edit-modal-container .btn-uploadFile {
-  color: black;
-  font-weight: 500;
-  border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 /*#edit-profile-preview {}*/

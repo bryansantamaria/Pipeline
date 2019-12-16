@@ -175,17 +175,17 @@
         </div>
         <div class="modal-body" id="edit-modal-container">
           <img src="" alt="" id="edit-profile-preview" >
+          <!-- ladda upp bild -->
+          <form class="form-horizontal" id="edit-form" name="profile-pic" action="/uploadfile" method="POST"
+            enctype="multipart/form-data">
+            <label for="filebtn" class="btn btn-secondary btn-uploadFile"> <input type="file" name="profile_picture" id="filebtn">Upload an image</label>
+            <input type="submit" id="submit-profile-pic" class="btn btn-warning" value="Save image">
+            <input type="hidden" name="_id" id="pictureID">
+          </form>
           <p id="edit-text-alias">Alias</p>
           <input type="text" placeholder="" id="edit-alias"> <br> <br>
           <p id="edit-text-email">Email address: </p>
           <input type="email" placeholder="" id="edit-email">
-          <!-- ladda upp bild -->
-          <form class="form-horizontal" id="edit-form" name="profile-pic" action="/uploadfile" method="POST"
-            enctype="multipart/form-data">
-            <input type="hidden" name="_id" id="pictureID">
-            <label for="filebtn" class="btn btn-secondary btn-uploadFile"> <input type="file" name="profile_picture" id="filebtn">Upload an image</label><br> <br>
-            <input type="submit" id="submit-profile-pic" class="btn btn-warning" value="Ladda upp">
-          </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-warning" data-dismiss="modal" id="update-profile-btn">Save
