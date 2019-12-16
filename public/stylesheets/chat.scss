@@ -410,6 +410,38 @@ main-container {
 }
 
 /*#edit-profile-preview {}*/
+%user-list {
+  user-list {
+    display: block;
+    padding: 2px 5px;
+    box-sizing: border-box;
+    background: white;
+    border-radius: 15px;
+    min-height: 50px;
+    user-list-item {
+      display: block;
+      transition: 0.2s all;
+      border-left: 1px solid rgba(0,0,0,0);
+      box-sizing: border-box;
+      padding: 5px;
+      padding-left: 15px;
+      width: 100%;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      border-radius: 15px;
+      user-select: none;
+      margin-top: 5px;
+      margin-bottom: 5px;
+
+      &:hover {
+        background: rgba(0,0,0,0.02);
+      }
+
+      &:active {
+        background: rgba(0,0,0,0.05);
+      }
+    }
+  }
+}
 
 #create-pm-body {
   background: darken(white, 4);
@@ -447,11 +479,62 @@ main-container {
     }
   }
 
-  #edit-message, #user-search {
+  #user-search {
     width: 100%;
   }
 
 
+
+  #search-result {
+    margin-top: 5px;
+    //border-bottom: 1px solid rgba(0,0,0,0.05);
+    padding-bottom: 10px;
+  }
+
+  #users-to-add {
+    margin-top: 20px;
+  }
+}
+
+#create-chatroom-body {
+  background: darken(white, 4);
+  h5 {
+    font-size: 1em;
+  }
+  chatroom-user-list {
+    display: block;
+    padding: 2px 5px;
+    box-sizing: border-box;
+    background: white;
+    border-radius: 15px;
+    min-height: 50px;
+    user-list-item {
+      display: block;
+      transition: 0.2s all;
+      border-left: 1px solid rgba(0,0,0,0);
+      box-sizing: border-box;
+      padding: 5px;
+      padding-left: 15px;
+      width: 100%;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      border-radius: 15px;
+      user-select: none;
+      margin-top: 5px;
+      margin-bottom: 5px;
+
+      &:hover {
+        background: rgba(0,0,0,0.02);
+      }
+
+      &:active {
+        background: rgba(0,0,0,0.05);
+      }
+    }
+  }
+
+  #user-search {
+    width: 100%;
+  }
 
   #search-result {
     margin-top: 5px;

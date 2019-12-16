@@ -410,6 +410,9 @@ function getTodaysDate(date) {
 document.querySelector('#private-message-title').setAttribute("data-toggle", "modal");
 document.querySelector('#private-message-title').setAttribute("data-target", "#create-pm-modal");
 
+document.querySelector('#channel-title').setAttribute("data-toggle", "modal");
+document.querySelector('#channel-title').setAttribute("data-target", "#create-chatroom-modal");
+
 document.querySelector('#user-settings').setAttribute("data-toggle", "modal");
 document.querySelector('#user-settings').setAttribute("data-target", "#edit-profile-modal");
 
@@ -423,6 +426,7 @@ let chatMessages = [];
 /////////////////////////////////////////////////////
 
 let userSearch = new Search('user', document.querySelector('#create-pm-modal'));
+let chatroomUserSearch = new Search('user', document.querySelector('#create-chatroom-modal'));
 let addToRoomModules = [];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -469,7 +473,50 @@ document.addEventListener('DOMContentLoaded', () => {
     if (debug) console.log(chatGlobals.addToRoom);
   })
 })
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelector('#create-chatroom-user-search').addEventListener('input', e => {
+    let query = e.target.value;
+    if (debug) console.log('Searched for: ' + query);
+    chatroomUserSearch.search(query);
 
+    if (query == '') {
+      let userList = document.querySelector('user-list');
+
+      while (userList.firstChild) {
+        userList.removeChild(userList.firstChild);
+      }
+    }
+  });
+
+  document.querySelector('#create-pm-modal').addEventListener('search-result', e => {
+    let userList = document.querySelector('user-list');
+
+    while (userList.firstChild) {
+      userList.removeChild(userList.firstChild);
+    }
+
+    e.detail.forEach(user => {
+      let item = new UserListItem(document.querySelector('user-list'), user);
+      item.render();
+    });
+  });
+
+  //Adds the user clicked on to list of users in new chat room
+  document.querySelector('user-list').addEventListener('user-added', e => {
+    if (!chatGlobals.addToRoom.some(user => user._id == e.detail._id)) {
+      chatGlobals.addToRoom.push(e.detail);
+      let addToRoom = new AddToChat(document.querySelector('users-to-add'), e.detail);
+      addToRoomModules.push(addToRoom);
+      addToRoom.render();
+    }
+    if (debug) console.log(chatGlobals.addToRoom);
+  })
+
+  document.querySelector('users-to-add').addEventListener('user-removed', e => {
+    chatGlobals.addToRoom = chatGlobals.addToRoom.filter(user => user._id != e.detail._id)
+    if (debug) console.log(chatGlobals.addToRoom);
+  })
+})
 /////////////////////////////////////////////////////
 /// MENTIONS
 /////////////////////////////////////////////////////
