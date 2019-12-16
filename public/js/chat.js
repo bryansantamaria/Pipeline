@@ -78,19 +78,20 @@ $(".requestChatroom").on("click", function () {
     });
     let chatroomMembers = chatroom[0].members;
     let topBar = document.getElementById("topBar")
-    topBar.innerHTML = '';
+    topBar.innerHTML = '<h5 class="topbar-title">Members</h5>';
     for (var memberInArray = 0; memberInArray < chatroomMembers.length; memberInArray++) {
       let member = document.createElement('span');
       member.classList.add("membersInChatroom");
       if (chatroom[0].type === "privateMessage") {
         member.innerHTML = chatroomMembers[memberInArray].alias;
-        topBar.insertBefore(member, topBar.childNodes[0]);
+        topBar.insertBefore(member, topBar.childNodes[1]);
       }
       else {
         member.innerHTML = chatroomMembers[memberInArray];
-        topBar.insertBefore(member, topBar.childNodes[0]);
+        topBar.insertBefore(member, topBar.childNodes[1]);
       }
     }
+
   });
 });
 

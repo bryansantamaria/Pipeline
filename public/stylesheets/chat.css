@@ -291,9 +291,15 @@ main-container main-content {
 main-container main-content top-bar {
   color: #616070;
   text-align: center;
-  font-size: 2.5rem;
   background: #fbfbfb;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+main-container main-content top-bar .topbar-title {
+  margin-bottom: 0rem;
+}
+main-container main-content top-bar .membersInChatroom {
+  padding: 0em 0.5em 0px 0.5em;
+  font-size: 2.5rem;
 }
 main-container main-content message-root {
   box-sizing: border-box;
