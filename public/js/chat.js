@@ -78,7 +78,9 @@ document.querySelector('#create-pm-btn').addEventListener('click', () => {
     body: JSON.stringify(usersInNewRoom)
   }).then(res => res.json())
     .then(chatroom => {
-      createPM(JSON.parse(chatroom));
+      chatroom = JSON.parse(chatroom);
+      console.log(chatroom);
+      socket.emit('createdChatroom', chatroom);
     });
 })
 
@@ -303,6 +305,13 @@ socket.on('checkOnline', (status) => {
     socket.emit('checkOnline', status);
   }
 });
+
+socket.on('createdChatroom', chatroom => {
+  console.log(chatroom);
+  if(chatroom.members.some(member => member._id == chatGlobals.user._id)) {
+    createPM(chatroom);
+  }
+})
 
 //Shows when a user is typing, end on enter.
 socket.on('typing', (alias) => {

@@ -152,6 +152,10 @@ io.on('connection', (socket) => {
     socket.join(id);
   })
 
+  socket.on('createdChatroom', chatroom => {
+    io.emit('createdChatroom', chatroom);
+  })
+
   socket.on('edit', function (chatMessage) {          //Lyssnar på eventet 'chat message'
     request('http://127.0.0.1:3000/chatroom/edit', {       //PUT request to server.js containing message
       method: 'PUT',
