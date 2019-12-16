@@ -33,6 +33,7 @@ let debug = true;
 
 let html = {
   edit_alias: document.querySelector('#edit-alias'),
+  edit_email: document.querySelector('#edit-email'),
   alias: document.querySelector('#alias')
 }
 
@@ -43,6 +44,7 @@ fetch('user/' + uid).then(userdata => {
 }).then(jsondata => {
   chatGlobals.user = JSON.parse(jsondata);
   html.edit_alias.value = chatGlobals.user.alias
+  html.edit_email.value = chatGlobals.user.email
   console.log(chatGlobals.user.alias);
   socket.emit('new-user-online', chatGlobals.user);
   console.log(chatGlobals.user);
@@ -207,6 +209,9 @@ function updateUser() {
   chatGlobals.user.alias = html.edit_alias.value;
   html.alias.innerText = chatGlobals.user.alias;
 
+  chatGlobals.user.email = html.edit_email.value;
+  html.edit_email.innerText = chatGlobals.user.email;
+
   fetch('/user/edit/' + chatGlobals.user._id, {
     method: 'PUT',
     headers: {
@@ -225,6 +230,9 @@ function updateUser() {
 document.querySelector('#update-profile-btn').addEventListener('click', () => {
   chatGlobals.user.alias = html.edit_alias.value;
   html.alias.innerText = chatGlobals.user.alias;
+
+  chatGlobals.user.email = html.edit_email.value;
+  html.edit_email.innerText = chatGlobals.user.email;
 
   updateUser();
 });

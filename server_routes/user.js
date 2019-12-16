@@ -9,7 +9,7 @@ router.get('/:id', (req, res) => {
         .then(user => {
             console.log(JSON.stringify(user[0]));
             if (user) {
-                let strippedUser = user.map(user => user = {alias: user.alias, _id: user._id, avatar: user.avatar});
+                let strippedUser = user.map(user => user = {alias: user.alias, _id: user._id, avatar: user.avatar, email: user.email});
                 res.send(JSON.stringify(strippedUser[0]));
             } else {
                 res.send(false);
@@ -20,10 +20,12 @@ router.get('/:id', (req, res) => {
 router.put('/:id', (req, res) => {
     var pipelineDB = req.db;
     var collection = pipelineDB.get("users");
-    console.log(req.params.id)
+    console.log('req.body SPITS OUT >');
+    console.log(req.body);
     collection.update({ "_id": req.params.id }, {
         $set: {
             'alias': req.body.alias,
+            'email': req.body.email
         }
     }).then(user => {
         console.log(JSON.stringify(user[0]));
