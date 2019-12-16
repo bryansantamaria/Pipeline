@@ -27,6 +27,7 @@ router.get("/:_id", function(req, res) {
 });
 
 router.post('/', (req, res) => {
+  console.log(JSON.stringify(req.body));
   request("http://127.0.0.1:3000/chatroom", {
     method: "POST",
     headers: {

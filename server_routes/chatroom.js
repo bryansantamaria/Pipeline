@@ -6,8 +6,10 @@ router.put('/', (req, res) => {
   var pipelineDB = req.db;
   var collection = pipelineDB.get('chatrooms');
   let _id = new mongo.ObjectId();
+  console.log('\n\n');
   console.log('Recieved message from app >');
   console.log(req.body);
+  console.log('\n\n');
   console.log('Recieved message from app >');
   console.log(_id);
   collection.update({
@@ -106,7 +108,7 @@ router.post("/", (req, res) => {
     'messages': []
   }, (err, newChatroom) => {
     if (err) throw err;
-    res.json(JSON.stringify(newChatroom));
+    res.json(newChatroom);
   });
 });
 

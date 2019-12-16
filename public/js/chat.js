@@ -39,6 +39,7 @@ let html = {
 
 let uid = String(document.cookie).replace('user=', '');
 
+//Gets user from DB
 fetch('user/' + uid).then(userdata => {
   return userdata.json();
 }).then(jsondata => {
@@ -54,47 +55,8 @@ fetch('user/' + uid).then(userdata => {
   document.querySelector('#edit-profile-preview').setAttribute('src', `/images/${chatGlobals.user._id}.jpg`);
 });
 
-$(".requestChatroom").on("click", function () {
-  console.log(chatGlobals);
-  $('message-root').empty();
-  let chatroomID = this.id;
-  chatGlobals.chatroomId = chatroomID;
-  console.log(chatGlobals.chatroomId);
-  fetch('/chatroom/'+ chatroomID).then(res => res.json())
-  .then(chatroom => {
-    chatroom = JSON.parse(chatroom);
-    let chatroomMessages = chatroom[0].messages;
-    chatroomMessages.forEach(msg => {
-      let chatMessage = new ChatModule(
-        msg.message,
-        msg.alias,
-        msg.avatar,
-        msg.timestamp,
-        msg._id,
-        msg.mentions
-      );
-      if(chatGlobals.user.alias == msg.alias) {
-        chatMessage.setupEventListeners();
-      }
-      chatMessage.render(document.querySelector('message-root'));
-    });
-    let chatroomMembers = chatroom[0].members;
-    let topBar = document.getElementById("topBar")
-    topBar.innerHTML = '<h5 class="topbar-title">Members</h5>';
-    for (var memberInArray = 0; memberInArray < chatroomMembers.length; memberInArray++) {
-      let member = document.createElement('span');
-      member.classList.add("membersInChatroom");
-      if (chatroom[0].type === "privateMessage") {
-        member.innerHTML = chatroomMembers[memberInArray].alias;
-        topBar.insertBefore(member, topBar.childNodes[1]);
-      }
-      else {
-        member.innerHTML = chatroomMembers[memberInArray];
-        topBar.insertBefore(member, topBar.childNodes[1]);
-      }
-    }
-
-  });
+$(".requestChatroom").on("click", function (e) {
+  joinChatRoom(e);
 });
 
 var socket = io();
@@ -116,54 +78,84 @@ document.querySelector('#create-pm-btn').addEventListener('click', () => {
     body: JSON.stringify(usersInNewRoom)
   }).then(res => res.json())
     .then(chatroom => {
-      chatroom = JSON.parse(JSON.parse(chatroom));
-      console.log(chatroom);
-      let usersInChatroom = '';
-      chatroom.members.forEach(user => {
-        /*if(!user._id == chatGlobals.user._id) {
-          usersInChatroom += user.alias + ' ';
-        }*/
-
-        console.log(chatroom._id);
-
-        let chatroomListItem = `<div id="${chatroom._id}" class="requestChatroom"><i class="fas fa-circle"></i>${usersInChatroom}</div>`;
-
-        document.querySelector('private-message').innerHTML += chatroomListItem;
-
-        let selectionID = '#' + chatroom._id;
-
-        document.getElementById(chatroom._id).addEventListener('click', e => {
-          $('message-root').empty();
-          let chatroomID = e.target.id;
-          console.log(chatroomID);
-          chatGlobals.chatroomId = chatroomID;
-          fetch('/chatroom/' + chatroomID).then(res => {
-            return res.json();
-          }).then(chatroom => {
-            chatroom = JSON.parse(chatroom);
-            let chatroomMessages = chatroom[0].messages;
-            chatroomMessages.forEach(msg => {
-              let chatMessage = new ChatModule(
-                msg.message,
-                msg.alias,
-                msg.avatar,
-                msg.timestamp,
-                msg._id,
-                msg.mentions
-              );
-              if (chatGlobals.user.alias == msg.alias) {
-                chatMessage.setupEventListeners();
-              }
-
-              chatMessage.render(document.querySelector('message-root'))
-            });
-          });
-        });
-
-        chatGlobals.addToRoom = [];
-      })
-    })
+      createPM(JSON.parse(chatroom));
+    });
 })
+
+//Joins chatroom
+function joinChatRoom(e) {
+  $('message-root').empty();
+  let chatroomID = e.target.id;
+  console.log(chatroomID);
+  chatGlobals.chatroomId = chatroomID;
+
+  fetch('/chatroom/' + chatroomID).then(res => res.json()).then(chatroom => {
+    chatroom = JSON.parse(chatroom);
+    let chatroomMessages = chatroom[0].messages;
+    chatroomMessages.forEach(msg => {
+      let chatMessage = new ChatModule(
+        msg.message,
+        msg.alias,
+        msg.avatar,
+        msg.timestamp,
+        msg._id,
+        msg.mentions
+      );
+      if (chatGlobals.user.alias == msg.alias) {
+        chatMessage.setupEventListeners();
+      }
+
+      chatMessage.render(document.querySelector('message-root'))
+    });
+
+    //Render topbar
+    let chatroomMembers = chatroom[0].members;
+    let topBar = document.getElementById("topBar")
+    topBar.innerHTML = '<h5 class="topbar-title">Members</h5>';
+    for (var memberInArray = 0; memberInArray < chatroomMembers.length; memberInArray++) {
+      let member = document.createElement('span');
+      member.classList.add("membersInChatroom");
+      if (chatroom[0].type === "privateMessage") {
+        member.innerHTML = chatroomMembers[memberInArray].alias;
+        topBar.insertBefore(member, topBar.childNodes[1]);
+      }
+      else {
+        member.innerHTML = chatroomMembers[memberInArray];
+        topBar.insertBefore(member, topBar.childNodes[1]);
+      }
+    }
+    socket.emit('joinedRoom', chatroomID);
+  });
+}
+
+function createPM(chatroom) {
+  console.log(chatroom);
+  let usersInChatroom = ' ';
+  chatroom.members.forEach(user => {
+    usersInChatroom += user.alias + ' ';
+  });
+
+  let div = document.createElement('div');
+  let i = document.createElement('i');
+  let text = document.createTextNode(usersInChatroom);
+  div.id = chatroom._id;
+  div.classList.add('requestChatroom');
+  i.classList.add('fas', 'fa-circle');
+  div.appendChild(i);
+  div.appendChild(text);
+
+  document.querySelector('private-message').appendChild(div);
+
+  div.addEventListener('click', e => {
+    joinChatRoom(e);
+  });
+
+  chatGlobals.addToRoom = [];
+}
+
+function createChannel() {
+
+}
 
 //Delete events
 document.addEventListener('delete-init', e => {
@@ -214,11 +206,13 @@ $("#msgForm").submit(function (e) {
     }
 
     //Emits the stringified chatMessage object to server.
-    socket.emit("chat message", JSON.stringify(chatMessage));
+    socket.emit("chat message", { roomId: chatGlobals.chatroomId, chatMessage: JSON.stringify(chatMessage) });
 
     $("#messageValue").val('');
   }
 });
+
+fetch('/chatroom').then()
 
 function updateUser() {
   chatGlobals.user.alias = html.edit_alias.value;
@@ -287,9 +281,10 @@ socket.on('chat message', function (chatObject) {
   chatMessages.push(chatMessage);
   chatMessage.render(document.querySelector('message-root'));
 });
+
 //Socket on får data från server, Socket emit skickar data till servern.
 socket.on('new-user-online', users => {
-  while(document.getElementById('users-online').firstChild) {
+  while (document.getElementById('users-online').firstChild) {
     document.getElementById('users-online').removeChild(document.getElementById('users-online').firstChild);
   }
 
@@ -297,7 +292,6 @@ socket.on('new-user-online', users => {
     let div = document.createElement('div');
     div.innerText = users[i].alias;
     div.id = users[i]._id;
-    // div.setAttribute('class', 'fas fa-circle');
     document.getElementById('users-online').appendChild(div);
   }
 });
@@ -306,24 +300,7 @@ socket.on('checkOnline', (status) => {
   if (status._id === chatGlobals.user._id) {
     socket.emit('checkOnline', status);
   }
-})
-
-/*socket.on('disconnect', (statusUser) => {
-  console.log(statusUser.status);
-  if (statusUser.status) {
-    console.log(statusUser.status);
-    let id = document.getElementById(statusUser.user._id);
-    for (let i = 0; i < statusUser.user.alias.length; i++) {
-      if (statusUser.user._id == id.id) {
-        console.log(id.id);
-        id.innerHTML = '';
-      }
-    }
-    const filterResult = statusUser.alias.filter(alias => statusUser.user._id == id.id);
-    console.log(filterResult);
-    console.log(statusUser.alias);
-  }
-});*/
+});
 
 //Shows when a user is typing, end on enter.
 socket.on('typing', (alias) => {
@@ -429,10 +406,6 @@ document.querySelector('user-name').setAttribute("data-toggle", "modal");
 document.querySelector('user-name').setAttribute("data-target", "#edit-profile-modal");
 
 let chatMessages = [];
-
-chatMessages.forEach(msg => {
-  msg.render(document.querySelector('message-root'));
-});
 
 /////////////////////////////////////////////////////
 /// CREATE PM
