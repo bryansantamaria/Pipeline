@@ -39,7 +39,7 @@
 
       <!-- Public channels -->
       <public-channels>
-        <div id="channel-title"><i class="fas fa-plus-circle"></i> Channels</div>
+        <div id="channel-title"><i class="fas fa-plus-circle" id="create-chatroom"></i> Channels</div>
         <% for(let id = 0; id < chatrooms.length; id++){ %>
           <% if(chatrooms[id].type != 'privateMessage'){ %>
             <div id="<%= chatrooms[id]._id %>" class="requestChatroom">
@@ -151,6 +151,32 @@
         <div class="modal-body" id="create-pm-body">
           <h5 id="search-result">Search results</h5>
           <user-list></user-list>
+          <h5 id="users-to-add">Users to add</h5>
+          <users-to-add></users-to-add>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" id="create-pm-btn">Add to chat</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--create chatroom modal-->
+  <div class="modal fade" id="create-chatroom-modal" tabindex="-1" role="dialog" aria-labelledby="create-chatroom-modal"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header" id="create-pm-header">
+          <h5 class="modal-title" id="exampleModalLabel">Create PM</h5>
+          <br>
+          <input type="text" class="w-100" placeholder="Search for user..." id="create-chatroom-user-search">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" id="create-pm-body">
+          <h5 id="search-result">Search results</h5>
+          <chatroom-user-list></chatroom-user-list>
           <h5 id="users-to-add">Users to add</h5>
           <users-to-add></users-to-add>
         </div>
