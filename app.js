@@ -116,22 +116,28 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('typing', user);
   });
 
-  socket.on('chat message', function (chatMessage) {  //Lyssnar på eventet 'chat message'
-    console.log('Chat message from client >');
-    console.log(chatMessage);
+  socket.on('chat message', function (message) {  //Lyssnar på eventet 'chat message'
+    console.log('\n\nChat message from client >');
+    console.log(message.chatMessage);
+    console.log('\n\n In room: ' + message.roomId);
     request('http://127.0.0.1:3000/chatroom', {       //POST request to server.js containing message
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: chatMessage,                              //Message body
-    }).then(message => {                              //recieves message + id from server
-      console.log('Chat message recieved:' + JSON.parse(message));
-      io.emit('chat message', JSON.parse(message));   //Emits chat message to all clients
+      body: message.chatMessage,                              //Message body
+    }).then(message_from_db => {                              //recieves message + id from server
+      console.log('Chat message recieved:' + JSON.parse(message_from_db));
+      io.sockets.in(message.roomId).emit('chat message', JSON.parse(message_from_db));   //Emits chat message to all clients
     }).catch(error => {
       console.error('it broke :(');
     });
   });
+
+  socket.on('joinedRoom', id => {
+    socket.leave(socket.room);
+    socket.join(id);
+  })
 
   socket.on('edit', function (chatMessage) {          //Lyssnar på eventet 'chat message'
     request('http://127.0.0.1:3000/chatroom/edit', {       //PUT request to server.js containing message
@@ -141,7 +147,7 @@ io.on('connection', (socket) => {
       },
       body: JSON.stringify(chatMessage),                              //Message body
     }).then(message => {                              //recieves message + id from server
-      console.log('Chat message edited >');
+      console.log('\n\nChat message edited >');
       console.log(message);
       io.emit('edit', JSON.parse(message));           //Emits chat message to all clients
     });
@@ -155,7 +161,7 @@ io.on('connection', (socket) => {
       },
       body: JSON.stringify(chatMessage),                       //Message body
     }).then(message => {                              //recieves message + id from server
-      console.log('Chat message deleted:' + message);
+      console.log('\n\nChat message deleted:' + message);
       //The server recieves a JSON string object and sends it further to all clients connected to the socket.
       io.emit('delete', JSON.parse(message));           //Emits chat message to all clients
     });
