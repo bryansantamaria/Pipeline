@@ -33,6 +33,7 @@ let debug = true;
 
 let html = {
   edit_alias: document.querySelector('#edit-alias'),
+  edit_email: document.querySelector('#edit-email'),
   alias: document.querySelector('#alias')
 }
 
@@ -44,6 +45,7 @@ fetch('user/' + uid).then(userdata => {
 }).then(jsondata => {
   chatGlobals.user = JSON.parse(jsondata);
   html.edit_alias.value = chatGlobals.user.alias
+  html.edit_email.value = chatGlobals.user.email
   console.log(chatGlobals.user.alias);
   socket.emit('new-user-online', chatGlobals.user);
   console.log(chatGlobals.user);
@@ -105,18 +107,24 @@ function joinChatRoom(e) {
 
       chatMessage.render(document.querySelector('message-root'))
     });
-  });
 
-  socket.emit('joinedRoom', chatroomID);
-}
-
-function getAllChatrooms() {
-  fetch('/chatroom').then(res => res.json()).then(chatrooms => {
-    chatrooms = JSON.parse(chatrooms);
-    console.log(chatrooms);
-    chatrooms.forEach(room => {
-      createPM(room);
-    })
+    //Render topbar
+    let chatroomMembers = chatroom[0].members;
+    let topBar = document.getElementById("topBar")
+    topBar.innerHTML = '<h5 class="topbar-title">Members</h5>';
+    for (var memberInArray = 0; memberInArray < chatroomMembers.length; memberInArray++) {
+      let member = document.createElement('span');
+      member.classList.add("membersInChatroom");
+      if (chatroom[0].type === "privateMessage") {
+        member.innerHTML = chatroomMembers[memberInArray].alias;
+        topBar.insertBefore(member, topBar.childNodes[1]);
+      }
+      else {
+        member.innerHTML = chatroomMembers[memberInArray];
+        topBar.insertBefore(member, topBar.childNodes[1]);
+      }
+    }
+    socket.emit('joinedRoom', chatroomID);
   });
 }
 
@@ -148,8 +156,6 @@ function createPM(chatroom) {
 function createChannel() {
 
 }
-
-getAllChatrooms();
 
 //Delete events
 document.addEventListener('delete-init', e => {
@@ -212,6 +218,9 @@ function updateUser() {
   chatGlobals.user.alias = html.edit_alias.value;
   html.alias.innerText = chatGlobals.user.alias;
 
+  chatGlobals.user.email = html.edit_email.value;
+  html.edit_email.innerText = chatGlobals.user.email;
+
   fetch('/user/edit/' + chatGlobals.user._id, {
     method: 'PUT',
     headers: {
@@ -230,6 +239,9 @@ function updateUser() {
 document.querySelector('#update-profile-btn').addEventListener('click', () => {
   chatGlobals.user.alias = html.edit_alias.value;
   html.alias.innerText = chatGlobals.user.alias;
+
+  chatGlobals.user.email = html.edit_email.value;
+  html.edit_email.innerText = chatGlobals.user.email;
 
   updateUser();
 });
@@ -348,6 +360,10 @@ socket.on('mention', mention => {
   }
 })
 
+socket.on("disconnect", () => {
+  console.log(socket.disconnected);
+});
+
 //Dismisses mention alert
 document.querySelector('#mention-dismiss').addEventListener('click', () => {
   document.querySelector('#mention-alert').classList.remove('show');
@@ -390,10 +406,6 @@ document.querySelector('user-name').setAttribute("data-toggle", "modal");
 document.querySelector('user-name').setAttribute("data-target", "#edit-profile-modal");
 
 let chatMessages = [];
-
-chatMessages.forEach(msg => {
-  msg.render(document.querySelector('message-root'));
-});
 
 /////////////////////////////////////////////////////
 /// CREATE PM

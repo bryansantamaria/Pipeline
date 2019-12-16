@@ -54,21 +54,20 @@
       <private-message>
         <div id="private-message-title"><i class="fas fa-plus-circle" id="create-private-message"></i> Private Message</div>
         <%#= chatrooms[i] %>
-        <%# for(let id = 0; id < chatrooms.length; id++){ %>
-          <%# if(chatrooms[id].type === 'privateMessage'){ %>
-            <!--<div id="<%#= chatrooms[id]._id %>" class="requestChatroom">
+        <% for(let id = 0; id < chatrooms.length; id++){ %>
+          <% if(chatrooms[id].type === 'privateMessage'){ %>
+            <div id="<%= chatrooms[id]._id %>" class="requestChatroom">
               <i class="fas fa-circle"></i>
-              <%# for(let member = 0; member < chatrooms[id].members.length; member++){ %>
-                <%#= chatrooms[id].members[member].alias %>
-              <%# } %>
-            </div>-->
-          <%# } %>
-        <%# } %>
+              <% for(let member = 0; member < chatrooms[id].members.length; member++){ %>
+                <%= chatrooms[id].members[member].alias %>
+              <% } %>
+            </div>
+          <% } %>
+        <% } %>
         <%# for(let i=0; i < users.length; i++){ %>
         <!--<div id="<%#= users[i]._id %>" class="requestChatroom"><i class="fas fa-circle"></i> <%#= users[i].alias %></div>-->
         <%# } %>
       </private-message>
-
       <users-online>
         <div id="online-users-title"><i class="fas fa-circle"></i> Online users</div>
         <div id="users-online"></div>
@@ -81,7 +80,7 @@
       <overlay-root class="hidden"></overlay-root>
 
       <!--Top bar(git p inside this chatroom/conversation) 75px height, 100% width-->
-      <top-bar></top-bar>
+      <top-bar id="topBar"></top-bar>
 
       <message-root>
       </message-root>
@@ -174,22 +173,21 @@
           </button>
         </div>
         <div class="modal-body" id="edit-modal-container">
-          <img src="" alt="" id="edit-profile-preview" class="w-50">
-          <p>Alias</p>
-          <input type="text" class="w-100" placeholder="" id="edit-alias"> <br> <br>
+          <img src="" alt="" id="edit-profile-preview" >
           <!-- ladda upp bild -->
-          <form class="form-horizontal" name="profile-pic" action="/uploadfile" method="POST"
+          <form class="form-horizontal" id="edit-form" name="profile-pic" action="/uploadfile" method="POST"
             enctype="multipart/form-data">
-            <p>Profile picture</p>
-
-            <label class="control-label">Upload profile picture</label>
+            <label for="filebtn" class="btn btn-secondary btn-uploadFile"> <input type="file" name="profile_picture" id="filebtn">Upload an image</label>
+            <input type="submit" id="submit-profile-pic" class="btn btn-warning" value="Save image">
             <input type="hidden" name="_id" id="pictureID">
-            <input type="file" name="profile_picture"><br> <br>
-            <input type="submit" id="submit-profile-pic" class="btn btn-primary" value="Ladda upp">
           </form>
+          <p id="edit-text-alias">Alias</p>
+          <input type="text" placeholder="" id="edit-alias"> <br> <br>
+          <p id="edit-text-email">Email address: </p>
+          <input type="email" placeholder="" id="edit-email">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" id="update-profile-btn">Save
+          <button type="button" class="btn btn-warning" data-dismiss="modal" id="update-profile-btn">Save
             changes</button>
         </div>
       </div>
