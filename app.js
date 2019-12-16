@@ -105,12 +105,6 @@ io.on('connection', (socket) => {
     }
   });
 
-
-  setInterval(function(){ 
-    
-
-  }, 3000);
-
   // is Typing
   socket.on('typing', (user) => {
     socket.broadcast.emit('typing', user);
@@ -125,9 +119,10 @@ io.on('connection', (socket) => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: message.chatMessage,                              //Message body
+      body: JSON.stringify(message.chatMessage)                              //Message body
     }).then(message_from_db => {                              //recieves message + id from server
-      console.log('Chat message recieved:' + JSON.parse(message_from_db));
+      console.log('\n\nChat message recieved from db >');
+      console.log(JSON.parse(message_from_db)); 
       io.sockets.in(message.roomId).emit('chat message', JSON.parse(message_from_db));   //Emits chat message to all clients
     }).catch(error => {
       console.error('it broke :(');
@@ -136,6 +131,7 @@ io.on('connection', (socket) => {
 
   socket.on('joinedRoom', id => {
     socket.leave(socket.room);
+    console.log('Joined room: ' + id);
     socket.join(id);
   })
 

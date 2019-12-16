@@ -6,15 +6,13 @@ router.put('/', (req, res) => {
   var pipelineDB = req.db;
   var collection = pipelineDB.get('chatrooms');
   let _id = new mongo.ObjectId();
+  let chatroomID = req.body.chatroom;
   console.log('\n\n');
   console.log('Recieved message from app >');
   console.log(req.body);
-  console.log('\n\n');
-  console.log('Recieved message from app >');
-  console.log(_id);
   collection.update({
-      _id: req.body.chatroom
-    },
+    _id: chatroomID
+  },
     //Inserts message to specific chatroom message array.
     {
       $push: {
@@ -27,20 +25,21 @@ router.put('/', (req, res) => {
           mentions: req.body.mentions
         }
       }
-    }, (err, message_in_db) => { //Gets message back from database
+    }, (err) => { //Gets message back from database
       if (err) throw err;
-      console.log('Inserted message in DB >');
-      console.log(message_in_db);
-      collection.find({'_id': req.body.chatroom}, (err, chatroom) => {
-        console.log(chatroom);
-        message_in_db = chatroom[0].messages.find(message => message._id = _id);
-        res.json(JSON.stringify(message_in_db)); //Returns message to app.js
-      });
+      collection.findOne(
+        { _id: chatroomID },
+        (err, chatroom) => {
+          if (err) throw err;
+          console.log(chatroom);
+          let message_in_db = chatroom.messages.find(message => message._id == _id.toString());
+          res.json(JSON.stringify(message_in_db)); //Returns message to app.js
+        });
     });
 });
 
 /* POST Update user. */
-router.put('/edit', function(req, res) {
+router.put('/edit', function (req, res) {
   var pipelineDB = req.db;
   var collection = pipelineDB.get('chatrooms');
   console.log('\n');
@@ -60,7 +59,7 @@ router.put('/edit', function(req, res) {
     if (err) throw err;
     collection.find({
       '_id': req.body._id
-    }, function(err, edit_msg_db) {
+    }, function (err, edit_msg_db) {
       console.log('edit message in db >')
       console.log(edit_msg_db[0]);
       if (err) throw err;
@@ -70,7 +69,7 @@ router.put('/edit', function(req, res) {
 });
 
 /* GET delete user. */
-router.delete('/', function(req, res) {
+router.delete('/', function (req, res) {
   console.log('\n');
   console.log('message to be deleted >')
   console.log(req.body);
