@@ -63,6 +63,7 @@ export class ChatModule {
     //Appends message to target node
     render(targetNode) {
         this.html.avatar.setAttribute('src', this.content.avatar);
+        this.html.avatar.setAttribute('onerror', `this.src = 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-7.png';`);
         let messageWithMentions = this.content.message;
         this.content.mentions.forEach(mention => {
             console.log('Current mention');
