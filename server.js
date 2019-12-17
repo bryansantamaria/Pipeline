@@ -31,6 +31,7 @@ const uploadFile = require('./server_routes/uploadfile');
 server.use(bodyParser.urlencoded({
   extended: false
 }));
+
 server.use(bodyParser.json());
 
 server.use(function (req, res, next) {

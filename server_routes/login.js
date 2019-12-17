@@ -2,39 +2,45 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 var passport = require('passport'), LocalStrategy = require('passport-local').Strategy;
+const monk = require("monk");
+const pipelineDB = monk('localhost:27017/pipeline');
+const successPort = 'http://127.0.0.1:5000/chat';
+const deniedPort = 'http://127.0.0.1:5000/loginfailed';
 
-router.post('/', async (req, res) => {
-    var pipelineDB = req.db;
-    var collection = pipelineDB.get("users");
-    var username = req.body.username;
-    console.log(req.body);
+router.post('/', async (req, res, next) => {
+    passport.authenticate('local', {
+        successRedirect: successPort,
+        failureRedirect: deniedPort,
+        failureFlash: true
+    })(req, res, next);
 });
 
 passport.use(
-    new LocalStrategy({ usernameField: username }, (username, password, done) => {
+    new LocalStrategy(/*{ usernameField: username },*/ (username, password, done) => {
+        let collection = pipelineDB.get('users');
         console.log('USERNAME: >');
         console.log(username);
-        collection.find({ $or: [{ "alias": req.body.username }, { "email": req.body.username }] }, {}).then(user => {
+        collection.find({ $or: [{ "alias": username}, { "email": username }] }, {}).then(user => {
             if (user[0]) {
-                bcrypt.compare(req.body.password, user[0].password, (err, authorized) => {
+                bcrypt.compare(password, user[0].password, (err, authorized) => {
                     if (err) throw err;
                     if (authorized) {
+                        
                         let userobject = {
                             'alias': user[0].alias,
                             '_id': user[0]._id
                         }
-                        res.send(userobject);
+                        // res.send(userobject);
                         return done(null, userobject);
 
                     } else {
-                        res.send(false);
-                        //return done(null, false, {message: 'Not registered'});
+                        // res.send(false);
+                        return done(null, false, {message: 'Not registered'});
                     }
-                    console.log('Password correct: ', authorized);
                 });
-
             } else {
-                res.send(false);
+                // res.send(false);
+                return done(null, false);
             }
         });
     })

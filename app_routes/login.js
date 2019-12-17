@@ -12,18 +12,10 @@ router.post('/', (req, res, next) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(req.body),
-    }).then((user) => {
+    })/*.then((user) => {
         if (JSON.parse(user))
             req.session.user = JSON.parse(user);
-            console.log('USER IN POST REQ >')
-            console.log(user);
-            
-        //     passport.authenticate('local', {
-        //     successRedirect: 'chat',
-        //     failureRedirect: '/loginfailed',
-        //     failureFlash: true
-        // })(req, res, next);
-    });
+    }); */
 });
 
 // app.post('/',
