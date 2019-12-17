@@ -1383,20 +1383,14 @@ main-container main-content {
 }
 
 main-container main-content top-bar {
-  color: #616070;
-  text-align: center;
+  color: #646464;
   background: #fbfbfb;
   -webkit-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
           box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-main-container main-content top-bar .topbar-title {
-  margin-bottom: 0rem;
-}
-
 main-container main-content top-bar .membersInChatroom {
   padding: 0em 0.5em 0px 0.5em;
-  font-size: 2.5rem;
 }
 
 main-container main-content message-root {
@@ -1546,15 +1540,7 @@ main-container main-content #msgForm #sendMessage {
 }
 
 /*#edit-profile-preview {}*/
-#create-pm-body {
-  background: whitesmoke;
-}
-
-#create-pm-body h5 {
-  font-size: 1em;
-}
-
-#create-pm-body user-list {
+#create-pm-body user-list, #create-chatroom-body chatroom-user-list {
   display: block;
   padding: 2px 5px;
   -webkit-box-sizing: border-box;
@@ -1564,7 +1550,7 @@ main-container main-content #msgForm #sendMessage {
   min-height: 50px;
 }
 
-#create-pm-body user-list user-list-item {
+#create-pm-body user-list user-list-item, #create-chatroom-body chatroom-user-list user-list-item {
   display: block;
   -webkit-transition: 0.2s all;
   transition: 0.2s all;
@@ -1582,6 +1568,14 @@ main-container main-content #msgForm #sendMessage {
           user-select: none;
   margin-top: 5px;
   margin-bottom: 5px;
+}
+
+#create-pm-body {
+  background: whitesmoke;
+}
+
+#create-pm-body h5 {
+  font-size: 1em;
 }
 
 #create-pm-body user-list user-list-item:hover {
@@ -1613,36 +1607,6 @@ main-container main-content #msgForm #sendMessage {
   font-size: 1em;
 }
 
-#create-chatroom-body chatroom-user-list {
-  display: block;
-  padding: 2px 5px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  background: white;
-  border-radius: 15px;
-  min-height: 50px;
-}
-
-#create-chatroom-body chatroom-user-list user-list-item {
-  display: block;
-  -webkit-transition: 0.2s all;
-  transition: 0.2s all;
-  border-left: 1px solid rgba(0, 0, 0, 0);
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  padding: 5px;
-  padding-left: 15px;
-  width: 100%;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: 15px;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
 #create-chatroom-body chatroom-user-list user-list-item:hover {
   background: rgba(0, 0, 0, 0.02);
 }
@@ -1651,16 +1615,16 @@ main-container main-content #msgForm #sendMessage {
   background: rgba(0, 0, 0, 0.05);
 }
 
-#create-chatroom-body #user-search {
+#create-chatroom-body #chatroom-user-search {
   width: 100%;
 }
 
-#create-chatroom-body #search-result {
+#create-chatroom-body #chatroom-search-result {
   margin-top: 5px;
   padding-bottom: 10px;
 }
 
-#create-chatroom-body #users-to-add {
+#create-chatroom-body #chatroom-users-to-add {
   margin-top: 20px;
 }
 

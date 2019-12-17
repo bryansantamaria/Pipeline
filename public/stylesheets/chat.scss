@@ -292,17 +292,11 @@ main-container {
     background: white;
 
     top-bar {
-      color: #616070;
-      text-align: center;
+      color: #646464;
       background: rgb(251, 251, 251);
       box-shadow: 0px 4px 10px $darken-light;
-
-      .topbar-title {
-        margin-bottom: 0rem;
-      }
       .membersInChatroom{
         padding: 0em 0.5em 0px 0.5em;
-        font-size: 2.5rem;
       }
 
     }
@@ -422,37 +416,27 @@ main-container {
 }
 
 /*#edit-profile-preview {}*/
-%user-list {
-  user-list {
-    display: block;
-    padding: 2px 5px;
-    box-sizing: border-box;
-    background: white;
-    border-radius: 15px;
-    min-height: 50px;
-    user-list-item {
-      display: block;
-      transition: 0.2s all;
-      border-left: 1px solid rgba(0,0,0,0);
-      box-sizing: border-box;
-      padding: 5px;
-      padding-left: 15px;
-      width: 100%;
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-      border-radius: 15px;
-      user-select: none;
-      margin-top: 5px;
-      margin-bottom: 5px;
-
-      &:hover {
-        background: rgba(0,0,0,0.02);
-      }
-
-      &:active {
-        background: rgba(0,0,0,0.05);
-      }
-    }
-  }
+%users-list {
+  display: block;
+  padding: 2px 5px;
+  box-sizing: border-box;
+  background: white;
+  border-radius: 15px;
+  min-height: 50px;
+}
+%users-list-item {
+  display: block;
+  transition: 0.2s all;
+  border-left: 1px solid rgba(0,0,0,0);
+  box-sizing: border-box;
+  padding: 5px;
+  padding-left: 15px;
+  width: 100%;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  border-radius: 15px;
+  user-select: none;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 #create-pm-body {
@@ -461,26 +445,9 @@ main-container {
     font-size: 1em;
   }
   user-list {
-    display: block;
-    padding: 2px 5px;
-    box-sizing: border-box;
-    background: white;
-    border-radius: 15px;
-    min-height: 50px;
+    @extend %users-list;
     user-list-item {
-      display: block;
-      transition: 0.2s all;
-      border-left: 1px solid rgba(0,0,0,0);
-      box-sizing: border-box;
-      padding: 5px;
-      padding-left: 15px;
-      width: 100%;
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-      border-radius: 15px;
-      user-select: none;
-      margin-top: 5px;
-      margin-bottom: 5px;
-
+      @extend %users-list-item;
       &:hover {
         background: rgba(0,0,0,0.02);
       }
@@ -514,47 +481,29 @@ main-container {
     font-size: 1em;
   }
   chatroom-user-list {
-    display: block;
-    padding: 2px 5px;
-    box-sizing: border-box;
-    background: white;
-    border-radius: 15px;
-    min-height: 50px;
+    @extend %users-list;
     user-list-item {
-      display: block;
-      transition: 0.2s all;
-      border-left: 1px solid rgba(0,0,0,0);
-      box-sizing: border-box;
-      padding: 5px;
-      padding-left: 15px;
-      width: 100%;
-      border-bottom: 1px solid rgba(0,0,0,0.05);
-      border-radius: 15px;
-      user-select: none;
-      margin-top: 5px;
-      margin-bottom: 5px;
-
+      @extend %users-list-item;
       &:hover {
         background: rgba(0,0,0,0.02);
       }
-
       &:active {
         background: rgba(0,0,0,0.05);
       }
     }
   }
 
-  #user-search {
+  #chatroom-user-search {
     width: 100%;
   }
 
-  #search-result {
+  #chatroom-search-result {
     margin-top: 5px;
     //border-bottom: 1px solid rgba(0,0,0,0.05);
     padding-bottom: 10px;
   }
 
-  #users-to-add {
+  #chatroom-users-to-add {
     margin-top: 20px;
   }
 }
