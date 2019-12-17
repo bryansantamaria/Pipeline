@@ -594,7 +594,11 @@ users-to-add {
     }
   }
 }
-
+%user-search-modal{
+  padding: 5px;
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 5px;
+}
 #create-pm-header {
   display: grid;
   grid-template-columns: 1fr 30px;
@@ -606,11 +610,34 @@ users-to-add {
   }
 
   #create-pm-user-search {
+    @extend %user-search-modal;
     grid-column: 1 / 3;;
     grid-row: 2;
-    padding: 5px;
-    border: 1px solid rgba(0,0,0,0.1);
-    border-radius: 5px;
+  }
+}
+
+#create-chatroom-header{
+  display: grid;
+  grid-template-columns: 1fr 30px;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+
+  #createChatroomTitle {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  #createChatroomName{
+    @extend %user-search-modal;
+    grid-column: 1;
+    grid-row: 2;
+  }
+  #createChatroomAddUserTitle{
+    grid-column: 1;
+    grid-row: 3;
+  }
+  #chatroom-user-search{
+    @extend %user-search-modal;
+    grid-column: 1;
+    grid-row: 4;
   }
 }
 
@@ -637,7 +664,7 @@ emoji-picker {
     display: flex;
     justify-content: space-around;
     padding: 5px;
-    
+
     category-picker-item {
       width: 10%;
       margin-left: 2px;
