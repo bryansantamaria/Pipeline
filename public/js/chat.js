@@ -320,7 +320,7 @@ socket.on('typing', (alias) => {
   } else {
     $('#typing').html('');
   }
-  
+
   if (debug) console.log(chatGlobals.user.alias);
 });
 
@@ -479,50 +479,72 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 });
 //////////////////////////////////////////////////////////////////////////
+//Vänta tills DOM-trädet är färdigladdat.
 document.addEventListener('DOMContentLoaded', () => {
+  //Hämta elementet chatroom-user-list.
+  let chatroomUserList = document.querySelector('chatroom-user-list');
+  //Hämta elementet chatroom-user-search och lyssna på inputs från användaren.
   document.querySelector('#chatroom-user-search').addEventListener('input', e => {
+    //Ta värdet från chatroom-user-search och lagra i query variabel.
     let query = e.target.value;
+    //Om debug är på(true) så logga i konsolen "Searched for: värdet av query".
     if (debug) console.log('Searched for: ' + query);
+    //Gör en ny sökning på User via modalen createChatroom
     chatroomUserSearch.search(query);
 
+    //Om söningen är tom
     if (query == '') {
-      let chatroomUserList = document.querySelector('chatroom-user-list');
-
+      //Medan elementet chatroomUserList första barn element
       while (chatroomUserList.firstChild) {
+        //Ta bort chatroomUserList första barn element
         chatroomUserList.removeChild(chatroomUserList.firstChild);
       }
     }
   });
+  //Välj elemenet med id:t create-chatroom-modal och lyssna på eventet chatroom-search-result
+  document.querySelector('#create-chatroom-modal').addEventListener('search-result', e => {
 
-  document.querySelector('#create-chatroom-modal').addEventListener('chatroom-search-result', e => {
-    let chatroomUserList = document.querySelector('chatroom-user-list');
-
+    //Medan elementet chatroomUserList första barn element
     while (chatroomUserList.firstChild) {
+      //Ta bort chatroomUserList första barn element
       chatroomUserList.removeChild(chatroomUserList.firstChild);
     }
-
+    //För varje detalj? i search-result som ligger i search-module
     e.detail.forEach(user => {
-      let item = new UserListItem(document.querySelector('chatroom-user-list'), user);
+      //Sätt item som ett nytt UserListItem inuti chatroomuserlist med datan user.
+      let item = new UserListItem(chatroomUserList, user);
+      //rendera ut item på sidan.
       item.render();
     });
   });
 
   //Adds the user clicked on to list of users in new chat room
-  document.querySelector('chatroom-user-list').addEventListener('user-added', e => {
-    if (!chatGlobals.addToRoom.some(user => user._id == e.detail._id)) {
-      chatGlobals.addToRoom.push(e.detail);
+  //Inuti chatroomUserList, lyssna på user-added eventet.
+  chatroomUserList.addEventListener('user-added', e => {
+    //Sätt chatGlobalsAddMemberToRoom till att vara addToRoom i chatglobals.
+    let chatGlobalsAddMemberToRoom = chatGlobals.addToRoom;
+    //Om inte chatGlobalsAddMemberToRoom har en användare med samma _id som i databasen.
+    if (!chatGlobalsAddMemberToRoom.some(user => user._id == e.detail._id)) {
+      //Lägg till e.detail in i chatGlobalsAddMemberToRoom
+      chatGlobalsAddMemberToRoom.push(e.detail);
+      //Sätt addToRoom som en klass med parameterna (elementet chatroom-users-to-add, e.detail)
       let addToRoom = new AddToChat(document.querySelector('chatroom-users-to-add'), e.detail);
+      //Lägg till i den tomma arrayed addToRoomModules objektet addToRoom
       addToRoomModules.push(addToRoom);
+      //Rendera ut addToRoom.
       addToRoom.render();
     }
-    if (debug) console.log(chatGlobals.addToRoom);
+    //Om debug är true, logga ut chatGlobalsAddMemberToRoom i konsolen
+    if (debug) console.log(chatGlobalsAddMemberToRoom);
   })
-
+  //Välj elementet chatroom-users-to-add och lyssna på eventet user-removed
   document.querySelector('chatroom-users-to-add').addEventListener('user-removed', e => {
+    //sätt chatGlobals.addToRoom till att filtrera ut de som inte har matchande _id med varandra.
     chatGlobals.addToRoom = chatGlobals.addToRoom.filter(user => user._id != e.detail._id)
+    //Om debug är true, logga ut chatGlobals.addToRoom i konsolen.
     if (debug) console.log(chatGlobals.addToRoom);
   })
-})
+});
 /////////////////////////////////////////////////////
 /// MENTIONS
 /////////////////////////////////////////////////////
