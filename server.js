@@ -79,12 +79,11 @@ function parseEmoji() {
 
     emojiObjects.forEach(emoji => {
       emojiCollection.insert(emoji);
+      console.log(emoji);
       /*if(!categoryNames.some(category => category == emoji.category)) {
         categoryNames.push(emoji.category);
       }*/   
     })
-
-    console.log(categoryNames);
   })
 }
 
