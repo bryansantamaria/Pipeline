@@ -137,7 +137,7 @@ function createPM(chatroom) {
     chatroom.members.forEach(user => {
       usersInChatroom += user.alias + ' ';
     });
-  
+
     let div = document.createElement('div');
     let i = document.createElement('i');
     let text = document.createTextNode(usersInChatroom);
@@ -146,13 +146,13 @@ function createPM(chatroom) {
     i.classList.add('fas', 'fa-circle');
     div.appendChild(i);
     div.appendChild(text);
-  
+
     document.querySelector('private-message').appendChild(div);
-  
+
     div.addEventListener('click', e => {
       joinChatRoom(e);
     });
-  
+
     chatGlobals.addToRoom = [];
   }
 }
@@ -472,47 +472,48 @@ document.addEventListener('DOMContentLoaded', () => {
     chatGlobals.addToRoom = chatGlobals.addToRoom.filter(user => user._id != e.detail._id)
     if (debug) console.log(chatGlobals.addToRoom);
   })
-})
+});
+//////////////////////////////////////////////////////////////////////////
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelector('#create-chatroom-user-search').addEventListener('input', e => {
+  document.querySelector('#chatroom-user-search').addEventListener('input', e => {
     let query = e.target.value;
     if (debug) console.log('Searched for: ' + query);
     chatroomUserSearch.search(query);
 
     if (query == '') {
-      let userList = document.querySelector('user-list');
+      let chatroomUserList = document.querySelector('chatroom-user-list');
 
-      while (userList.firstChild) {
-        userList.removeChild(userList.firstChild);
+      while (chatroomUserList.firstChild) {
+        chatroomUserList.removeChild(chatroomUserList.firstChild);
       }
     }
   });
 
-  document.querySelector('#create-pm-modal').addEventListener('search-result', e => {
-    let userList = document.querySelector('user-list');
+  document.querySelector('#create-chatroom-modal').addEventListener('chatroom-search-result', e => {
+    let chatroomUserList = document.querySelector('chatroom-user-list');
 
-    while (userList.firstChild) {
-      userList.removeChild(userList.firstChild);
+    while (chatroomUserList.firstChild) {
+      chatroomUserList.removeChild(chatroomUserList.firstChild);
     }
 
     e.detail.forEach(user => {
-      let item = new UserListItem(document.querySelector('user-list'), user);
+      let item = new UserListItem(document.querySelector('chatroom-user-list'), user);
       item.render();
     });
   });
 
   //Adds the user clicked on to list of users in new chat room
-  document.querySelector('user-list').addEventListener('user-added', e => {
+  document.querySelector('chatroom-user-list').addEventListener('user-added', e => {
     if (!chatGlobals.addToRoom.some(user => user._id == e.detail._id)) {
       chatGlobals.addToRoom.push(e.detail);
-      let addToRoom = new AddToChat(document.querySelector('users-to-add'), e.detail);
+      let addToRoom = new AddToChat(document.querySelector('chatroom-users-to-add'), e.detail);
       addToRoomModules.push(addToRoom);
       addToRoom.render();
     }
     if (debug) console.log(chatGlobals.addToRoom);
   })
 
-  document.querySelector('users-to-add').addEventListener('user-removed', e => {
+  document.querySelector('chatroom-users-to-add').addEventListener('user-removed', e => {
     chatGlobals.addToRoom = chatGlobals.addToRoom.filter(user => user._id != e.detail._id)
     if (debug) console.log(chatGlobals.addToRoom);
   })
