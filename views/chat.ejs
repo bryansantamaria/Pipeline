@@ -41,10 +41,10 @@
       <public-channels>
         <div id="channel-title"><i class="fas fa-plus-circle" id="create-chatroom"></i> Channels</div>
         <% for(let id = 0; id < chatrooms.length; id++){ %>
-          <% if(chatrooms[id].type != 'privateMessage'){ %>
+          <% if(chatrooms[id].type == 'publicChannel'){ %>
             <div id="<%= chatrooms[id]._id %>" class="requestChatroom">
               <i class="fas fa-hashtag"></i>
-               <%=chatrooms[id].name %>
+               <%= chatrooms[id].name %>
              </div>
           <% } %>
        <% } %>
@@ -53,7 +53,6 @@
       <!-- Private messages -->
       <private-message>
         <div id="private-message-title"><i class="fas fa-plus-circle" id="create-private-message"></i> Private Message</div>
-        <%#= chatrooms[i] %>
         <% for(let id = 0; id < chatrooms.length; id++){ %>
           <% if(chatrooms[id].type === 'privateMessage'){ %>
             <div id="<%= chatrooms[id]._id %>" class="requestChatroom">

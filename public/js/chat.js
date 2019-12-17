@@ -87,6 +87,24 @@ document.querySelector('#create-pm-btn').addEventListener('click', () => {
       socket.emit('createdChatroom', chatroom);
     });
 })
+//For chatroom creation
+document.querySelector('#create-chatroom-btn').addEventListener('click', () => {
+  let usersInNewRoom = chatGlobals.addToRoom;
+  usersInNewRoom.push(chatGlobals.user);
+
+  fetch('/chatroom/newChatroom', {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(usersInNewRoom)
+  }).then(res => res.json())
+    .then(chatroom => {
+      chatroom = JSON.parse(chatroom);
+      console.log(chatroom);
+      socket.emit('createdChatroom', chatroom);
+    });
+})
 
 //Joins chatroom
 function joinChatRoom(e) {
@@ -125,8 +143,8 @@ function joinChatRoom(e) {
         member.innerHTML = chatroomMembers[memberInArray].alias;
         topBar.insertBefore(member, topBar.childNodes[1]);
       }
-      else {
-        member.innerHTML = chatroomMembers[memberInArray];
+      else if(chatroom[0].type === "publicChannel"){
+        member.innerHTML = chatroomMembers[memberInArray].alias;
         topBar.insertBefore(member, topBar.childNodes[1]);
       }
     }

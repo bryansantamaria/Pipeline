@@ -112,6 +112,19 @@ router.post("/", (req, res) => {
   });
 });
 
+router.post("/newChatroom", (req, res) => {
+  let pipelineDB = req.db;
+  let chatroomCollection = pipelineDB.get("chatrooms");
+  chatroomCollection.insert({
+    "members": req.body,
+    'type': 'publicChannel',
+    'messages': []
+  }, (err, newChatroom) => {
+    if (err) throw err;
+    res.json(newChatroom);
+  });
+});
+
 //GET specific chatroom.
 router.get('/:_id', (req, res) => {
   let pipelineDB = req.db;

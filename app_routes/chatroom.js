@@ -37,6 +37,19 @@ router.post('/', (req, res) => {
   }).then(chatroom => {
     res.json(chatroom);
   });
+});
+
+router.post('/newChatroom', (req, res) => {
+  console.log(JSON.stringify(req.body));
+  request("http://127.0.0.1:3000/chatroom/newChatroom", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(req.body)
+  }).then(chatroom => {
+    res.json(chatroom);
+  });
 })
 
 module.exports = router;
