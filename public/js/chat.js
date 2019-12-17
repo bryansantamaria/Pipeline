@@ -216,6 +216,7 @@ document.addEventListener('delete-init', e => {
 });
 
 document.querySelector('#delete-btn').addEventListener('click', () => {
+  chatGlobals.deleteTarget.chatroom = chatGlobals.chatroomId;
   socket.emit('delete', chatGlobals.deleteTarget);
 });
 
@@ -228,7 +229,7 @@ document.addEventListener('edit-init', e => {
 document.querySelector('#edit-btn').addEventListener('click', () => {
   let new_message = chatGlobals.editTarget.content;
   new_message.message = document.querySelector('#edit-message').value;
-
+  new_message.chatroom = chatGlobals.chatroomId;
   socket.emit('edit', new_message);
 });
 
