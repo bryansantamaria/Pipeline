@@ -8,6 +8,7 @@ const monk = require("monk");
 const bodyParser = require("body-parser");
 const pipelineDB = monk('localhost:27017/pipeline');
 const port = 3000;
+const fs = require('fs');
 
 ///////////////////////////////////////////////////
 /// Routers
@@ -53,6 +54,42 @@ server.use('/chat', chatRouter);
 server.use('/login', loginRouter);
 server.use('/chatroom', chatroomRouter);
 server.use('/uploadfile', uploadFile);
+
+
+function parseEmoji() {
+  fs.readFile('emoji/emoji.json', (err, emojis) => {
+    //emojis = JSON.parse(emojis.emojis);
+    if(err) throw err;
+    let parsedEmojis = JSON.parse(emojis).emojis;
+    let emojiCollection = pipelineDB.get('emojis');
+
+    let emojiObjects = [];
+    parsedEmojis.forEach(emoji => {
+      //console.log(Object.getOwnPropertyNames(emoji));
+      let emojiObj = {
+        name: Object.getOwnPropertyNames(emoji)[0],
+        char: emoji[Object.getOwnPropertyNames(emoji)].char,
+        category: emoji[Object.getOwnPropertyNames(emoji)].category
+      };
+
+      emojiObjects.push(emojiObj);
+    });
+
+    let categoryNames = [];
+
+    emojiObjects.forEach(emoji => {
+      emojiCollection.insert(emoji);
+      /*if(!categoryNames.some(category => category == emoji.category)) {
+        categoryNames.push(emoji.category);
+      }*/   
+    })
+
+    console.log(categoryNames);
+  })
+}
+
+//DONT UNCOMMENT UNLESS YOU WANT 1000000000 EMOJIS IN YOUR COLLECTION
+//parseEmoji();
 
 // catch 404 and forward to error handler
 server.use(function (req, res, next) {

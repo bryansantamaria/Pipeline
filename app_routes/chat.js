@@ -3,6 +3,9 @@ const request = require('request-promise');
 const router = express.Router();
 
 router.get('/', (req, res) => {
+    console.log('Client cookie >');
+    console.log(req.headers.cookie);
+    //console.log(req.session)
     request('http://127.0.0.1:3000/chat', {
         method: 'get',
         headers: {
@@ -10,7 +13,7 @@ router.get('/', (req, res) => {
         }
     }).then(chatObject => {
       let parsedObject = JSON.parse(chatObject);
-      console.log(parsedObject);
+      //console.log(parsedObject);
         parsedObject.chatrooms = parsedObject.chatrooms.filter(room => {
             return room.members.some(member => member._id == req.session.user._id);
         });

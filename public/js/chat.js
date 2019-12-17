@@ -18,6 +18,10 @@ import {
   AddToChat
 } from "./add-to-chat-module.js";
 
+import {
+  EmojiPicker
+} from "./emojipicker-module.js";
+
 ////////////////////////////////////////////////
 //Globals
 ////////////////////////////////////////////////
@@ -600,3 +604,11 @@ document.querySelector('mentions-root').addEventListener('mention-user', e => {
   msg.focus();
   mentions.clear();
 })
+
+/////////////////////////////////////////////////////
+/// EMOJI PICKER
+/////////////////////////////////////////////////////
+
+let emojipicker = new EmojiPicker(document.querySelector('#open-emoji-picker'), document.querySelector('#messageValue'));
+
+emojipicker.render();

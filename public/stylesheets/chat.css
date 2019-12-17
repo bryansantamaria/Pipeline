@@ -1434,6 +1434,13 @@ main-container main-content #msgForm #messageValue {
   display: inline;
 }
 
+main-container main-content #msgForm #open-emoji-picker {
+  color: rgba(0, 0, 0, 0.1);
+  font-size: 2em;
+  margin-left: 1%;
+  cursor: pointer;
+}
+
 main-container main-content #msgForm #sendMessage {
   margin-left: 1%;
   width: 19%;
@@ -1792,5 +1799,82 @@ users-to-add add-to-chat-item span {
   padding: 5px;
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 5px;
+}
+
+emoji-picker {
+  width: 300px;
+  height: 400px;
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: auto 1fr;
+      grid-template-rows: auto 1fr;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  border-radius: 15px;
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-transition: 0.2s all;
+  transition: 0.2s all;
+  padding: 20px;
+  -webkit-box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.1);
+}
+
+emoji-picker category-picker {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  padding: 5px;
+}
+
+emoji-picker category-picker category-picker-item {
+  width: 10%;
+  margin-left: 2px;
+  margin-right: 2px;
+  padding: 3px;
+  padding-left: 2px;
+  text-align: center;
+  border-radius: 4px;
+  height: 100%;
+  -webkit-box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.01);
+          box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.01);
+  border: 1px solid rgba(0, 0, 0, 0.02);
+  color: black;
+  background: #f2f2f2;
+  cursor: pointer;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+emoji-picker emoji-container {
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding-top: 10px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  overflow-x: scroll;
+}
+
+emoji-picker emoji-container span {
+  width: 10%;
+  cursor: pointer;
+}
+
+emoji-picker .hidden {
+  height: 0px;
+}
+
+emoji-picker span {
+  color: #353535;
+  width: 10%;
 }
 /*# sourceMappingURL=chat.css.map */

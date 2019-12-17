@@ -15,4 +15,17 @@ router.get('/user/:query', (req, res) => {
   });
 });
 
+router.get('/emoji/:category', (req, res) => {
+  console.log('Query recieved: ' + req.params.category)
+  request('http://127.0.0.1:3000/search/emoji/' + req.params.category, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(req.body),
+  }).then(result => {
+    res.json(result);
+  });
+});
+
 module.exports = router;
