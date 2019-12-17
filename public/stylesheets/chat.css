@@ -1231,13 +1231,13 @@ mentions-root .hidden {
   display: none;
 }
 
-users-to-add {
+users-to-add, chatroom-users-to-add {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   margin-top: 10px;
 }
-users-to-add add-to-chat-item {
+users-to-add add-to-chat-item, chatroom-users-to-add add-to-chat-item {
   min-width: 60px;
   padding: 5px;
   height: 30px;
@@ -1253,7 +1253,7 @@ users-to-add add-to-chat-item {
   align-items: center;
   margin-right: 10px;
 }
-users-to-add add-to-chat-item p {
+users-to-add add-to-chat-item p, chatroom-users-to-add add-to-chat-item p {
   color: #181818;
   font-size: 0.8em;
   height: 100%;
@@ -1262,7 +1262,7 @@ users-to-add add-to-chat-item p {
   padding-top: 0.55em;
   user-select: none;
 }
-users-to-add add-to-chat-item span {
+users-to-add add-to-chat-item span, chatroom-users-to-add add-to-chat-item span {
   cursor: pointer;
   padding: 0;
 }
