@@ -307,7 +307,7 @@ socket.on('checkOnline', (status) => {
 });
 
 socket.on('createdChatroom', chatroom => {
-  console.log(chatroom);
+  if (debug) console.log(chatroom);
   if(chatroom.members.some(member => member._id == chatGlobals.user._id)) {
     createPM(chatroom);
   }
@@ -315,8 +315,13 @@ socket.on('createdChatroom', chatroom => {
 
 //Shows when a user is typing, end on enter.
 socket.on('typing', (alias) => {
-  $('#typing').html(alias + ' is typing...');
-  console.log(chatGlobals.user.alias);
+  if(alias) {
+    $('#typing').html(alias + ' is typing...');
+  } else {
+    $('#typing').html('');
+  }
+  
+  if (debug) console.log(chatGlobals.user.alias);
 });
 
 $('#messageValue').keyup((e) => {
@@ -324,8 +329,8 @@ $('#messageValue').keyup((e) => {
     socket.emit('typing', false);
   } else if ($('#messageValue').val() !== '') {
     socket.emit('typing', chatGlobals.user.alias, true);
-    console.log('TRUEEE');
-    console.log(chatGlobals.user.alias);
+    if (debug) console.log('TRUEEE');
+    if (debug) console.log(chatGlobals.user.alias);
   } else {
     socket.emit('typing', false);
   }

@@ -95,5 +95,7 @@ export class ChatModule {
         this.html.container.appendChild(this.html.alias);
 
         targetNode.appendChild(this.html.container);
+
+        this.html.container.scrollIntoView();
     }
 }

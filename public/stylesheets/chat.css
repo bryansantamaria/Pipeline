@@ -1159,6 +1159,11 @@ msg-container avatar-container {
   max-height: 70px;
 }
 
+msg-container avatar-container img {
+  width: 100%;
+  margin: auto 0;
+}
+
 msg-container avatar-container #edit-profile-preview {
   width: 100%;
 }
