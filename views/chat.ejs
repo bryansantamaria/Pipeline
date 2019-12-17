@@ -199,7 +199,10 @@
           </button>
         </div>
         <div class="modal-body" id="edit-modal-container">
-          <img src="" alt="" id="edit-profile-preview" >
+          <div id="edit-profile-preview-container">
+            <img src="" alt="" id="edit-profile-preview" onerror = "this.src = `https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-7.png`;">
+          </div>
+
           <!-- ladda upp bild -->
           <form class="form-horizontal" id="edit-form" name="profile-pic" action="/uploadfile" method="POST"
             enctype="multipart/form-data">

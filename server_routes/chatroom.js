@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongo = require('mongodb');
+var sanitizeHtml = require('sanitize-html');
 
 router.put('/', (req, res) => {
   var pipelineDB = req.db;
@@ -19,7 +20,7 @@ router.put('/', (req, res) => {
         messages: {
           _id: _id,
           alias: req.body.alias,
-          message: req.body.message,
+          message: sanitizeHtml(req.body.message),
           avatar: req.body.avatar,
           timestamp: req.body.timestamp,
           mentions: req.body.mentions
