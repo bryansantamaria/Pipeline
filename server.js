@@ -8,6 +8,9 @@ const monk = require("monk");
 const bodyParser = require("body-parser");
 const pipelineDB = monk('localhost:27017/pipeline');
 const port = 3000;
+const passport = require('passport');
+const flash = require('connect-flash');
+const session = require('express-session');
 
 ///////////////////////////////////////////////////
 /// Routers
@@ -28,13 +31,32 @@ const uploadFile = require('./server_routes/uploadfile');
 server.use(bodyParser.urlencoded({
   extended: false
 }));
-
 server.use(bodyParser.json());
 
 server.use(function (req, res, next) {
   req.db = pipelineDB;
   next();
 });
+
+//passport middleware
+server.use(session({
+  secret: 'secret',
+  resave: true,
+  saveUninitialized: true
+}));
+
+// //Global Vars for login
+// server.use((req, res, next) => {
+//   res.locals.success_msg = req.flash('success_msg');
+//   res.locals.error_msg = req.flash('error_msg');
+//   res.locals.error = req.flash('error');
+//   next();
+// });
+
+//Passport middleware
+server.use(passport.initialize());
+server.use(passport.session());
+server.use(flash());
 
 server.use(logger('dev'));
 server.use(express.json());

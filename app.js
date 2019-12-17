@@ -10,7 +10,9 @@ const cookieParser = require('cookie-parser');
 const port = 5000;
 const fileUpload = require('express-fileupload');
 var createError = require('http-errors');
-
+const passport = require('passport');
+const flash = require('connect-flash');
+const session = require('express-session');
 
 ///////////////////////////////////////////////////
 /// Routers
@@ -30,6 +32,15 @@ const uploadFile = require('./app_routes/uploadfile');
 ///////////////////////////////////////////////////
 
 app.use(bodyParser.urlencoded({ extended: false }));
+
+// //Global Vars for login
+// app.use((req, res, next) => {
+//   res.locals.success_msg = req.flash('success_msg');
+//   res.locals.error_msg = req.flash('error_msg');
+//   res.locals.error = req.flash('error');
+//   next();
+// });
+
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.set('trust proxy', 1) // trust first proxy
@@ -37,10 +48,6 @@ app.use(cookieSession({
   name: 'session',
   keys: ['key1', 'key2']
 }));
-// //Enable files upload
-// app.use(fileUpload({
-//   createParentPath: true
-// }));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
