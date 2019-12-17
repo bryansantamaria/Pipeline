@@ -41,10 +41,10 @@
       <public-channels>
         <div id="channel-title"><i class="fas fa-plus-circle" id="create-chatroom"></i> Channels</div>
         <% for(let id = 0; id < chatrooms.length; id++){ %>
-          <% if(chatrooms[id].type != 'privateMessage'){ %>
+          <% if(chatrooms[id].type == 'publicChannel'){ %>
             <div id="<%= chatrooms[id]._id %>" class="requestChatroom">
               <i class="fas fa-hashtag"></i>
-               <%=chatrooms[id].name %>
+               <%= chatrooms[id].name %>
              </div>
           <% } %>
        <% } %>
@@ -53,7 +53,6 @@
       <!-- Private messages -->
       <private-message>
         <div id="private-message-title"><i class="fas fa-plus-circle" id="create-private-message"></i> Private Message</div>
-        <%#= chatrooms[i] %>
         <% for(let id = 0; id < chatrooms.length; id++){ %>
           <% if(chatrooms[id].type === 'privateMessage'){ %>
             <div id="<%= chatrooms[id]._id %>" class="requestChatroom">
@@ -166,9 +165,10 @@
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header" id="create-pm-header">
-          <h5 class="modal-title" id="exampleModalLabel">Create PM</h5>
-          <br>
+        <div class="modal-header" id="create-chatroom-header">
+          <h5 class="modal-title" id="createChatroomTitle">Create chatroom</h5>
+          <input type="text" class="w-100" id="createChatroomName" placeholder="Enter chatroom name">
+          <h5 id="createChatroomAddUserTitle">Add user</h5>
           <input type="text" class="w-100" placeholder="Search for user..." id="chatroom-user-search">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>

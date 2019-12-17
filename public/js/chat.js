@@ -30,7 +30,8 @@ let chatGlobals = {
   editTarget: undefined,
   user: undefined,
   chatroomId: '5deeabc57873593ac0902e8e',
-  addToRoom: []
+  addToRoom: [],
+  addChatroomName: ''
 }
 
 let debug = true;
@@ -90,6 +91,28 @@ document.querySelector('#create-pm-btn').addEventListener('click', () => {
     });
 });
 
+//For chatroom creation
+document.querySelector('#create-chatroom-btn').addEventListener('click', () => {
+  let usersInNewRoom = chatGlobals.addToRoom;
+  let chatroomName = chatGlobals.addChatroomName;
+  console.log(chatGlobals.addChatroomName);
+  chatroomName = document.getElementById("createChatroomName").value;
+  usersInNewRoom.push(chatGlobals.user);
+
+  fetch('/chatroom/newChatroom', {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify([usersInNewRoom, chatroomName])
+  }).then(res => res.json())
+    .then(chatroom => {
+      chatroom = JSON.parse(chatroom);
+      console.log(chatroom);
+      socket.emit('createdChatroom', chatroom);
+    });
+});
+
 //Joins chatroom
 function joinChatRoom(e) {
   $('message-root').empty();
@@ -127,8 +150,8 @@ function joinChatRoom(e) {
         member.innerHTML = chatroomMembers[memberInArray].alias;
         topBar.insertBefore(member, topBar.childNodes[1]);
       }
-      else {
-        member.innerHTML = chatroomMembers[memberInArray];
+      else if(chatroom[0].type === "publicChannel"){
+        member.innerHTML = chatroomMembers[memberInArray].alias;
         topBar.insertBefore(member, topBar.childNodes[1]);
       }
     }
@@ -329,7 +352,7 @@ socket.on('typing', (alias) => {
   } else {
     $('#typing').html('');
   }
-  
+
   if (debug) console.log(chatGlobals.user.alias);
 });
 
@@ -488,38 +511,39 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+/////////////////////////////////////////////////////
+/// CREATE CHATROOM
+/////////////////////////////////////////////////////
+
 document.addEventListener('DOMContentLoaded', () => {
+  let chatroomUserList = document.querySelector('chatroom-user-list');
   document.querySelector('#chatroom-user-search').addEventListener('input', e => {
     let query = e.target.value;
     if (debug) console.log('Searched for: ' + query);
     chatroomUserSearch.search(query);
-
     if (query == '') {
-      let chatroomUserList = document.querySelector('chatroom-user-list');
-
       while (chatroomUserList.firstChild) {
         chatroomUserList.removeChild(chatroomUserList.firstChild);
       };
     };
   });
-
-  document.querySelector('#create-chatroom-modal').addEventListener('chatroom-search-result', e => {
-    let chatroomUserList = document.querySelector('chatroom-user-list');
+  document.querySelector('#create-chatroom-modal').addEventListener('search-result', e => {
 
     while (chatroomUserList.firstChild) {
       chatroomUserList.removeChild(chatroomUserList.firstChild);
     };
 
     e.detail.forEach(user => {
-      let item = new UserListItem(document.querySelector('chatroom-user-list'), user);
+      let item = new UserListItem(chatroomUserList, user);
       item.render();
     });
   });
 
   //Adds the user clicked on to list of users in new chat room
-  document.querySelector('chatroom-user-list').addEventListener('user-added', e => {
-    if (!chatGlobals.addToRoom.some(user => user._id == e.detail._id)) {
-      chatGlobals.addToRoom.push(e.detail);
+  chatroomUserList.addEventListener('user-added', e => {
+    let chatGlobalsAddMemberToRoom = chatGlobals.addToRoom;
+    if (!chatGlobalsAddMemberToRoom.some(user => user._id == e.detail._id)) {
+      chatGlobalsAddMemberToRoom.push(e.detail);
       let addToRoom = new AddToChat(document.querySelector('chatroom-users-to-add'), e.detail);
       addToRoomModules.push(addToRoom);
       addToRoom.render();
