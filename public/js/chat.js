@@ -109,7 +109,7 @@ document.querySelector('#create-chatroom-btn').addEventListener('click', () => {
     .then(chatroom => {
       chatroom = JSON.parse(chatroom);
       console.log(chatroom);
-      socket.emit('createdChatroom', chatroom);
+      socket.emit('createdPublicChatroom', chatroom);
     });
 });
 
@@ -186,8 +186,28 @@ function createPM(chatroom) {
   }
 };
 
-function createChannel() {
+function createChannel(chatroom) {
+  if(chatroom.members.some(user => user._id == chatGlobals.user._id)) {
+    console.log(chatroom);
+    let usersInChatroom = chatroom.name;
+    let div = document.createElement('div');
+    let i = document.createElement('i');
+    let text = document.createTextNode(usersInChatroom);
+    div.id = chatroom._id;
+    div.classList.add('requestChatroom');
+    i.classList.add('fas', 'fa-hashtag');
+    div.appendChild(i);
+    div.appendChild(text);
 
+    document.querySelector('public-channels').appendChild(div);
+
+    div.addEventListener('click', e => {
+      joinChatRoom(e);
+    });
+
+    chatGlobals.addToRoom = [];
+    chatGlobals.addChatroomName = '';
+  }
 };
 
 //Delete events
@@ -342,6 +362,13 @@ socket.on('createdChatroom', chatroom => {
   if (debug) console.log(chatroom);
   if(chatroom.members.some(member => member._id == chatGlobals.user._id)) {
     createPM(chatroom);
+  }
+})
+
+socket.on('createdPublicChatroom', chatroom => {
+  if (debug) console.log(chatroom);
+  if(chatroom.members.some(member => member._id == chatGlobals.user._id)) {
+    createChannel(chatroom);
   }
 })
 
