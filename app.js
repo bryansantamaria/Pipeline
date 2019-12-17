@@ -7,10 +7,13 @@ const bodyParser = require("body-parser");
 const request = require('request-promise');
 const cookieSession = require('cookie-session');
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
 const port = 5000;
-const fileUpload = require('express-fileupload');
-var createError = require('http-errors');
+const createError = require('http-errors');
+const passport = require('passport');
 
+//passport config
+require('./config/passport')(passport);
 
 ///////////////////////////////////////////////////
 /// Routers
@@ -37,10 +40,15 @@ app.use(cookieSession({
   name: 'session',
   keys: ['key1', 'key2']
 }));
-// //Enable files upload
-// app.use(fileUpload({
-//   createParentPath: true
-// }));
+
+app.use(session({
+  secret: '2manyfiles',
+  resave: true,
+  saveUninitialized: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(express.static(path.join(__dirname, 'public')));
 

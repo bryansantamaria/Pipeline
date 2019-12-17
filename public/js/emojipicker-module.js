@@ -20,6 +20,7 @@ export class EmojiPicker {
             {query:'symbols', symbol: '💯'},
             {query:'flags', symbol: '🇸🇪'}
         ];
+        
         this.open = false;
 
         this.html.emojiBtn.addEventListener('click', () => {
