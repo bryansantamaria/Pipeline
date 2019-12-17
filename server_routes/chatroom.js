@@ -116,7 +116,8 @@ router.post("/newChatroom", (req, res) => {
   let pipelineDB = req.db;
   let chatroomCollection = pipelineDB.get("chatrooms");
   chatroomCollection.insert({
-    "members": req.body,
+    "name": req.body[1],
+    "members": req.body[0],
     'type': 'publicChannel',
     'messages': []
   }, (err, newChatroom) => {
