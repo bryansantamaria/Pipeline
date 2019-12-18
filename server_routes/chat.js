@@ -23,16 +23,6 @@ router.get('/', async (req, res) => {
     res.send(chatObject);
 });
 
-/*
-router.get('/', (req, res) => {
-  var pipelineDB = req.db;
-  var collection = pipelineDB.get("users");
-  collection.find({}, {}, function(e, users) {
-    res.json(users);
-  });
-});
-*/
-
 router.get('/:id', (req, res) => {
   var pipelineDB = req.db;
   var collection = pipelineDB.get("users");

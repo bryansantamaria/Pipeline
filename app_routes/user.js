@@ -2,6 +2,7 @@ const express = require('express');
 const request = require('request-promise');
 const router = express.Router();
 
+//GET user with specific ID
 router.get('/:id', (req, res) => {
     console.log(req.params);
     request('http://127.0.0.1:3000/user/' + req.params.id, {
@@ -14,6 +15,7 @@ router.get('/:id', (req, res) => {
     });
 })
 
+//GET user with specific alias
 router.get('/profile/:alias', (req, res) => {
     request('http://127.0.0.1:3000/user/' + req.params.alias, {
         method: 'get',
@@ -25,7 +27,7 @@ router.get('/profile/:alias', (req, res) => {
     });
 })
 
-//Updates user
+//PUT Updates user
 router.put('/edit/:id', (req, res) => {
     console.log('Edit request for user >');
     console.log(req.body);

@@ -8,6 +8,7 @@ function authenticated (req, res, next) {
     res.redirect('/loginfailed');
 }
 
+//GET all users and chatrooms that the user is a member in.
 router.get('/', authenticated, (req, res) => {
     request('http://127.0.0.1:3000/chat', {
         method: 'get',
@@ -22,7 +23,7 @@ router.get('/', authenticated, (req, res) => {
         parsedObject.chatrooms = parsedObject.chatrooms.filter(room => {
             return room.members.some(member => member._id == user_id);
         });
-        
+
         res.cookie('user', user_id, { maxAge: 3600, httpOnly: false });
         res.render('chat', { "users": parsedObject.users, "chatrooms": parsedObject.chatrooms, user_id: user_id });
     });
