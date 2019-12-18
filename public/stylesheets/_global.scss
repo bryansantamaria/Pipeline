@@ -74,7 +74,7 @@ $sidebar-width: 330px;
 %side-bar {
   background: $sidebar-color;
   display: grid;
-  grid-template-rows: auto auto 0.7fr 1fr;
+  grid-template-rows: auto auto 0.7fr 1fr 0.5fr;
   width: $sidebar-width;
   height: 100vh;
   box-sizing: border-box;

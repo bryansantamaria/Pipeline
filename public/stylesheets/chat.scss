@@ -236,7 +236,6 @@ main-container {
       overflow-x: visible;
       scrollbar-width: none;
 
-
       #channel-title {
         @extend %channel-dark;
       }
@@ -255,13 +254,15 @@ main-container {
       #private-message-title {
         @extend %channel-dark;
       }
-
       div {
         @extend %channel-light;
       }
     }
     users-online {
       grid-row: 5;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 34px 1fr;
       margin-left: -20px;
       overflow-y: scroll;
       overflow-x: visible;
@@ -273,7 +274,14 @@ main-container {
         @extend %channel-dark;
       }
       #users-online {
-        @extend %channel-light;
+        // max-height: 30vh;
+        grid-row: 2;
+        overflow-y: scroll;
+        overflow-x: visible;
+        scrollbar-width: none;
+        div {
+          @extend %channel-light;
+        }
       }
     }
 

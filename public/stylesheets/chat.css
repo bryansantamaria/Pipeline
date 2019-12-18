@@ -123,8 +123,8 @@ main-container side-bar {
   background: linear-gradient(270deg, #616070 0%, #685d74 100%);
   display: -ms-grid;
   display: grid;
-  -ms-grid-rows: auto auto 0.7fr 1fr;
-      grid-template-rows: auto auto 0.7fr 1fr;
+  -ms-grid-rows: auto auto 0.7fr 1fr 0.5fr;
+      grid-template-rows: auto auto 0.7fr 1fr 0.5fr;
   width: 330px;
   height: 100vh;
   -webkit-box-sizing: border-box;
@@ -1229,7 +1229,7 @@ msg-container .fa-times:hover {
   color: #c03838;
 }
 
-main-container side-bar public-channels div, main-container side-bar private-message div, main-container side-bar users-online #users-online {
+main-container side-bar public-channels div, main-container side-bar private-message div, main-container side-bar users-online #users-online div {
   margin-top: 10px;
   background: rgba(0, 0, 0, 0.1);
   margin-left: -30px;
@@ -1244,12 +1244,12 @@ main-container side-bar public-channels div, main-container side-bar private-mes
   transition: 0.2s all;
 }
 
-main-container side-bar public-channels div:hover, main-container side-bar private-message div:hover, main-container side-bar users-online #users-online:hover {
+main-container side-bar public-channels div:hover, main-container side-bar private-message div:hover, main-container side-bar users-online #users-online div:hover {
   background: rgba(0, 0, 0, 0.2);
   cursor: pointer;
 }
 
-main-container side-bar public-channels div:active, main-container side-bar private-message div:active, main-container side-bar users-online #users-online:active {
+main-container side-bar public-channels div:active, main-container side-bar private-message div:active, main-container side-bar users-online #users-online div:active {
   background: rgba(255, 255, 255, 0.1);
 }
 
@@ -1352,6 +1352,12 @@ main-container side-bar private-message {
 main-container side-bar users-online {
   -ms-grid-row: 5;
   grid-row: 5;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr;
+      grid-template-columns: 1fr;
+  -ms-grid-rows: 34px 1fr;
+      grid-template-rows: 34px 1fr;
   margin-left: -20px;
   overflow-y: scroll;
   overflow-x: visible;
@@ -1360,6 +1366,14 @@ main-container side-bar users-online {
 
 main-container side-bar users-online i {
   color: #8ecf2d;
+}
+
+main-container side-bar users-online #users-online {
+  -ms-grid-row: 2;
+  grid-row: 2;
+  overflow-y: scroll;
+  overflow-x: visible;
+  scrollbar-width: none;
 }
 
 main-container main-content {
