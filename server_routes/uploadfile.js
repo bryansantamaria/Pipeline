@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
-    console.log(req.body);
+    //console.log(req.body);
     var pipelineDB = req.db;
     var collection = pipelineDB.get("users");
     collection.insert({

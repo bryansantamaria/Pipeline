@@ -47,7 +47,7 @@ export class ChatModule {
     //Runs on confirmed delete
     delete() {
         this.html.container.classList.add('removed-msg');
-        console.log(this.html.container);
+        //console.log(this.html.container);
 
         setTimeout(() => {
             document.querySelector('message-root').removeChild(document.getElementById(this.content._id));
@@ -66,12 +66,12 @@ export class ChatModule {
         this.html.avatar.setAttribute('onerror', `this.src = 'https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-7.png';`);
         let messageWithMentions = this.content.message;
         this.content.mentions.forEach(mention => {
-            console.log('Current mention');
-            console.log(`@${mention.alias}`)
+            //console.log('Current mention');
+            //console.log(`@${mention.alias}`)
             messageWithMentions = messageWithMentions.replace(`@${mention.alias}`, `<span class="mention" mention="${mention._id}">@${mention.alias}</span>`)
         });
 
-        console.log(messageWithMentions);
+        //console.log(messageWithMentions);
         this.html.message.innerHTML = `${messageWithMentions}`;
         this.html.timestamp.innerText = this.content.timestamp;
         this.html.alias.innerText = this.content.alias;

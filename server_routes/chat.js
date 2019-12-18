@@ -14,8 +14,8 @@ router.get('/', async (req, res) => {
     chatroomsArray = await chatroomCollection.find().then(chatrooms => {
       return chatrooms;
     });
-    console.log(usersArray);
     //console.log(usersArray);
+    ////console.log(usersArray);
     let chatObject = {
       users: usersArray,
       chatrooms: chatroomsArray
@@ -36,12 +36,12 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   var pipelineDB = req.db;
   var collection = pipelineDB.get("users");
-  console.log(req.params.id)
+  //console.log(req.params.id)
   collection.find({
       "_id": req.params.id
     }, {})
     .then(user => {
-      console.log(JSON.stringify(user[0]));
+      //console.log(JSON.stringify(user[0]));
       if (user) {
         res.send(JSON.stringify(user[0]));
       } else {
@@ -53,12 +53,12 @@ router.get('/:id', (req, res) => {
 router.put('/edit/:id', (req, res) => {
   var pipelineDB = req.db;
   var collection = pipelineDB.get("users");
-  console.log(req.params.id)
+  //console.log(req.params.id)
   collection.find({
       "_id": req.params.id
     }, {})
     .then(user => {
-      console.log(JSON.stringify(user[0]));
+      //console.log(JSON.stringify(user[0]));
       if (user) {
         res.send(JSON.stringify(user[0]));
       } else {

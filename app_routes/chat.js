@@ -17,12 +17,12 @@ router.get('/', authenticated, (req, res) => {
     }).then(chatObject => {
         let parsedObject = JSON.parse(chatObject);
         let user_id = req.user._id.toString();
-        console.log(user_id);
+        //console.log(user_id);
 
         parsedObject.chatrooms = parsedObject.chatrooms.filter(room => {
             return room.members.some(member => member._id == user_id);
         });
-        
+
         res.cookie('user', user_id, { maxAge: 3600, httpOnly: false });
         res.render('chat', { "users": parsedObject.users, "chatrooms": parsedObject.chatrooms });
     });

@@ -65,7 +65,7 @@ function parseEmoji() {
 
     let emojiObjects = [];
     parsedEmojis.forEach(emoji => {
-      //console.log(Object.getOwnPropertyNames(emoji));
+      ////console.log(Object.getOwnPropertyNames(emoji));
       let emojiObj = {
         name: Object.getOwnPropertyNames(emoji)[0],
         char: emoji[Object.getOwnPropertyNames(emoji)].char,
@@ -79,10 +79,10 @@ function parseEmoji() {
 
     emojiObjects.forEach(emoji => {
       emojiCollection.insert(emoji);
-      console.log(emoji);
+      //console.log(emoji);
       /*if(!categoryNames.some(category => category == emoji.category)) {
         categoryNames.push(emoji.category);
-      }*/   
+      }*/
     })
   })
 }

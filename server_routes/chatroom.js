@@ -8,9 +8,9 @@ router.put('/', (req, res) => {
   var collection = pipelineDB.get('chatrooms');
   let _id = new mongo.ObjectId();
   let chatroomID = req.body.chatroom;
-  console.log('\n\n');
-  console.log('Recieved message from app >');
-  console.log(req.body);
+  //console.log('\n\n');
+  //console.log('Recieved message from app >');
+  //console.log(req.body);
   collection.update({
     _id: chatroomID
   },
@@ -32,7 +32,7 @@ router.put('/', (req, res) => {
         { _id: chatroomID },
         (err, chatroom) => {
           if (err) throw err;
-          console.log(chatroom);
+          //console.log(chatroom);
           let message_in_db = chatroom.messages.find(message => message._id == _id.toString());
           res.json(JSON.stringify(message_in_db)); //Returns message to app.js
         });
@@ -43,9 +43,9 @@ router.put('/', (req, res) => {
 router.put('/edit', function (req, res) {
   var pipelineDB = req.db;
   var collection = pipelineDB.get('chatrooms');
-  console.log('\n');
-  console.log('Server spits out: ');
-  console.log(req.body);
+  //console.log('\n');
+  //console.log('Server spits out: ');
+  //console.log(req.body);
   collection.update({
     '_id': req.body._id
   }, {
@@ -61,8 +61,8 @@ router.put('/edit', function (req, res) {
     collection.find({
       '_id': req.body._id
     }, function (err, edit_msg_db) {
-      console.log('edit message in db >')
-      console.log(edit_msg_db[0]);
+      //console.log('edit message in db >')
+      //console.log(edit_msg_db[0]);
       if (err) throw err;
       res.json(JSON.stringify(edit_msg_db[0]));
     });
@@ -71,9 +71,9 @@ router.put('/edit', function (req, res) {
 
 /* GET delete user. */
 router.delete('/', function (req, res) {
-  console.log('\n');
-  console.log('message to be deleted >')
-  console.log(req.body);
+  //console.log('\n');
+  //console.log('message to be deleted >')
+  //console.log(req.body);
   var pipelineDB = req.db;
   var collection = pipelineDB.get('chatrooms');
 
@@ -84,7 +84,7 @@ router.delete('/', function (req, res) {
   }, (err, delete_status) => {
     if (err) throw err;
     res.json(JSON.stringify(req.body));
-    console.log(delete_status.result);
+    //console.log(delete_status.result);
   });
 });
 

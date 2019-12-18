@@ -11,7 +11,7 @@ export class AddToChat {
     }
 
     render() {
-        console.log(this.html);
+        //console.log(this.html);
         this.html.alias.innerText = this.user.alias;
         this.html.deleteBtn.innerHTML = '&times';
         this.html.container.appendChild(this.html.alias);
@@ -19,8 +19,8 @@ export class AddToChat {
         this.html.parent.appendChild(this.html.container);
 
         this.html.deleteBtn.addEventListener('click', () => {
-            console.log('You clicked on user >');
-            console.log(this.user);
+            //console.log('You clicked on user >');
+            //console.log(this.user);
             this.html.parent.dispatchEvent(new CustomEvent('user-removed', {detail: this.user}));
             this.html.parent.removeChild(this.html.container);
         })

@@ -120,13 +120,13 @@ io.on('connection', (socket) => {
   socket.on('checkOnline', (user) => {
     usersOnline.push(user);
 
-    console.log('User verified online >');
-    console.log(user);
+    //console.log('User verified online >');
+    //console.log(user);
 
     if(usersOnline.length == noOfUsers -1) {
       io.emit('new-user-online', usersOnline);
-      console.log('Users online after disconnect >')
-      console.log(usersOnline);
+      //console.log('Users online after disconnect >')
+      //console.log(usersOnline);
     }
   });
 
@@ -136,9 +136,9 @@ io.on('connection', (socket) => {
   });
 
   socket.on('chat message', function (message) {  //Lyssnar på eventet 'chat message'
-    console.log('\n\nChat message from client >');
-    console.log(message.chatMessage);
-    console.log('\n\n In room: ' + message.roomId);
+    //console.log('\n\nChat message from client >');
+    //console.log(message.chatMessage);
+    //console.log('\n\n In room: ' + message.roomId);
     request('http://127.0.0.1:3000/chatroom', {       //POST request to server.js containing message
       method: 'PUT',
       headers: {
@@ -146,8 +146,8 @@ io.on('connection', (socket) => {
       },
       body: JSON.stringify(message.chatMessage)                              //Message body
     }).then(message_from_db => {                              //recieves message + id from server
-      console.log('\n\nChat message recieved from db >');
-      console.log(JSON.parse(message_from_db));
+      //console.log('\n\nChat message recieved from db >');
+      //console.log(JSON.parse(message_from_db));
       io.sockets.in(message.roomId).emit('chat message', JSON.parse(message_from_db));   //Emits chat message to all clients
     }).catch(error => {
       console.error('it broke :(');
@@ -156,7 +156,7 @@ io.on('connection', (socket) => {
 
   socket.on('joinedRoom', id => {
     socket.leave(socket.room);
-    console.log('Joined room: ' + id);
+    //console.log('Joined room: ' + id);
     socket.join(id);
   })
 
@@ -176,8 +176,8 @@ io.on('connection', (socket) => {
       },
       body: JSON.stringify(chatMessage),                              //Message body
     }).then(message => {                              //recieves message + id from server
-      console.log('\n\nChat message edited >');
-      console.log(message);
+      //console.log('\n\nChat message edited >');
+      //console.log(message);
       io.emit('edit', JSON.parse(message));           //Emits chat message to all clients
     });
   });
@@ -190,7 +190,7 @@ io.on('connection', (socket) => {
       },
       body: JSON.stringify(chatMessage),                       //Message body
     }).then(message => {                              //recieves message + id from server
-      console.log('\n\nChat message deleted:' + message);
+      //console.log('\n\nChat message deleted:' + message);
       //The server recieves a JSON string object and sends it further to all clients connected to the socket.
       io.emit('delete', JSON.parse(message));           //Emits chat message to all clients
     });
