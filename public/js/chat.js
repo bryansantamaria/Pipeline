@@ -43,8 +43,6 @@ let html = {
   upload_picture: document.querySelector('#filebtn')
 }
 
-let uid = String(document.cookie).replace('user=', '');
-
 //Gets user from DB
 fetch('user/' + document.querySelector('#user-id').textContent).then(userdata => {
   return userdata.json();
@@ -58,9 +56,13 @@ fetch('user/' + document.querySelector('#user-id').textContent).then(userdata =>
   html.alias.innerText = chatGlobals.user.alias;
   let pictureID = document.getElementById('pictureID');
   pictureID.value = chatGlobals.user._id;
+  updateTopbarSidebarAlias();
   document.querySelector('#edit-profile-preview').setAttribute('src', `/images/${chatGlobals.user._id}.jpg`);
 }).catch(() => {
   location.reload();
+});
+document.addEventListener("DOMContentLoaded", function(){
+  $("#msgForm").hide();
 });
 
 $(".requestChatroom").on("click", function (e) {
@@ -120,6 +122,7 @@ document.querySelector('#create-chatroom-btn').addEventListener('click', (e) => 
 
 //Joins chatroom
 function joinChatRoom(e) {
+  $("#msgForm").show();
   $('message-root').empty();
   let chatroomID = e.target.id;
   console.log(chatroomID);
@@ -139,7 +142,7 @@ function joinChatRoom(e) {
         msg._id,
         msg.mentions
       );
-      if (chatGlobals.user.alias == msg.alias) {
+      if (chatGlobals.user._id == msg.alias) {
         chatMessage.setupEventListeners();
       }
       chatMessages.push(chatMessage);
@@ -160,14 +163,19 @@ function joinChatRoom(e) {
       let member = document.createElement('span');
       member.classList.add("membersInChatroom");
       if (chatroom[0].type === "privateMessage") {
-        member.innerHTML = chatroomMembers[memberInArray].alias;
+        //member.innerHTML = chatroomMembers[memberInArray].alias;
+        member.setAttribute('userid', chatroomMembers[memberInArray]._id);
         topBar.insertBefore(member, topBar.childNodes[1]);
       }
       else if (chatroom[0].type === "publicChannel") {
-        member.innerHTML = chatroomMembers[memberInArray].alias;
+        //member.innerHTML = chatroomMembers[memberInArray].alias;
+        member.setAttribute('userid', chatroomMembers[memberInArray]._id);
         topBar.insertBefore(member, topBar.childNodes[1]);
       }
     }
+
+    updateTopbarSidebarAlias();
+
     socket.emit('joinedRoom', chatroomID);
   });
 };
@@ -175,19 +183,21 @@ function joinChatRoom(e) {
 function createPM(chatroom) {
   if (chatroom.members.some(user => user._id == chatGlobals.user._id)) {
     console.log(chatroom);
-    let usersInChatroom = ' ';
-    chatroom.members.forEach(user => {
-      usersInChatroom += user.alias + ' ';
-    });
 
     let div = document.createElement('div');
     let i = document.createElement('i');
-    let text = document.createTextNode(usersInChatroom);
     div.id = chatroom._id;
     div.classList.add('requestChatroom');
     i.classList.add('fas', 'fa-circle');
     div.appendChild(i);
-    div.appendChild(text);
+    //let text = document.createTextNode(usersInChatroom);
+
+    chatroom.members.forEach(user => {
+      let span = document.createElement('span');
+      span.innerText = user.alias;
+      span.setAttribute('userid', user._id);
+      div.appendChild(span);
+    });
 
     document.querySelector('private-message').appendChild(div);
 
@@ -222,6 +232,18 @@ function createChannel(chatroom) {
     chatGlobals.addChatroomName = '';
   }
 };
+
+function updateTopbarSidebarAlias() {
+  Array(document.querySelectorAll('[userid]'))[0].forEach(node => {
+    fetch('user/' + node.getAttribute('userid'))
+      .then(res => res.json())
+      .then(user => {
+        user = JSON.parse(user);
+        console.log(user);
+        node.innerText = user.alias;
+      })
+  });
+}
 
 //Delete events
 document.addEventListener('delete-init', e => {
@@ -318,13 +340,13 @@ const handleImageUpload = event => {
     method: 'POST',
     body: formData
   })
-  .then(response => response.json())
-  .then(data => {
-    console.log('DATA from uploadfile >');
-  })
-  .catch(error => {
-    console.log(error);
-  })
+    .then(response => response.json())
+    .then(data => {
+      console.log('DATA from uploadfile >');
+    })
+    .catch(error => {
+      console.log(error);
+    })
 }
 
   //Triggers handleImageUpload when uploading a picture.
@@ -349,7 +371,7 @@ document.querySelector('#update-profile-btn').addEventListener('click', (e) => {
   } else {
     warning.style.display = 'block';
     e.stopImmediatePropagation();
-  }  
+  }
 });
 
 ////////////////////////////////////////////////
@@ -380,7 +402,7 @@ socket.on('chat message', function (chatObject) {
     console.log(chatMessage);
   }
 
-  if (chatGlobals.user.alias == chatMessage.content.alias) {
+  if (chatGlobals.user._id == chatMessage.content.alias) {
     chatMessage.setupEventListeners();
   }
 

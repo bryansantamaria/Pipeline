@@ -9,9 +9,8 @@ router.use(fileUpload({
     createParentPath: true
 }));
 
+//POST a new file for profile.
 router.post('/', async (req, res) => {
-    // console.log('REQBODY > HEHE')
-    // console.log(req.files);
     console.log('REQ.FILES.PROFILE_PICTURE: >')
     console.log(req.files);
     try {
@@ -38,7 +37,7 @@ router.post('/', async (req, res) => {
                         }).then(() => {
                             console.log('IT WOOORKS!');
                             res.send('200');
-                           
+
                         });
                     })
                 })

@@ -2,7 +2,7 @@ const express = require('express');
 const request = require('request-promise');
 const router = express.Router();
 
-//Get all chatrooms.
+//GET all chatrooms.
 router.get("/", function(req, res) {
   request("http://127.0.0.1:3000/chatroom/", {
     method: "get",
@@ -26,6 +26,7 @@ router.get("/:_id", function(req, res) {
   });
 });
 
+//POST a new private message chatroom
 router.post('/', (req, res) => {
   console.log(JSON.stringify(req.body));
   request("http://127.0.0.1:3000/chatroom", {
@@ -39,6 +40,7 @@ router.post('/', (req, res) => {
   });
 });
 
+//POST a new channel chatroom
 router.post('/newChatroom', (req, res) => {
   console.log(JSON.stringify(req.body));
   request("http://127.0.0.1:3000/chatroom/newChatroom", {

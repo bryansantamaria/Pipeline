@@ -3,7 +3,10 @@
 body {
     //background: $sidebar-color;
 }
-
+.animation-state{
+  animation-play-state: paused;
+  opacity: 0;
+}
 main-container {
     @extend %startClipped;
     animation: clippedIn 1.5s 0.2s 1;

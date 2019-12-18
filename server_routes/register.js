@@ -2,11 +2,12 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 
+//POST Register new account
 router.post('/', (req, res) => {
     var pipelineDB = req.db;
     bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
         if (err) throw err;
-    
+
         var collection = pipelineDB.get("users");
         collection.insert({
             "email": req.body.email,

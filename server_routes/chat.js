@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+//GET Chatrooms & Users
 router.get('/', async (req, res) => {
     let usersArray = [];
     let chatroomsArray = [];
@@ -15,7 +16,6 @@ router.get('/', async (req, res) => {
       return chatrooms;
     });
     console.log(usersArray);
-    //console.log(usersArray);
     let chatObject = {
       users: usersArray,
       chatrooms: chatroomsArray
@@ -23,16 +23,7 @@ router.get('/', async (req, res) => {
     res.send(chatObject);
 });
 
-/*
-router.get('/', (req, res) => {
-  var pipelineDB = req.db;
-  var collection = pipelineDB.get("users");
-  collection.find({}, {}, function(e, users) {
-    res.json(users);
-  });
-});
-*/
-
+//GET User with specific ID
 router.get('/:id', (req, res) => {
   var pipelineDB = req.db;
   var collection = pipelineDB.get("users");
@@ -50,6 +41,7 @@ router.get('/:id', (req, res) => {
     });
 })
 
+//PUT Edit user with specific ID
 router.put('/edit/:id', (req, res) => {
   var pipelineDB = req.db;
   var collection = pipelineDB.get("users");
@@ -65,14 +57,6 @@ router.put('/edit/:id', (req, res) => {
         res.send(false);
       }
     });
-
-  colelction.update({
-    "_id": 1
-  }, {
-    $set: {
-      "EmployeeName": "NewMartin"
-    }
-  });
 })
 
 module.exports = router;
