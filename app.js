@@ -177,7 +177,7 @@ io.on('connection', (socket) => {
       body: JSON.stringify(chatMessage),                              //Message body
     }).then(message => {                              //recieves message + id from server
       console.log('\n\nChat message edited >');
-      console.log(message);
+      console.log(JSON.parse(message));
       io.emit('edit', JSON.parse(message));           //Emits chat message to all clients
     });
   });
@@ -190,6 +190,7 @@ io.on('connection', (socket) => {
       },
       body: JSON.stringify(chatMessage),                       //Message body
     }).then(message => {                              //recieves message + id from server
+      console.log('here');
       console.log('\n\nChat message deleted:' + message);
       //The server recieves a JSON string object and sends it further to all clients connected to the socket.
       io.emit('delete', JSON.parse(message));           //Emits chat message to all clients

@@ -124,6 +124,8 @@ function joinChatRoom(e) {
   fetch('/chatroom/' + chatroomID).then(res => res.json()).then(chatroom => {
     chatroom = JSON.parse(chatroom);
     let chatroomMessages = chatroom[0].messages;
+
+    chatMessages = [];
     chatroomMessages.forEach(msg => {
       let chatMessage = new ChatModule(
         msg.message,
@@ -136,8 +138,9 @@ function joinChatRoom(e) {
       if (chatGlobals.user.alias == msg.alias) {
         chatMessage.setupEventListeners();
       }
+      chatMessages.push(chatMessage);
+      chatMessage.render(document.querySelector('message-root'));
 
-      chatMessage.render(document.querySelector('message-root'))
     });
 
     //Render topbar
@@ -426,15 +429,17 @@ $('#messageValue').keyup((e) => {
 
 //Loopa igenom alla chatmeddelanden, kontrollera id och rendera ut det nya editerade meddelandet.
 socket.on('edit', edited_message => {
-  edited_message = JSON.parse(edited_message);
 
   if (debug) {
     console.log('Edit from server >')
     console.log(edited_message);
   }
 
+  console.log(chatMessages);
+
   chatMessages.forEach(message => {
-    if (message._id == edited_message._id) {
+    console.log(message);
+    if (message.content._id == edited_message._id) {
       message.edit(edited_message.message, false);
     }
   });
@@ -442,7 +447,6 @@ socket.on('edit', edited_message => {
 
 //Loopa igenom alla chatmeddelanden, kontrollera id och radera meddelandet.
 socket.on('delete', delete_message => {
-  delete_message = JSON.parse(delete_message);
 
   if (debug) {
     console.log('Delete request from server for msg >');
