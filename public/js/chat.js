@@ -93,25 +93,29 @@ document.querySelector('#create-pm-btn').addEventListener('click', () => {
 });
 
 //For chatroom creation
-document.querySelector('#create-chatroom-btn').addEventListener('click', () => {
-  let usersInNewRoom = chatGlobals.addToRoom;
+document.querySelector('#create-chatroom-btn').addEventListener('click', (e) => {
   let chatroomName = chatGlobals.addChatroomName;
-  console.log(chatGlobals.addChatroomName);
   chatroomName = document.getElementById("createChatroomName").value;
-  usersInNewRoom.push(chatGlobals.user);
-
-  fetch('/chatroom/newChatroom', {
-    method: 'POST',
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify([usersInNewRoom, chatroomName])
-  }).then(res => res.json())
-    .then(chatroom => {
-      chatroom = JSON.parse(chatroom);
-      console.log(chatroom);
-      socket.emit('createdPublicChatroom', chatroom);
-    });
+  if (chatroomName == '') {
+    e.stopImmediatePropagation();
+    alert("You must give a name to the chatroom you are trying to create!");
+  }
+  else {
+    let usersInNewRoom = chatGlobals.addToRoom;
+    usersInNewRoom.push(chatGlobals.user);
+    fetch('/chatroom/newChatroom', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify([usersInNewRoom, chatroomName])
+    }).then(res => res.json())
+      .then(chatroom => {
+        chatroom = JSON.parse(chatroom);
+        console.log(chatroom);
+        socket.emit('createdPublicChatroom', chatroom);
+      });
+  }
 });
 
 //Joins chatroom
@@ -294,7 +298,7 @@ function updateUser() {
 
 };
 
-//Function that triggers on change event, Post request to /uploadfiles 
+//Function that triggers on change event, Post request to /uploadfiles
 
 const handleImageUpload = event => {
   const files = document.querySelector('#filebtn');
