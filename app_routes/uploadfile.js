@@ -10,15 +10,15 @@ router.use(fileUpload({
 }));
 
 router.post('/', async (req, res) => {
-    console.log(req.body._id);
+    // console.log('REQBODY > HEHE')
+    // console.log(req.files);
+    console.log('REQ.FILES.PROFILE_PICTURE: >')
+    console.log(req.files);
     try {
         if (!req.files) {
-            res.send({
-                status: false,
-                message: 'No file uploaded'
-            });
+            res.send(JSON.stringify({status: false,
+                message: 'No file uploaded'}));
         } else {
-            console.log(req.files.profile_picture.data);
             let height;
             sharp(req.files.profile_picture.data)
                 .jpeg()
@@ -28,9 +28,7 @@ router.post('/', async (req, res) => {
                         if (err) throw err
 
                         console.log('After conversion >');
-                        console.log(img);
-                        //mv() method places the file in public/images directory
-                        //profile_pic.mv('./public/images/' + req.body._id + '.jpg');
+                        // console.log(img);
                         request('http://127.0.0.1:3000/uploadfile', {
                             method: 'POST',
                             headers: {
@@ -38,7 +36,9 @@ router.post('/', async (req, res) => {
                             },
                             body: JSON.stringify({ path: `./public/images/'${req.body._id}.jpg` }),
                         }).then(() => {
-                            res.redirect('chat');
+                            console.log('IT WOOORKS!');
+                            res.send('200');
+                           
                         });
                     })
                 })

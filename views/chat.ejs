@@ -204,10 +204,9 @@
           </div>
 
           <!-- ladda upp bild -->
-          <form class="form-horizontal" id="edit-form" name="profile-pic" action="/uploadfile" method="POST"
-            enctype="multipart/form-data">
-            <label for="filebtn" class="btn btn-secondary btn-uploadFile"> <input type="file" name="profile_picture" id="filebtn">Upload an image</label>
-            <input type="submit" id="submit-profile-pic" class="btn btn-warning" value="Save image">
+          <form class="form-horizontal" id="edit-form" name="profile-pic">
+            <label for="filebtn" class="btn btn-secondary btn-uploadFile"> <input type="file" name="profile_picture" multiple="multiple" id="filebtn">Upload an image</label>
+            <div id="info"></div>
             <input type="hidden" name="_id" id="pictureID">
           </form>
           <p id="edit-text-alias">Alias</p>
