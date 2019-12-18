@@ -58,7 +58,7 @@
             <div id="<%= chatrooms[id]._id %>" class="requestChatroom">
               <i class="fas fa-circle"></i>
               <% for(let member = 0; member < chatrooms[id].members.length; member++){ %>
-                <%= chatrooms[id].members[member].alias %>
+                <span userid=<%= chatrooms[id].members[member]._id%>><%#= chatrooms[id].members[member].alias %></span>
               <% } %>
             </div>
           <% } %>

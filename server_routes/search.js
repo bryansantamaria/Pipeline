@@ -25,10 +25,8 @@ router.get('/emoji/:category', (req, res) => {
   console.log(req.params.category)
   collection.find({"category" : req.params.category}, {} )
     .then(emojis => {
-      console.log(JSON.stringify(emojis));
       if (emojis) {
         console.log('Search result >');
-        console.log(emojis);
         
         res.send(JSON.stringify(emojis));
       } else {

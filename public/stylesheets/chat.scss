@@ -264,6 +264,10 @@ main-container {
 
       div {
         @extend %channel-light;
+
+        span {
+          margin.-left
+        }
       }
     }
     users-online {
