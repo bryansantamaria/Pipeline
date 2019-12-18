@@ -22,46 +22,6 @@ import {
   EmojiPicker
 } from "./emojipicker-module.js";
 
-////////////////////////////////////////////////
-//Globals
-////////////////////////////////////////////////
-/*let chatGlobals = {
-  deleteTarget: undefined,
-  editTarget: undefined,
-  user: undefined,
-  chatroomId: '5deeabc57873593ac0902e8e',
-  addToRoom: [],
-  addChatroomName: ''
-}
-
-let debug = true;
-
-let html = {
-  edit_alias: document.querySelector('#edit-alias'),
-  edit_email: document.querySelector('#edit-email'),
-  alias: document.querySelector('#alias'),
-  upload_picture: document.querySelector('#filebtn')
-}
-
-//Gets user from DB
-fetch('user/' + document.querySelector('#user-id').textContent).then(userdata => {
-  return userdata.json();
-}).then(jsondata => {
-  chatGlobals.user = JSON.parse(jsondata);
-  html.edit_alias.value = chatGlobals.user.alias;
-  html.edit_email.value = chatGlobals.user.email;
-  console.log(chatGlobals.user._id);
-  socket.emit('new-user-online', chatGlobals.user);
-  console.log(chatGlobals.user);
-  html.alias.innerText = chatGlobals.user.alias;
-  let pictureID = document.getElementById('pictureID');
-  pictureID.value = chatGlobals.user._id;
-  document.querySelector('#edit-profile-preview').setAttribute('src', `/images/${chatGlobals.user._id}.jpg`);
-  updateTopbarSidebarAlias();
-}).catch(() => {
-  location.reload();
-});*/
-
 document.addEventListener("DOMContentLoaded", function(){
   $("#msgForm").hide();
 });
