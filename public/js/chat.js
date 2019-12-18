@@ -39,7 +39,8 @@ let debug = true;
 let html = {
   edit_alias: document.querySelector('#edit-alias'),
   edit_email: document.querySelector('#edit-email'),
-  alias: document.querySelector('#alias')
+  alias: document.querySelector('#alias'),
+  upload_picture: document.querySelector('#filebtn')
 }
 
 let uid = String(document.cookie).replace('user=', '');
@@ -49,9 +50,9 @@ fetch('user/' + uid).then(userdata => {
   return userdata.json();
 }).then(jsondata => {
   chatGlobals.user = JSON.parse(jsondata);
-  html.edit_alias.value = chatGlobals.user.alias
-  html.edit_email.value = chatGlobals.user.email
-  console.log(chatGlobals.user.alias);
+  html.edit_alias.value = chatGlobals.user.alias;
+  html.edit_email.value = chatGlobals.user.email;
+  console.log(chatGlobals.user._id);
   socket.emit('new-user-online', chatGlobals.user);
   console.log(chatGlobals.user);
   html.alias.innerText = chatGlobals.user.alias;
@@ -150,7 +151,7 @@ function joinChatRoom(e) {
         member.innerHTML = chatroomMembers[memberInArray].alias;
         topBar.insertBefore(member, topBar.childNodes[1]);
       }
-      else if(chatroom[0].type === "publicChannel"){
+      else if (chatroom[0].type === "publicChannel") {
         member.innerHTML = chatroomMembers[memberInArray].alias;
         topBar.insertBefore(member, topBar.childNodes[1]);
       }
@@ -160,7 +161,7 @@ function joinChatRoom(e) {
 };
 
 function createPM(chatroom) {
-  if(chatroom.members.some(user => user._id == chatGlobals.user._id)) {
+  if (chatroom.members.some(user => user._id == chatGlobals.user._id)) {
     console.log(chatroom);
     let usersInChatroom = ' ';
     chatroom.members.forEach(user => {
@@ -187,7 +188,7 @@ function createPM(chatroom) {
 };
 
 function createChannel(chatroom) {
-  if(chatroom.members.some(user => user._id == chatGlobals.user._id)) {
+  if (chatroom.members.some(user => user._id == chatGlobals.user._id)) {
     console.log(chatroom);
     let usersInChatroom = chatroom.name;
     let div = document.createElement('div');
@@ -237,7 +238,7 @@ document.querySelector('#edit-btn').addEventListener('click', () => {
 $("#msgForm").submit(function (e) {
   e.preventDefault();
 
-  if(emojipicker.open) {
+  if (emojipicker.open) {
     document.querySelector('#open-emoji-picker').click();
   };
 
@@ -290,8 +291,28 @@ function updateUser() {
     console.log('Sent edit request to server >');
     console.log(chatGlobals.user);
   }
+
 };
 
+//Function that triggers on change event, Post request to /uploadfiles 
+const handleImageUpload = event => {
+  const files = event.target.files;
+  const formData = new FormData()
+  formData.append('profile_picture', files[0]);
+  formData.append('_id', chatGlobals.user._id);
+
+  fetch('/uploadfile', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('DATA from uploadfile >');
+  })
+  .catch(error => {
+    console.log(error);
+  })
+}
 //Sends request to server for user
 document.querySelector('#update-profile-btn').addEventListener('click', () => {
   chatGlobals.user.alias = html.edit_alias.value;
@@ -299,6 +320,11 @@ document.querySelector('#update-profile-btn').addEventListener('click', () => {
 
   chatGlobals.user.email = html.edit_email.value;
   html.edit_email.innerText = chatGlobals.user.email;
+
+  //Triggers upload file event when uploading a picture.
+  document.querySelector('#filebtn').addEventListener('change', event => {
+    handleImageUpload(event);
+  })
 
   updateUser();
 });
@@ -361,21 +387,21 @@ socket.on('checkOnline', (status) => {
 
 socket.on('createdChatroom', chatroom => {
   if (debug) console.log(chatroom);
-  if(chatroom.members.some(member => member._id == chatGlobals.user._id)) {
+  if (chatroom.members.some(member => member._id == chatGlobals.user._id)) {
     createPM(chatroom);
   }
 })
 
 socket.on('createdPublicChatroom', chatroom => {
   if (debug) console.log(chatroom);
-  if(chatroom.members.some(member => member._id == chatGlobals.user._id)) {
+  if (chatroom.members.some(member => member._id == chatGlobals.user._id)) {
     createChannel(chatroom);
   }
 })
 
 //Shows when a user is typing, end on enter.
 socket.on('typing', (alias) => {
-  if(alias) {
+  if (alias) {
     $('#typing').html(alias + ' is typing...');
   } else {
     $('#typing').html('');
