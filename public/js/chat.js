@@ -152,6 +152,10 @@ function joinChatRoom(e) {
     let chatroomMembers = chatroom[0].members;
     let topBar = document.getElementById("topBar")
     topBar.innerHTML = '<h5 class="topbar-title">Members</h5>';
+    let tBar = document.querySelector('top-bar');
+    let marginLeftSpan = document.createElement('span');
+    marginLeftSpan.id = 'marginLeft';
+    tBar.appendChild(marginLeftSpan);
     for (var memberInArray = 0; memberInArray < chatroomMembers.length; memberInArray++) {
       let member = document.createElement('span');
       member.classList.add("membersInChatroom");
@@ -305,7 +309,7 @@ function updateUser() {
 //Function that triggers on change event, Post request to /uploadfiles
 
 const handleImageUpload = event => {
-  const files = document.querySelector('#filebtn');
+  const files = event.target.files;
   const formData = new FormData()
   formData.append('profile_picture', files[0]);
   formData.append('_id', chatGlobals.user._id);
@@ -328,6 +332,8 @@ const handleImageUpload = event => {
     handleImageUpload(event);
   })
 
+let editEmail = document.getElementById('edit-email');
+let warning = document.getElementById('alertwarning');
 //Sends request to server for user
 document.querySelector('#update-profile-btn').addEventListener('click', (e) => {
   chatGlobals.user.alias = html.edit_alias.value;
@@ -336,7 +342,14 @@ document.querySelector('#update-profile-btn').addEventListener('click', (e) => {
   chatGlobals.user.email = html.edit_email.value;
   html.edit_email.innerText = chatGlobals.user.email;
 
-  updateUser();
+  //Checks if input from user contains @ in the email field.
+  if (editEmail.value.indexOf('@') > -1) {
+    warning.style.display = 'none';
+    updateUser();
+  } else {
+    warning.style.display = 'block';
+    e.stopImmediatePropagation();
+  }  
 });
 
 ////////////////////////////////////////////////

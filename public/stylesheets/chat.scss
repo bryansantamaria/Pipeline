@@ -242,7 +242,6 @@ main-container {
       overflow-x: visible;
       scrollbar-width: none;
 
-
       #channel-title {
         @extend %channel-dark;
       }
@@ -261,13 +260,15 @@ main-container {
       #private-message-title {
         @extend %channel-dark;
       }
-
       div {
         @extend %channel-light;
       }
     }
     users-online {
       grid-row: 5;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 34px 1fr;
       margin-left: -20px;
       overflow-y: scroll;
       overflow-x: visible;
@@ -279,7 +280,14 @@ main-container {
         @extend %channel-dark;
       }
       #users-online {
-        @extend %channel-light;
+        // max-height: 30vh;
+        grid-row: 2;
+        overflow-y: scroll;
+        overflow-x: visible;
+        scrollbar-width: none;
+        div {
+          @extend %channel-light;
+        }
       }
     }
 
@@ -288,7 +296,7 @@ main-container {
   main-content {
     grid-column: 2;
     display: grid;
-    grid-template-rows: 75px 1fr 75px;
+    grid-template-rows: 75px 1fr 90px;
     grid-template-columns: auto;
     width: 100%;
     height: 100vh;
@@ -301,10 +309,21 @@ main-container {
       color: #646464;
       background: rgb(251, 251, 251);
       box-shadow: 0px 4px 10px $darken-light;
-      .membersInChatroom{
-        padding: 0em 0.5em 0px 0.5em;
+      
+      .topbar-title {
+        margin-left: 30px;
+        margin-top: 5px;
       }
-
+      m-left{
+        width: 30px;
+      }
+      .membersInChatroom{
+        // margin-left: 30px;
+        //Finns firstChild eller endChild eller first-of-type
+        font-family: 'Montserrat', sans-serif;
+        padding: 0em 0.5em 0px 0.5em;
+        font-weight: lighter;
+      }
     }
 
     message-root {
@@ -315,6 +334,10 @@ main-container {
     }
     is-typing{
       color:black;
+      bottom:5px;
+      margin-left: 15px;
+      position:fixed;
+      z-index: 4;
     }
     #msgForm {
       box-shadow: 0px 4px 10px $darken-light;
@@ -323,9 +346,12 @@ main-container {
       align-items: center;
       padding-left: 1em;
       padding-right: 1em;
-      z-index: 2;
       background: white;
+      z-index: 3;
       width: 100%;
+      height: 90px;
+      padding-top:20px;
+      padding-bottom:35px;
       #messageValue{
         display: inline;
         //grid-row-start: 1;
@@ -352,11 +378,9 @@ main-container {
 #edit-modal-container {
   display:grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 150px, 20px, 20px, 20px, 20px, 250px;
+  grid-template-rows: 150px, 20px, 20px, 20px, 20px;
   border: 1px solid $darken-heavy;
-  // @extend %sidebar-color;
   #edit-profile-preview-container {
-    //object-fit: cover;
     grid-column: 1/2;
     grid-row:1;
     width: 100%;
@@ -418,6 +442,11 @@ main-container {
     padding: 5px;
     border-radius: 3px;
     border: solid 1px black;
+  }
+  #alertwarning{
+    grid-row: 7;
+    width: 300px;
+    display:none;
   }
 }
 
@@ -527,14 +556,14 @@ mentions-root {
   display: flex;
   flex-direction: column-reverse;
   align-content: flex-end;
-  bottom: 65px;
+  bottom: 91px;
   left: $sidebar-width;
-  //transform: translate(50%, 0);
+  margin-left: 15px;
   width: 20vw;
-  z-index: 3;
+  min-height: 50px;
+  z-index: 4;
   padding: 10px;
   border-radius: 10px;
-  //box-shadow: 0 0 10px 5px rgba(0,0,0,0.05);
   border: 1px solid rgba(0,0,0,0.05);
   border-bottom: 1px solid rgba(0,0,0,0);
   background: white;
@@ -545,7 +574,6 @@ mentions-root {
     user-select: none;
     padding-left: 5px;
     border-radius: 5px;
-    margin-bottom: 5px;
     &:hover {
       background-color: rgba(0,0,0,0.05);
     }
@@ -651,7 +679,7 @@ emoji-picker {
   width: 300px;
   height: 400px;
   position: fixed;
-  bottom: 80px;
+  bottom: 90px;
   right: 20px;
   display: grid;
   grid-template-rows: auto 1fr;
