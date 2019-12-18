@@ -324,6 +324,8 @@ const handleImageUpload = event => {
     handleImageUpload(event);
   })
 
+let editEmail = document.getElementById('edit-email');
+let warning = document.getElementById('alertwarning');
 //Sends request to server for user
 document.querySelector('#update-profile-btn').addEventListener('click', (e) => {
   chatGlobals.user.alias = html.edit_alias.value;
@@ -332,7 +334,14 @@ document.querySelector('#update-profile-btn').addEventListener('click', (e) => {
   chatGlobals.user.email = html.edit_email.value;
   html.edit_email.innerText = chatGlobals.user.email;
 
-  updateUser();
+  //Checks if input from user contains @ in the email field.
+  if (editEmail.value.indexOf('@') > -1) {
+    warning.style.display = 'none';
+    updateUser();
+  } else {
+    warning.style.display = 'block';
+    e.stopImmediatePropagation();
+  }  
 });
 
 ////////////////////////////////////////////////

@@ -313,7 +313,10 @@ main-container {
       }
       .membersInChatroom{
         // margin-left: 30px;
+        //Finns firstChild eller endChild eller first-of-type
+        font-family: 'Montserrat', sans-serif;
         padding: 0em 0.5em 0px 0.5em;
+        font-weight: lighter;
       }
     }
 
@@ -369,11 +372,9 @@ main-container {
 #edit-modal-container {
   display:grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 150px, 20px, 20px, 20px, 20px, 250px;
+  grid-template-rows: 150px, 20px, 20px, 20px, 20px;
   border: 1px solid $darken-heavy;
-  // @extend %sidebar-color;
   #edit-profile-preview-container {
-    //object-fit: cover;
     grid-column: 1/2;
     grid-row:1;
     width: 100%;
@@ -435,6 +436,11 @@ main-container {
     padding: 5px;
     border-radius: 3px;
     border: solid 1px black;
+  }
+  #alertwarning{
+    grid-row: 7;
+    width: 300px;
+    display:none;
   }
 }
 

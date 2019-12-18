@@ -1413,7 +1413,9 @@ main-container main-content top-bar m-left {
 }
 
 main-container main-content top-bar .membersInChatroom {
+  font-family: 'Montserrat', sans-serif;
   padding: 0em 0.5em 0px 0.5em;
+  font-weight: lighter;
 }
 
 main-container main-content message-root {
@@ -1475,8 +1477,8 @@ main-container main-content #msgForm #sendMessage {
   display: grid;
   -ms-grid-columns: 1fr;
       grid-template-columns: 1fr;
-  -ms-grid-rows: 150px, 20px, 20px, 20px, 20px, 250px;
-      grid-template-rows: 150px, 20px, 20px, 20px, 20px, 250px;
+  -ms-grid-rows: 150px, 20px, 20px, 20px, 20px;
+      grid-template-rows: 150px, 20px, 20px, 20px, 20px;
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
@@ -1567,6 +1569,13 @@ main-container main-content #msgForm #sendMessage {
   padding: 5px;
   border-radius: 3px;
   border: solid 1px black;
+}
+
+#edit-modal-container #alertwarning {
+  -ms-grid-row: 7;
+  grid-row: 7;
+  width: 300px;
+  display: none;
 }
 
 /*#edit-profile-preview {}*/
