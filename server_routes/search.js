@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+//GET user query
 router.get('/user/:query', (req, res) => {
   var pipelineDB = req.db;
   var collection = pipelineDB.get("users");
@@ -11,7 +12,7 @@ router.get('/user/:query', (req, res) => {
       if (users) {
         console.log('Search result >');
         console.log(users);
-        
+
         res.send(JSON.stringify(users.map(user => user = {alias: user.alias, _id: user._id})));
       } else {
         res.send(false);
@@ -19,6 +20,7 @@ router.get('/user/:query', (req, res) => {
     });
 });
 
+//GET certain emoji category
 router.get('/emoji/:category', (req, res) => {
   var pipelineDB = req.db;
   var collection = pipelineDB.get("emojis");
@@ -29,7 +31,7 @@ router.get('/emoji/:category', (req, res) => {
       if (emojis) {
         console.log('Search result >');
         console.log(emojis);
-        
+
         res.send(JSON.stringify(emojis));
       } else {
         res.send(false);
