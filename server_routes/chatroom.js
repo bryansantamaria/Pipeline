@@ -3,6 +3,7 @@ const router = express.Router();
 const mongo = require('mongodb');
 const sanitizeHtml = require('sanitize-html');
 
+//PUT Edit user message.
 router.put('/', (req, res) => {
   var pipelineDB = req.db;
   var collection = pipelineDB.get('chatrooms');
@@ -113,6 +114,7 @@ router.post("/", (req, res) => {
   });
 });
 
+//POST new channel.
 router.post("/newChatroom", (req, res) => {
   let pipelineDB = req.db;
   let chatroomCollection = pipelineDB.get("chatrooms");

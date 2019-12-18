@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 
+//POST User login
 router.post('/', async (req, res) => {
     var pipelineDB = req.db;
     var collection = pipelineDB.get("users");
@@ -13,7 +14,7 @@ router.post('/', async (req, res) => {
                 if (authorized) {
                     let userobject = {
                         'alias': user[0].alias,
-                        '_id': user[0]._id 
+                        '_id': user[0]._id
                     }
                     res.send(userobject);
                 } else {
@@ -21,7 +22,7 @@ router.post('/', async (req, res) => {
                 }
                 console.log('Password correct: ', authorized);
             });
-            
+
         } else {
             res.send(false);
         }

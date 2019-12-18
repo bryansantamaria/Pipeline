@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+//GET user with specific ID
 router.get('/:id', (req, res) => {
     var pipelineDB = req.db;
     var collection = pipelineDB.get("users");
@@ -17,6 +18,7 @@ router.get('/:id', (req, res) => {
         });
 })
 
+//PUT user with specific ID
 router.put('/:id', (req, res) => {
     var pipelineDB = req.db;
     var collection = pipelineDB.get("users");

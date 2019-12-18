@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+//POST upload new file
 router.post('/', async (req, res) => {
     console.log(req.body);
     var pipelineDB = req.db;

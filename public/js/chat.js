@@ -62,6 +62,10 @@ fetch('user/' + document.querySelector('#user-id').textContent).then(userdata =>
   location.reload();
 });*/
 
+document.addEventListener("DOMContentLoaded", function(){
+  $("#msgForm").hide();
+});
+
 $(".requestChatroom").on("click", function (e) {
   joinChatRoom(e);
 });
@@ -119,6 +123,7 @@ document.querySelector('#create-chatroom-btn').addEventListener('click', (e) => 
 
 //Joins chatroom
 function joinChatRoom(e) {
+  $("#msgForm").show();
   $('message-root').empty();
   let chatroomID = e.target.id;
   console.log(chatroomID);
