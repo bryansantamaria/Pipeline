@@ -74,12 +74,12 @@ app.use('/chatroom', chatroomRouter);
 app.use('/uploadfile', uploadFile);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -123,7 +123,7 @@ io.on('connection', (socket) => {
     console.log('User verified online >');
     console.log(user);
 
-    if(usersOnline.length == noOfUsers -1) {
+    if (usersOnline.length == noOfUsers - 1) {
       io.emit('new-user-online', usersOnline);
       console.log('Users online after disconnect >')
       console.log(usersOnline);

@@ -22,7 +22,7 @@ import {
   EmojiPicker
 } from "./emojipicker-module.js";
 
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", function () {
   $("#msgForm").hide();
 });
 
@@ -298,10 +298,10 @@ const handleImageUpload = event => {
     })
 }
 
-  //Triggers handleImageUpload when uploading a picture.
-  document.querySelector('#filebtn').addEventListener('change', event => {
-    handleImageUpload(event);
-  });
+//Triggers handleImageUpload when uploading a picture.
+document.querySelector('#filebtn').addEventListener('change', event => {
+  handleImageUpload(event);
+});
 
 let editEmail = document.getElementById('edit-email');
 let warning = document.getElementById('alertwarning');

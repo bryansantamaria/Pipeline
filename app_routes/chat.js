@@ -1,8 +1,8 @@
 const express = require('express');
 const request = require('request-promise');
 const router = express.Router();
-function authenticated (req, res, next) {
-    if(req.isAuthenticated()) {
+function authenticated(req, res, next) {
+    if (req.isAuthenticated()) {
         return next();
     }
     res.redirect('/loginfailed');

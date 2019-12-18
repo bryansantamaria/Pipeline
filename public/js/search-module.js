@@ -6,7 +6,7 @@ export class Search {
     }
 
     search(query) {
-        if(query != '') {
+        if (query != '') {
             fetch('/search/' + this.path + '/' + query).then(res => {
                 return res.json()
             }).then(result => {

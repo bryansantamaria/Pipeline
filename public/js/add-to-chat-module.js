@@ -21,7 +21,7 @@ export class AddToChat {
         this.html.deleteBtn.addEventListener('click', () => {
             console.log('You clicked on user >');
             console.log(this.user);
-            this.html.parent.dispatchEvent(new CustomEvent('user-removed', {detail: this.user}));
+            this.html.parent.dispatchEvent(new CustomEvent('user-removed', { detail: this.user }));
             this.html.parent.removeChild(this.html.container);
         })
     }

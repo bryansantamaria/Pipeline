@@ -15,8 +15,10 @@ router.post('/', async (req, res) => {
     console.log(req.files);
     try {
         if (!req.files) {
-            res.send(JSON.stringify({status: false,
-                message: 'No file uploaded'}));
+            res.send(JSON.stringify({
+                status: false,
+                message: 'No file uploaded'
+            }));
         } else {
             let height;
             sharp(req.files.profile_picture.data)

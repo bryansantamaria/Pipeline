@@ -11,16 +11,16 @@ export class EmojiPicker {
 
         this.currentEmojis = [];
         this.categories = [
-            {query:'people', symbol: '😀'},
-            {query:'animals_and_nature', symbol: '🐅'},
-            {query:'food_and_drink', symbol: '🍉'},
-            {query:'activity', symbol: '🚗'},
-            {query:'travel_and_places', symbol: '✈️'},
-            {query:'objects', symbol: '🛠'},
-            {query:'symbols', symbol: '💯'},
-            {query:'flags', symbol: '🇸🇪'}
+            { query: 'people', symbol: '😀' },
+            { query: 'animals_and_nature', symbol: '🐅' },
+            { query: 'food_and_drink', symbol: '🍉' },
+            { query: 'activity', symbol: '🚗' },
+            { query: 'travel_and_places', symbol: '✈️' },
+            { query: 'objects', symbol: '🛠' },
+            { query: 'symbols', symbol: '💯' },
+            { query: 'flags', symbol: '🇸🇪' }
         ];
-        
+
         this.open = false;
 
         this.html.emojiBtn.addEventListener('click', () => {

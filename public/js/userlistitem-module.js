@@ -18,7 +18,7 @@ export class UserListItem {
         this.html.container.addEventListener('click', () => {
             /*console.log('You clicked on user >');
             console.log(this.user);*/
-            this.html.parent.dispatchEvent(new CustomEvent('user-added', {detail: this.user}));
+            this.html.parent.dispatchEvent(new CustomEvent('user-added', { detail: this.user }));
         })
     }
 }
