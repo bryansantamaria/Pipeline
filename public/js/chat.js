@@ -277,8 +277,38 @@ function updateUser() {
 
 };
 
-//Function that triggers on change event, Post request to /uploadfiles
+//Displays info about uploaded image.
+function displayImageText(){
+  var fileValue = document.getElementById("filebtn");
+  var txt = "";
+  if ('files' in fileValue) {
+    if (fileValue.files.length == 0) {
+      txt = "";
+    } else {
+      for (var i = 0; i < fileValue.files.length; i++) {
+        txt += "<br><strong>" + (i+1) + ". File: </strong>";
+        var file = fileValue.files[i];
+        if ('name' in file) {
+          txt += file.name + "<br>";
+        }
+        if ('size' in file) {
+          txt += "Size: " + file.size + " bytes <br>";
+        }
+      }
+    }
+  } 
+  else {
+    if (fileValue.value == "") {
+      txt += "";
+    } else {
+      txt += "The files property is not supported by your browser!";
+      txt  += "<br>The path of the selected file: " + fileValue.value; 
+    }
+  }
+  document.getElementById("imageVal").innerHTML = txt;
+}
 
+//Function that triggers on change event, Post request to /uploadfiles
 const handleImageUpload = event => {
   const files = event.target.files;
   const formData = new FormData()
@@ -301,6 +331,7 @@ const handleImageUpload = event => {
 //Triggers handleImageUpload when uploading a picture.
 document.querySelector('#filebtn').addEventListener('change', event => {
   handleImageUpload(event);
+  displayImageText();
 });
 
 let editEmail = document.getElementById('edit-email');
