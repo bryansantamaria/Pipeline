@@ -1,8 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,700,900&display=swap');
 @import 'global';
-body {
-    //background: $sidebar-color;
-}
+
 .animation-state{
   animation-play-state: paused;
   opacity: 0;
@@ -125,7 +123,6 @@ main-container {
                     }
                 }
             }
-
         }
     }
 }

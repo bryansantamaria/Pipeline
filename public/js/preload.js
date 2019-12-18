@@ -16,6 +16,7 @@ function updateTopbarSidebarAlias() {
   });
 }
 
+//Global state
 let chatGlobals = {
   deleteTarget: undefined,
   editTarget: undefined,
@@ -25,7 +26,8 @@ let chatGlobals = {
   addChatroomName: ''
 }
 
-let debug = true;
+//Enable for sick console.logs
+let debug = false;
 
 let html;
 
@@ -37,6 +39,7 @@ fetch('user/' + document.querySelector('#user-id').textContent).then(userdata =>
 }).then(jsondata => {
   chatGlobals.user = JSON.parse(jsondata);
 
+  //Sets up initial app state from db data
   document.addEventListener('DOMContentLoaded', () => {
     html = {
       edit_alias: document.querySelector('#edit-alias'),
@@ -56,8 +59,7 @@ fetch('user/' + document.querySelector('#user-id').textContent).then(userdata =>
 
     document.querySelector('#edit-profile-preview').setAttribute('src', `/images/${chatGlobals.user._id}.jpg`);
     updateTopbarSidebarAlias();
-  })
-
+  });
 }).catch(() => {
   location.reload();
 });

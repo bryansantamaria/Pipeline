@@ -1355,8 +1355,6 @@ main-container side-bar private-message {
   scrollbar-width: none;
 }
 
-<<<<<<< HEAD
-=======
 main-container side-bar private-message #private-message-title {
   display: block;
 }
@@ -1374,7 +1372,6 @@ main-container side-bar private-message div span {
   margin-left: 5px;
 }
 
->>>>>>> 6b956b8567e8a5abdd348577af6e55931963256b
 main-container side-bar users-online {
   -ms-grid-row: 5;
   grid-row: 5;
@@ -1427,7 +1424,6 @@ main-container main-content top-bar {
   background: #fbfbfb;
   -webkit-box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
           box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-<<<<<<< HEAD
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1440,11 +1436,6 @@ main-container main-content top-bar {
 main-container main-content top-bar .topbar-title {
   width: 100%;
   font-size: 28px;
-=======
-}
-
-main-container main-content top-bar .topbar-title {
->>>>>>> 6b956b8567e8a5abdd348577af6e55931963256b
   margin-left: 30px;
   margin-top: 5px;
 }
@@ -1453,7 +1444,6 @@ main-container main-content top-bar m-left {
   width: 30px;
 }
 
-<<<<<<< HEAD
 main-container main-content top-bar .membersInChatroom:first-of-type {
   margin-left: 30px;
 }
@@ -1463,12 +1453,6 @@ main-container main-content top-bar .membersInChatroom {
   font-weight: lighter;
   margin-top: -15px;
   padding: 5px;
-=======
-main-container main-content top-bar .membersInChatroom {
-  font-family: 'Montserrat', sans-serif;
-  padding: 0em 0.5em 0px 0.5em;
-  font-weight: lighter;
->>>>>>> 6b956b8567e8a5abdd348577af6e55931963256b
 }
 
 main-container main-content message-root {
