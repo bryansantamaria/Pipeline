@@ -259,12 +259,17 @@ main-container {
 
       #private-message-title {
         @extend %channel-dark;
+        display: block;
       }
+
       div {
         @extend %channel-light;
+        display: flex;
+        flex-wrap: wrap;
 
         span {
-          margin.-left
+          pointer-events: none;
+          margin-left: 5px;
         }
       }
     }
