@@ -1,5 +1,3 @@
-// import { Socket } from "dgram";
-
 export class ChatModule {
     constructor(message, alias, avatar, date, id, mentions) {
         //Creates HTML elements

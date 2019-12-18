@@ -25,7 +25,7 @@ import {
 ////////////////////////////////////////////////
 //Globals
 ////////////////////////////////////////////////
-let chatGlobals = {
+/*let chatGlobals = {
   deleteTarget: undefined,
   editTarget: undefined,
   user: undefined,
@@ -56,11 +56,11 @@ fetch('user/' + document.querySelector('#user-id').textContent).then(userdata =>
   html.alias.innerText = chatGlobals.user.alias;
   let pictureID = document.getElementById('pictureID');
   pictureID.value = chatGlobals.user._id;
-  updateTopbarSidebarAlias();
   document.querySelector('#edit-profile-preview').setAttribute('src', `/images/${chatGlobals.user._id}.jpg`);
+  updateTopbarSidebarAlias();
 }).catch(() => {
   location.reload();
-});
+});*/
 
 $(".requestChatroom").on("click", function (e) {
   joinChatRoom(e);
@@ -229,18 +229,6 @@ function createChannel(chatroom) {
   }
 };
 
-function updateTopbarSidebarAlias() {
-  Array(document.querySelectorAll('[userid]'))[0].forEach(node => {
-    fetch('user/' + node.getAttribute('userid'))
-      .then(res => res.json())
-      .then(user => {
-        user = JSON.parse(user);
-        console.log(user);
-        node.innerText = user.alias;
-      })
-  });
-}
-
 //Delete events
 document.addEventListener('delete-init', e => {
   chatGlobals.deleteTarget = e.detail;
@@ -367,7 +355,7 @@ document.querySelector('#update-profile-btn').addEventListener('click', (e) => {
   } else {
     warning.style.display = 'block';
     e.stopImmediatePropagation();
-  }  
+  }
 });
 
 ////////////////////////////////////////////////
@@ -417,6 +405,7 @@ socket.on('new-user-online', users => {
     let div = document.createElement('div');
     div.innerText = users[i].alias;
     div.id = users[i]._id;
+    div.setAttribute('userid', users[i]._id);
     document.getElementById('users-online').appendChild(div);
   }
 });

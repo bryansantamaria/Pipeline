@@ -3,11 +3,14 @@
 
 <head>
   <title>Pipeline</title>
+  <p id="user-id"><%= user_id%></p>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
     integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <link rel='stylesheet' href='/stylesheets/chat.css' />
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/preload.js"></script>
   <script src="https://kit.fontawesome.com/fcc82c8a72.js" crossorigin="anonymous"></script>
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
 </head>
@@ -17,7 +20,6 @@
     <h1>Login successful</h1>
   </login-sucess>
   <main-container>
-    <p id="user-id"><%= user_id%></p>
     <!-- Mention alert -->
     <div class="alert alert-success alert-dismissible fade" role="alert" id="mention-alert">
       <strong>New mention! </strong><span id="mention-message">Text haha</span>
@@ -41,27 +43,28 @@
       <public-channels>
         <div id="channel-title"><i class="fas fa-plus-circle" id="create-chatroom"></i> Channels</div>
         <% for(let id = 0; id < chatrooms.length; id++){ %>
-          <% if(chatrooms[id].type == 'publicChannel'){ %>
-            <div id="<%= chatrooms[id]._id %>" class="requestChatroom">
-              <i class="fas fa-hashtag"></i>
-               <%= chatrooms[id].name %>
-             </div>
-          <% } %>
-       <% } %>
+        <% if(chatrooms[id].type == 'publicChannel'){ %>
+        <div id="<%= chatrooms[id]._id %>" class="requestChatroom">
+          <i class="fas fa-hashtag"></i>
+          <%= chatrooms[id].name %>
+        </div>
+        <% } %>
+        <% } %>
       </public-channels>
 
       <!-- Private messages -->
       <private-message>
-        <div id="private-message-title"><i class="fas fa-plus-circle" id="create-private-message"></i> Private Message</div>
+        <div id="private-message-title"><i class="fas fa-plus-circle" id="create-private-message"></i> Private Message
+        </div>
         <% for(let id = 0; id < chatrooms.length; id++){ %>
-          <% if(chatrooms[id].type === 'privateMessage'){ %>
-            <div id="<%= chatrooms[id]._id %>" class="requestChatroom">
-              <i class="fas fa-circle"></i>
-              <% for(let member = 0; member < chatrooms[id].members.length; member++){ %>
-                <span userid=<%= chatrooms[id].members[member]._id%>><%#= chatrooms[id].members[member].alias %></span>
-              <% } %>
-            </div>
+        <% if(chatrooms[id].type === 'privateMessage'){ %>
+        <div id="<%= chatrooms[id]._id %>" class="requestChatroom">
+          <i class="fas fa-circle"></i>
+          <% for(let member = 0; member < chatrooms[id].members.length; member++){ %>
+          <span userid=<%= chatrooms[id].members[member]._id%>><%#= chatrooms[id].members[member].alias %></span>
           <% } %>
+        </div>
+        <% } %>
         <% } %>
         <%# for(let i=0; i < users.length; i++){ %>
         <!--<div id="<%#= users[i]._id %>" class="requestChatroom"><i class="fas fa-circle"></i> <%#= users[i].alias %></div>-->
@@ -71,7 +74,7 @@
         <div id="online-users-title"><i class="fas fa-circle"></i> Online users</div>
         <div id="users-online"></div>
       </users-online>
-      
+
 
     </side-bar>
 
@@ -83,13 +86,14 @@
       <top-bar id="topBar">
         <m-left id="marginleft"></m-left>
       </top-bar>
-     
+
 
       <message-root>
       </message-root>
       <form id="msgForm">
-        <input autocomplete="off" type="text" id="messageValue" class="form-control"><i class="far fa-smile" id="open-emoji-picker"></i><input type="submit"
-          class="btn btn-success" id="sendMessage" name="button" value="Send"></input>
+        <input autocomplete="off" type="text" id="messageValue" class="form-control"><i class="far fa-smile"
+          id="open-emoji-picker"></i><input type="submit" class="btn btn-success" id="sendMessage" name="button"
+          value="Send"></input>
       </form>
       <is-typing id="typing"></is-typing>
 
@@ -185,7 +189,8 @@
           <chatroom-users-to-add></chatroom-users-to-add>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" data-dismiss="modal" id="create-chatroom-btn">Add to chat</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" id="create-chatroom-btn">Add to
+            chat</button>
         </div>
       </div>
     </div>
@@ -204,12 +209,14 @@
         </div>
         <div class="modal-body" id="edit-modal-container">
           <div id="edit-profile-preview-container">
-            <img src="" alt="" id="edit-profile-preview" onerror = "this.src = `https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-7.png`;">
+            <img src="" alt="" id="edit-profile-preview"
+              onerror="this.src = `https://pngimage.net/wp-content/uploads/2018/05/default-user-profile-image-png-7.png`;">
           </div>
 
           <!-- ladda upp bild -->
           <form class="form-horizontal" id="edit-form" name="profile-pic">
-            <label for="filebtn" class="btn btn-secondary btn-uploadFile"> <input type="file" name="profile_picture" multiple="multiple" id="filebtn">Upload an image</label>
+            <label for="filebtn" class="btn btn-secondary btn-uploadFile"> <input type="file" name="profile_picture"
+                multiple="multiple" id="filebtn">Upload an image</label>
             <div id="info"></div>
             <input type="hidden" name="_id" id="pictureID">
           </form>
@@ -238,7 +245,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
     crossorigin="anonymous"></script>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="js/chat.js" type="module"></script>
+  <script src="js/chat.js" type="module"></script>
 </body>
+
 </html>
