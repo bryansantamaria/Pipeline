@@ -32,7 +32,7 @@
       <user-name>
         <i class="fas fa-circle"></i>
         <label for="user-settings">
-          <span id="alias">Bryan Santamaria </span>
+          <span id="alias">Loading username..</span>
           <i class="fas fa-cog" id="user-settings"></i>
         </label>
       </user-name>
@@ -71,6 +71,7 @@
         <div id="online-users-title"><i class="fas fa-circle"></i> Online users</div>
         <div id="users-online"></div>
       </users-online>
+      
 
     </side-bar>
 
@@ -79,15 +80,18 @@
       <overlay-root class="hidden"></overlay-root>
 
       <!--Top bar(git p inside this chatroom/conversation) 75px height, 100% width-->
-      <top-bar id="topBar"></top-bar>
+      <top-bar id="topBar">
+        <m-left id="marginleft"></m-left>
+      </top-bar>
+     
 
       <message-root>
       </message-root>
-      <is-typing id="typing"></is-typing>
       <form id="msgForm">
         <input autocomplete="off" type="text" id="messageValue" class="form-control"><i class="far fa-smile" id="open-emoji-picker"></i><input type="submit"
           class="btn btn-success" id="sendMessage" name="button" value="Send"></input>
       </form>
+      <is-typing id="typing"></is-typing>
 
       <mentions-root class="hidden"></mentions-root>
     </main-content>
@@ -213,6 +217,9 @@
           <input type="text" placeholder="" id="edit-alias"> <br> <br>
           <p id="edit-text-email">Email address: </p>
           <input type="email" placeholder="" id="edit-email">
+          <span class="alert alert-warning" id="alertwarning" role="alert">
+            Email must contain '@'
+          </span>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-warning" data-dismiss="modal" id="update-profile-btn">Save

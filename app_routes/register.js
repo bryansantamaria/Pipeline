@@ -9,10 +9,8 @@ router.post('/', (req, res) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(req.body),
-  }).then(user => {
-    req.session.user = JSON.parse(user);
-    res.redirect('chat');
   });
+  res.redirect('/');
 });
 
 module.exports = router;
