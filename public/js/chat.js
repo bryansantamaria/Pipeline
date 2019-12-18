@@ -46,7 +46,7 @@ let html = {
 let uid = String(document.cookie).replace('user=', '');
 
 //Gets user from DB
-fetch('user/' + uid).then(userdata => {
+fetch('user/' + document.querySelector('#user-id').textContent).then(userdata => {
   return userdata.json();
 }).then(jsondata => {
   chatGlobals.user = JSON.parse(jsondata);
@@ -93,25 +93,29 @@ document.querySelector('#create-pm-btn').addEventListener('click', () => {
 });
 
 //For chatroom creation
-document.querySelector('#create-chatroom-btn').addEventListener('click', () => {
-  let usersInNewRoom = chatGlobals.addToRoom;
+document.querySelector('#create-chatroom-btn').addEventListener('click', (e) => {
   let chatroomName = chatGlobals.addChatroomName;
-  console.log(chatGlobals.addChatroomName);
   chatroomName = document.getElementById("createChatroomName").value;
-  usersInNewRoom.push(chatGlobals.user);
-
-  fetch('/chatroom/newChatroom', {
-    method: 'POST',
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify([usersInNewRoom, chatroomName])
-  }).then(res => res.json())
-    .then(chatroom => {
-      chatroom = JSON.parse(chatroom);
-      console.log(chatroom);
-      socket.emit('createdPublicChatroom', chatroom);
-    });
+  if (chatroomName == '') {
+    e.stopImmediatePropagation();
+    alert("You must give a name to the chatroom you are trying to create!");
+  }
+  else {
+    let usersInNewRoom = chatGlobals.addToRoom;
+    usersInNewRoom.push(chatGlobals.user);
+    fetch('/chatroom/newChatroom', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify([usersInNewRoom, chatroomName])
+    }).then(res => res.json())
+      .then(chatroom => {
+        chatroom = JSON.parse(chatroom);
+        console.log(chatroom);
+        socket.emit('createdPublicChatroom', chatroom);
+      });
+  }
 });
 
 //Joins chatroom
@@ -124,6 +128,8 @@ function joinChatRoom(e) {
   fetch('/chatroom/' + chatroomID).then(res => res.json()).then(chatroom => {
     chatroom = JSON.parse(chatroom);
     let chatroomMessages = chatroom[0].messages;
+
+    chatMessages = [];
     chatroomMessages.forEach(msg => {
       let chatMessage = new ChatModule(
         msg.message,
@@ -136,9 +142,11 @@ function joinChatRoom(e) {
       if (chatGlobals.user.alias == msg.alias) {
         chatMessage.setupEventListeners();
       }
-
-      chatMessage.render(document.querySelector('message-root'))
+      chatMessages.push(chatMessage);
+      chatMessage.render(document.querySelector('message-root'));
     });
+
+    updateAliases();
 
     //Render topbar
     let chatroomMembers = chatroom[0].members;
@@ -249,7 +257,7 @@ $("#msgForm").submit(function (e) {
   if ($("#messageValue").val() == "") { } else {
 
     let chatMessage = {
-      alias: chatGlobals.user.alias,
+      alias: chatGlobals.user._id,
       message: $("#messageValue").val(),
       avatar: chatGlobals.user.avatar,
       timestamp: getTodaysDate(),
@@ -298,7 +306,7 @@ function updateUser() {
 
 };
 
-//Function that triggers on change event, Post request to /uploadfiles 
+//Function that triggers on change event, Post request to /uploadfiles
 
 const handleImageUpload = event => {
   const files = event.target.files;
@@ -377,6 +385,7 @@ socket.on('chat message', function (chatObject) {
   }
 
   chatMessages.push(chatMessage);
+  chatMessage.updateAlias();
   chatMessage.render(document.querySelector('message-root'));
 });
 
@@ -439,15 +448,17 @@ $('#messageValue').keyup((e) => {
 
 //Loopa igenom alla chatmeddelanden, kontrollera id och rendera ut det nya editerade meddelandet.
 socket.on('edit', edited_message => {
-  edited_message = JSON.parse(edited_message);
 
   if (debug) {
     console.log('Edit from server >')
     console.log(edited_message);
   }
 
+  console.log(chatMessages);
+
   chatMessages.forEach(message => {
-    if (message._id == edited_message._id) {
+    console.log(message);
+    if (message.content._id == edited_message._id) {
       message.edit(edited_message.message, false);
     }
   });
@@ -455,7 +466,6 @@ socket.on('edit', edited_message => {
 
 //Loopa igenom alla chatmeddelanden, kontrollera id och radera meddelandet.
 socket.on('delete', delete_message => {
-  delete_message = JSON.parse(delete_message);
 
   if (debug) {
     console.log('Delete request from server for msg >');
@@ -596,6 +606,7 @@ document.addEventListener('DOMContentLoaded', () => {
       };
     };
   });
+
   document.querySelector('#create-chatroom-modal').addEventListener('search-result', e => {
 
     while (chatroomUserList.firstChild) {
@@ -712,3 +723,13 @@ document.querySelector('mentions-root').addEventListener('mention-user', e => {
 let emojipicker = new EmojiPicker(document.querySelector('#open-emoji-picker'), document.querySelector('#messageValue'));
 
 emojipicker.render();
+
+/////////////////////////////////////////////////////
+/// UPDATE MESSAGES BY UID
+/////////////////////////////////////////////////////
+
+function updateAliases() {
+  chatMessages.forEach(message => {
+    message.updateAlias();
+  });
+};

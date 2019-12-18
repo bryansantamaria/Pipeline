@@ -24,7 +24,7 @@ router.get('/', authenticated, (req, res) => {
         });
         
         res.cookie('user', user_id, { maxAge: 3600, httpOnly: false });
-        res.render('chat', { "users": parsedObject.users, "chatrooms": parsedObject.chatrooms });
+        res.render('chat', { "users": parsedObject.users, "chatrooms": parsedObject.chatrooms, user_id: user_id });
     });
 });
 

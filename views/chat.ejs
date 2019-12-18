@@ -17,7 +17,7 @@
     <h1>Login successful</h1>
   </login-sucess>
   <main-container>
-
+    <p id="user-id"><%= user_id%></p>
     <!-- Mention alert -->
     <div class="alert alert-success alert-dismissible fade" role="alert" id="mention-alert">
       <strong>New mention! </strong><span id="mention-message">Text haha</span>
@@ -139,7 +139,7 @@
     </div>
   </div>
 
-  <!--Search users modal-->
+  <!--Create private message modal-->
   <div class="modal fade" id="create-pm-modal" tabindex="-1" role="dialog" aria-labelledby="create-pm-modal"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -164,7 +164,7 @@
     </div>
   </div>
 
-  <!--create chatroom modal-->
+  <!--Create chatroom modal-->
   <div class="modal fade" id="create-chatroom-modal" tabindex="-1" role="dialog" aria-labelledby="create-chatroom-modal"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -238,9 +238,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
     crossorigin="anonymous"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/chat.js" type="module"></script>
 </body>
-
-<script src="/socket.io/socket.io.js"></script>
-<script src="js/chat.js" type="module"></script>
-
 </html>

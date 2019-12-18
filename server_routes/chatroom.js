@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const mongo = require('mongodb');
-var sanitizeHtml = require('sanitize-html');
+const sanitizeHtml = require('sanitize-html');
 
 router.put('/', (req, res) => {
   var pipelineDB = req.db;
@@ -12,8 +12,8 @@ router.put('/', (req, res) => {
   console.log('Recieved message from app >');
   console.log(req.body);
   collection.update({
-    _id: chatroomID
-  },
+      _id: chatroomID
+    },
     //Inserts message to specific chatroom message array.
     {
       $push: {
@@ -28,8 +28,9 @@ router.put('/', (req, res) => {
       }
     }, (err) => { //Gets message back from database
       if (err) throw err;
-      collection.findOne(
-        { _id: chatroomID },
+      collection.findOne({
+          _id: chatroomID
+        },
         (err, chatroom) => {
           if (err) throw err;
           console.log(chatroom);
@@ -44,48 +45,48 @@ router.put('/edit', function (req, res) {
   var pipelineDB = req.db;
   var collection = pipelineDB.get('chatrooms');
   console.log('\n');
-  console.log('Server spits out: ');
-  console.log(req.body);
+  console.log('Edited message: ');
+  console.log(req.body.message);
+
   collection.update({
-    '_id': req.body._id
+    _id: req.body.chatroom,
+    messages: {
+      $elemMatch: {
+        _id: req.body._id
+      }
+    }
   }, {
     $set: {
-      'alias': req.body.alias,
-      'content': req.body.message,
-      'avatar': req.body.avatar,
-      'timestamp': req.body.timestamp,
-      'mentions': req.body.mentions
+      'messages.$.message': req.body.message
     }
   }, (err) => {
     if (err) throw err;
-    collection.find({
-      '_id': req.body._id
-    }, function (err, edit_msg_db) {
-      console.log('edit message in db >')
-      console.log(edit_msg_db[0]);
-      if (err) throw err;
-      res.json(JSON.stringify(edit_msg_db[0]));
-    });
+    res.send(JSON.stringify(req.body));
   });
 });
 
-/* GET delete user. */
-router.delete('/', function (req, res) {
+/* Delete message */
+router.delete('/', async function (req, res) {
   console.log('\n');
   console.log('message to be deleted >')
   console.log(req.body);
   var pipelineDB = req.db;
   var collection = pipelineDB.get('chatrooms');
 
-  collection.remove({
-    '_id': req.body._id
-  }, {
-    'justOne': true
-  }, (err, delete_status) => {
-    if (err) throw err;
-    res.json(JSON.stringify(req.body));
-    console.log(delete_status.result);
-  });
+  collection.update({
+      '_id': req.body.chatroom
+    }, {
+      $pull: {
+        "messages": {
+          _id: req.body._id
+        }
+      }
+    },
+    false,
+    true
+  );
+
+  res.send(JSON.stringify(req.body));
 });
 
 //GET all chatrooms.
