@@ -563,7 +563,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     e.detail.forEach(user => {
       let item = new UserListItem(chatroomUserList, user);
-      item.render();
+      if (item.user._id !== chatGlobals.user._id) item.render();
     });
   });
 
