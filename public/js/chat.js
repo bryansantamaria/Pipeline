@@ -295,8 +295,9 @@ function updateUser() {
 };
 
 //Function that triggers on change event, Post request to /uploadfiles 
+
 const handleImageUpload = event => {
-  const files = event.target.files;
+  const files = document.querySelector('#filebtn');
   const formData = new FormData()
   formData.append('profile_picture', files[0]);
   formData.append('_id', chatGlobals.user._id);
@@ -313,18 +314,19 @@ const handleImageUpload = event => {
     console.log(error);
   })
 }
+
+  //Triggers handleImageUpload when uploading a picture.
+  document.querySelector('#filebtn').addEventListener('change', event => {
+    handleImageUpload(event);
+  })
+
 //Sends request to server for user
-document.querySelector('#update-profile-btn').addEventListener('click', () => {
+document.querySelector('#update-profile-btn').addEventListener('click', (e) => {
   chatGlobals.user.alias = html.edit_alias.value;
   html.alias.innerText = chatGlobals.user.alias;
 
   chatGlobals.user.email = html.edit_email.value;
   html.edit_email.innerText = chatGlobals.user.email;
-
-  //Triggers upload file event when uploading a picture.
-  document.querySelector('#filebtn').addEventListener('change', event => {
-    handleImageUpload(event);
-  })
 
   updateUser();
 });

@@ -13,13 +13,11 @@ router.post('/', async (req, res) => {
     // console.log('REQBODY > HEHE')
     // console.log(req.files);
     console.log('REQ.FILES.PROFILE_PICTURE: >')
-    console.log(req.files.profile_picture);
+    console.log(req.files);
     try {
         if (!req.files) {
-            res.send({
-                status: false,
-                message: 'No file uploaded'
-            });
+            res.send(JSON.stringify({status: false,
+                message: 'No file uploaded'}));
         } else {
             let height;
             sharp(req.files.profile_picture.data)
@@ -39,7 +37,7 @@ router.post('/', async (req, res) => {
                             body: JSON.stringify({ path: `./public/images/'${req.body._id}.jpg` }),
                         }).then(() => {
                             console.log('IT WOOORKS!');
-                            res.send('200'); //Plocka bort eller ersätt till res 200
+                            res.send('200');
                            
                         });
                     })
