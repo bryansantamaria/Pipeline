@@ -29,14 +29,11 @@ const uploadFile = require('./server_routes/uploadfile');
 server.use(bodyParser.urlencoded({
   extended: false
 }));
-
 server.use(bodyParser.json());
-
 server.use(function (req, res, next) {
   req.db = pipelineDB;
   next();
 });
-
 server.use(logger('dev'));
 server.use(express.json());
 server.use(express.urlencoded({ extended: false }));
@@ -65,7 +62,6 @@ function parseEmoji() {
 
     let emojiObjects = [];
     parsedEmojis.forEach(emoji => {
-      ////console.log(Object.getOwnPropertyNames(emoji));
       let emojiObj = {
         name: Object.getOwnPropertyNames(emoji)[0],
         char: emoji[Object.getOwnPropertyNames(emoji)].char,
@@ -79,7 +75,6 @@ function parseEmoji() {
 
     emojiObjects.forEach(emoji => {
       emojiCollection.insert(emoji);
-      //console.log(emoji);
       /*if(!categoryNames.some(category => category == emoji.category)) {
         categoryNames.push(emoji.category);
       }*/
@@ -100,8 +95,6 @@ server.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.server.get('env') === 'development' ? err : {};
-
-  // render the error page
   res.status(err.status || 500);
   res.render('error');
 });

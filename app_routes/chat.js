@@ -17,8 +17,6 @@ router.get('/', authenticated, (req, res) => {
     }).then(chatObject => {
         let parsedObject = JSON.parse(chatObject);
         let user_id = req.user._id.toString();
-        //console.log(user_id);
-
         parsedObject.chatrooms = parsedObject.chatrooms.filter(room => {
             return room.members.some(member => member._id == user_id);
         });

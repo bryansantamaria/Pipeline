@@ -10,7 +10,6 @@ function updateRes() {
     for (let i = 0; i < 35; i++) {
         lines.push(new Line());
     }
-    //console.log('changed res');
 }
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -6,7 +6,6 @@ router.post('/', async (req, res) => {
     var pipelineDB = req.db;
     var collection = pipelineDB.get("users");
     collection.find({ $or: [{ "alias": req.body.username}, { "email": req.body.username}] }, {}).then(user => {
-        //console.log('USER: '+user);
         if (user[0]) {
             bcrypt.compare(req.body.password, user[0].password, (err, authorized) => {
                 if (err) throw err;
@@ -19,9 +18,7 @@ router.post('/', async (req, res) => {
                 } else {
                     res.send(false);
                 }
-                //console.log('Password correct: ', authorized);
             });
-
         } else {
             res.send(false);
         }

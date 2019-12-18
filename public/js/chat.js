@@ -34,8 +34,6 @@ let chatGlobals = {
   addChatroomName: ''
 }
 
-//let debug = true;
-
 let html = {
   edit_alias: document.querySelector('#edit-alias'),
   edit_email: document.querySelector('#edit-email'),
@@ -44,16 +42,13 @@ let html = {
 
 let uid = String(document.cookie).replace('user=', '');
 
-//Gets user from DB
 fetch('user/' + uid).then(userdata => {
   return userdata.json();
 }).then(jsondata => {
   chatGlobals.user = JSON.parse(jsondata);
   html.edit_alias.value = chatGlobals.user.alias
   html.edit_email.value = chatGlobals.user.email
-  ////console.log(chatGlobals.user.alias);
   socket.emit('new-user-online', chatGlobals.user);
-  ////console.log(chatGlobals.user);
   html.alias.innerText = chatGlobals.user.alias;
   let pictureID = document.getElementById('pictureID');
   pictureID.value = chatGlobals.user._id;
@@ -72,7 +67,6 @@ var socket = io();
 //CRUD-events
 ////////////////////////////////////////////////
 
-//Create private chat
 document.querySelector('#create-pm-btn').addEventListener('click', () => {
   let usersInNewRoom = chatGlobals.addToRoom;
   usersInNewRoom.push(chatGlobals.user);
@@ -86,16 +80,13 @@ document.querySelector('#create-pm-btn').addEventListener('click', () => {
   }).then(res => res.json())
     .then(chatroom => {
       chatroom = JSON.parse(chatroom);
-      ////console.log(chatroom);
       socket.emit('createdChatroom', chatroom);
     });
 });
 
-//For chatroom creation
 document.querySelector('#create-chatroom-btn').addEventListener('click', () => {
   let usersInNewRoom = chatGlobals.addToRoom;
   let chatroomName = chatGlobals.addChatroomName;
-  ////console.log(chatGlobals.addChatroomName);
   chatroomName = document.getElementById("createChatroomName").value;
   usersInNewRoom.push(chatGlobals.user);
 
@@ -108,16 +99,13 @@ document.querySelector('#create-chatroom-btn').addEventListener('click', () => {
   }).then(res => res.json())
     .then(chatroom => {
       chatroom = JSON.parse(chatroom);
-      ////console.log(chatroom);
       socket.emit('createdPublicChatroom', chatroom);
     });
 });
 
-//Joins chatroom
 function joinChatRoom(e) {
   $('message-root').empty();
   let chatroomID = e.target.id;
-  ////console.log(chatroomID);
   chatGlobals.chatroomId = chatroomID;
 
   fetch('/chatroom/' + chatroomID).then(res => res.json()).then(chatroom => {
@@ -139,7 +127,6 @@ function joinChatRoom(e) {
       chatMessage.render(document.querySelector('message-root'))
     });
 
-    //Render topbar
     let chatroomMembers = chatroom[0].members;
     let topBar = document.getElementById("topBar")
     topBar.innerHTML = '<h5 class="topbar-title">Members</h5>';
@@ -161,7 +148,6 @@ function joinChatRoom(e) {
 
 function createPM(chatroom) {
   if(chatroom.members.some(user => user._id == chatGlobals.user._id)) {
-    ////console.log(chatroom);
     let usersInChatroom = ' ';
     chatroom.members.forEach(user => {
       usersInChatroom += user.alias + ' ';
@@ -188,7 +174,6 @@ function createPM(chatroom) {
 
 function createChannel(chatroom) {
   if(chatroom.members.some(user => user._id == chatGlobals.user._id)) {
-    ////console.log(chatroom);
     let usersInChatroom = chatroom.name;
     let div = document.createElement('div');
     let i = document.createElement('i');
@@ -210,7 +195,6 @@ function createChannel(chatroom) {
   }
 };
 
-//Delete events
 document.addEventListener('delete-init', e => {
   chatGlobals.deleteTarget = e.detail;
 });
@@ -220,7 +204,6 @@ document.querySelector('#delete-btn').addEventListener('click', () => {
   socket.emit('delete', chatGlobals.deleteTarget);
 });
 
-//Edit Events
 document.addEventListener('edit-init', e => {
   chatGlobals.editTarget = e.detail;
   document.querySelector('#edit-message').value = chatGlobals.editTarget.html.textContent;
@@ -233,7 +216,6 @@ document.querySelector('#edit-btn').addEventListener('click', () => {
   socket.emit('edit', new_message);
 });
 
-//Send message
 $("#msgForm").submit(function (e) {
   e.preventDefault();
 
@@ -258,13 +240,6 @@ $("#msgForm").submit(function (e) {
 
     mentions.inLatestMessage = [];
 
-    //if (debug) {
-      ////console.log('Message sent to server >');
-      ////console.log(chatMessage);
-      ////console.log(chatGlobals.chatroomId);
-    //};
-
-    //Emits the stringified chatMessage object to server.
     socket.emit("chat message", { roomId: chatGlobals.chatroomId, chatMessage: chatMessage });
 
     $("#messageValue").val('');
@@ -285,14 +260,8 @@ function updateUser() {
     },
     body: JSON.stringify(chatGlobals.user),
   })
-
-  //if (debug) {
-    ////console.log('Sent edit request to server >');
-    ////console.log(chatGlobals.user);
-  //}
 };
 
-//Sends request to server for user
 document.querySelector('#update-profile-btn').addEventListener('click', () => {
   chatGlobals.user.alias = html.edit_alias.value;
   html.alias.innerText = chatGlobals.user.alias;
@@ -307,16 +276,9 @@ document.querySelector('#update-profile-btn').addEventListener('click', () => {
 //SOCKETS
 ////////////////////////////////////////////////
 
-//Renders incoming chat messages
 socket.on('chat message', function (chatObject) {
   chatObject = JSON.parse(chatObject);
 
-  //if (debug) {
-    //console.log('Message recieved from server >');
-    //console.log(chatObject);
-  //}
-
-  //Loads in the now parsed chatobject and loads it's content into chatmessageModel
   let chatMessage = new ChatModule(
     chatObject.message,
     chatObject.alias,
@@ -326,11 +288,6 @@ socket.on('chat message', function (chatObject) {
     chatObject.mentions
   );
 
-  //if (debug) {
-    //console.log('Message recieved from server >');
-    //console.log(chatMessage);
-  //}
-
   if (chatGlobals.user.alias == chatMessage.content.alias) {
     chatMessage.setupEventListeners();
   }
@@ -339,7 +296,6 @@ socket.on('chat message', function (chatObject) {
   chatMessage.render(document.querySelector('message-root'));
 });
 
-//Socket on får data från server, Socket emit skickar data till servern.
 socket.on('new-user-online', users => {
   while (document.getElementById('users-online').firstChild) {
     document.getElementById('users-online').removeChild(document.getElementById('users-online').firstChild);
@@ -360,28 +316,23 @@ socket.on('checkOnline', (status) => {
 });
 
 socket.on('createdChatroom', chatroom => {
-  //if (debug) //console.log(chatroom);
   if(chatroom.members.some(member => member._id == chatGlobals.user._id)) {
     createPM(chatroom);
   }
 })
 
 socket.on('createdPublicChatroom', chatroom => {
-  //if (debug) //console.log(chatroom);
   if(chatroom.members.some(member => member._id == chatGlobals.user._id)) {
     createChannel(chatroom);
   }
 })
 
-//Shows when a user is typing, end on enter.
 socket.on('typing', (alias) => {
   if(alias) {
     $('#typing').html(alias + ' is typing...');
   } else {
     $('#typing').html('');
   }
-
-  //if (debug) console.log(chatGlobals.user.alias);
 });
 
 $('#messageValue').keyup((e) => {
@@ -389,22 +340,13 @@ $('#messageValue').keyup((e) => {
     socket.emit('typing', false);
   } else if ($('#messageValue').val() !== '') {
     socket.emit('typing', chatGlobals.user.alias, true);
-    //if (debug) //console.log('TRUEEE');
-    //if (debug) //console.log(chatGlobals.user.alias);
   } else {
     socket.emit('typing', false);
   }
 });
 
-//Loopa igenom alla chatmeddelanden, kontrollera id och rendera ut det nya editerade meddelandet.
 socket.on('edit', edited_message => {
   edited_message = JSON.parse(edited_message);
-
-  //if (debug) {
-    //console.log('Edit from server >')
-    //console.log(edited_message);
-  //}
-
   chatMessages.forEach(message => {
     if (message._id == edited_message._id) {
       message.edit(edited_message.message, false);
@@ -412,14 +354,8 @@ socket.on('edit', edited_message => {
   });
 });
 
-//Loopa igenom alla chatmeddelanden, kontrollera id och radera meddelandet.
 socket.on('delete', delete_message => {
   delete_message = JSON.parse(delete_message);
-
-  //if (debug) {
-    //console.log('Delete request from server for msg >');
-    //console.log(delete_message);
-  //}
 
   chatMessages.forEach(message => {
     if (message.content._id == delete_message._id) {
@@ -428,7 +364,6 @@ socket.on('delete', delete_message => {
   });
 });
 
-//Displays mention alert if user is mentioned
 socket.on('mention', mention => {
   if (mention.for._id == chatGlobals.user._id) {
     document.querySelector('#mention-message').innerText = `${mention.by.alias} mentioned you.`
@@ -436,16 +371,12 @@ socket.on('mention', mention => {
   }
 })
 
-socket.on("disconnect", () => {
-  //console.log(socket.disconnected);
-});
+socket.on("disconnect", () => {});
 
-//Dismisses mention alert
 document.querySelector('#mention-dismiss').addEventListener('click', () => {
   document.querySelector('#mention-alert').classList.remove('show');
 });
 
-//Genererar dagens datum och tid, convertar från millisekunder.
 function getTodaysDate(date) {
   var rightNow;
   date ? rightNow = new Date(date) : rightNow = new Date();
@@ -453,8 +384,8 @@ function getTodaysDate(date) {
   var mm = String(rightNow.getMonth() + 1).padStart(2, '0');
   var h = rightNow.getHours();
   var m = rightNow.getMinutes();
-
   var yyyy = rightNow.getFullYear();
+
   h = (h < 10) ? "0" + h : h;
   m = (m < 10) ? "0" + m : m;
 
@@ -471,7 +402,6 @@ function getTodaysDate(date) {
 //Bootstrap linking
 ////////////////////////////////////////////////
 
-//Cursed bootstrap attributes
 document.querySelector('#private-message-title').setAttribute("data-toggle", "modal");
 document.querySelector('#private-message-title').setAttribute("data-target", "#create-pm-modal");
 
@@ -497,7 +427,6 @@ let addToRoomModules = [];
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#create-pm-user-search').addEventListener('input', e => {
     let query = e.target.value;
-    //if (debug) //console.log('Searched for: ' + query);
     userSearch.search(query);
 
     if (query == '') {
@@ -522,7 +451,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  //Adds the user clicked on to list of users in new chat room
   document.querySelector('user-list').addEventListener('user-added', e => {
     if (!chatGlobals.addToRoom.some(user => user._id == e.detail._id)) {
       chatGlobals.addToRoom.push(e.detail);
@@ -530,12 +458,10 @@ document.addEventListener('DOMContentLoaded', () => {
       addToRoomModules.push(addToRoom);
       addToRoom.render();
     };
-    //if (debug) //console.log(chatGlobals.addToRoom);
   });
 
   document.querySelector('users-to-add').addEventListener('user-removed', e => {
     chatGlobals.addToRoom = chatGlobals.addToRoom.filter(user => user._id != e.detail._id)
-    //if (debug) //console.log(chatGlobals.addToRoom);
   });
 });
 
@@ -547,7 +473,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let chatroomUserList = document.querySelector('chatroom-user-list');
   document.querySelector('#chatroom-user-search').addEventListener('input', e => {
     let query = e.target.value;
-    //if (debug) //console.log('Searched for: ' + query);
     chatroomUserSearch.search(query);
     if (query == '') {
       while (chatroomUserList.firstChild) {
@@ -567,7 +492,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  //Adds the user clicked on to list of users in new chat room
   chatroomUserList.addEventListener('user-added', e => {
     let chatGlobalsAddMemberToRoom = chatGlobals.addToRoom;
     if (!chatGlobalsAddMemberToRoom.some(user => user._id == e.detail._id)) {
@@ -576,12 +500,10 @@ document.addEventListener('DOMContentLoaded', () => {
       addToRoomModules.push(addToRoom);
       addToRoom.render();
     };
-    //if (debug) //console.log(chatGlobals.addToRoom);
   });
 
   document.querySelector('chatroom-users-to-add').addEventListener('user-removed', e => {
     chatGlobals.addToRoom = chatGlobals.addToRoom.filter(user => user._id != e.detail._id)
-    //if (debug) //console.log(chatGlobals.addToRoom);
   });
 });
 
@@ -629,8 +551,6 @@ document.querySelector('#messageValue').addEventListener('input', () => {
   if (mentions.inMention) {
     mentions.query = msg.value.substr(mentions.start);
     document.querySelector('mentions-root').classList.remove('hidden')
-    //if (debug) //console.log(mentions);
-    //if (debug) //console.log(msg.value.charAt(mentions.start - 1));
     mentions.users.search(mentions.query);
 
     document.querySelector('overlay-root').classList.remove('hidden');
@@ -638,11 +558,9 @@ document.querySelector('#messageValue').addEventListener('input', () => {
 });
 
 document.querySelector('mentions-root').addEventListener('search-result', e => {
-  //if (debug) //console.log(e.detail);
   document.querySelector('mentions-root').innerHTML = '';
 
   e.detail.forEach(user => {
-    //if (debug) //console.log(user);
     let mentionsItem = new MentionsItem(document.querySelector('mentions-root'), user);
     mentionsItem.render();
   })
@@ -651,15 +569,10 @@ document.querySelector('mentions-root').addEventListener('search-result', e => {
 document.querySelector('mentions-root').addEventListener('mention-user', e => {
   mentions.inMention = false;
   let msg = document.querySelector('#messageValue');
-  //if (debug) //console.log(e.detail);
 
   msg.value = msg.value.replace(`@${mentions.query}`, `@${e.detail.alias} `);
 
   mentions.inLatestMessage.push(e.detail);
-
-  //if (debug) //console.log('Mentioned in message >');
-  //if (debug) //console.log(mentions.inLatestMessage);
-
   msg.focus();
   mentions.clear();
 });

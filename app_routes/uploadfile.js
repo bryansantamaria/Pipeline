@@ -10,7 +10,6 @@ router.use(fileUpload({
 }));
 
 router.post('/', async (req, res) => {
-    //console.log(req.body._id);
     try {
         if (!req.files) {
             res.send({
@@ -18,19 +17,13 @@ router.post('/', async (req, res) => {
                 message: 'No file uploaded'
             });
         } else {
-            //console.log(req.files.profile_picture.data);
             let height;
             sharp(req.files.profile_picture.data)
                 .jpeg()
                 .toBuffer()
                 .then(img => {
                     fs.writeFile('./public/images/' + req.body._id + '.jpg', img, (err) => {
-                        if (err) throw err
-
-                        //console.log('After conversion >');
-                        //console.log(img);
-                        //mv() method places the file in public/images directory
-                        //profile_pic.mv('./public/images/' + req.body._id + '.jpg');
+                        if (err) throw err;
                         request('http://127.0.0.1:3000/uploadfile', {
                             method: 'POST',
                             headers: {

@@ -115,18 +115,10 @@ io.on('connection', (socket) => {
     usersOnline = [];
   });
 
-  //io.emit('disconnect', {user: usersOnline, status: socket.disconnected});
-
   socket.on('checkOnline', (user) => {
     usersOnline.push(user);
-
-    //console.log('User verified online >');
-    //console.log(user);
-
     if(usersOnline.length == noOfUsers -1) {
       io.emit('new-user-online', usersOnline);
-      //console.log('Users online after disconnect >')
-      //console.log(usersOnline);
     }
   });
 
@@ -135,19 +127,14 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('typing', user);
   });
 
-  socket.on('chat message', function (message) {  //Lyssnar på eventet 'chat message'
-    //console.log('\n\nChat message from client >');
-    //console.log(message.chatMessage);
-    //console.log('\n\n In room: ' + message.roomId);
-    request('http://127.0.0.1:3000/chatroom', {       //POST request to server.js containing message
+  socket.on('chat message', function (message) {
+    request('http://127.0.0.1:3000/chatroom', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(message.chatMessage)                              //Message body
-    }).then(message_from_db => {                              //recieves message + id from server
-      //console.log('\n\nChat message recieved from db >');
-      //console.log(JSON.parse(message_from_db));
+      body: JSON.stringify(message.chatMessage)
+    }).then(message_from_db => {
       io.sockets.in(message.roomId).emit('chat message', JSON.parse(message_from_db));   //Emits chat message to all clients
     }).catch(error => {
       console.error('it broke :(');
@@ -156,55 +143,44 @@ io.on('connection', (socket) => {
 
   socket.on('joinedRoom', id => {
     socket.leave(socket.room);
-    //console.log('Joined room: ' + id);
     socket.join(id);
-  })
+  });
 
   socket.on('createdChatroom', chatroom => {
     io.emit('createdChatroom', chatroom);
-  })
+  });
 
   socket.on('createdPublicChatroom', chatroom => {
     io.emit('createdPublicChatroom', chatroom);
-  })
+  });
 
-  socket.on('edit', function (chatMessage) {          //Lyssnar på eventet 'chat message'
-    request('http://127.0.0.1:3000/chatroom/edit', {       //PUT request to server.js containing message
+  socket.on('edit', function (chatMessage) {
+    request('http://127.0.0.1:3000/chatroom/edit', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(chatMessage),                              //Message body
-    }).then(message => {                              //recieves message + id from server
-      //console.log('\n\nChat message edited >');
-      //console.log(message);
-      io.emit('edit', JSON.parse(message));           //Emits chat message to all clients
+      body: JSON.stringify(chatMessage),
+    }).then(message => {
+      io.emit('edit', JSON.parse(message));
     });
   });
-
-  socket.on('delete', function (chatMessage) {          //Lyssnar på eventet 'chat message'
-    request('http://127.0.0.1:3000/chatroom', {       //PUT request to server.js containing message
+  socket.on('delete', function (chatMessage) {
+    request('http://127.0.0.1:3000/chatroom', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(chatMessage),                       //Message body
-    }).then(message => {                              //recieves message + id from server
-      //console.log('\n\nChat message deleted:' + message);
-      //The server recieves a JSON string object and sends it further to all clients connected to the socket.
-      io.emit('delete', JSON.parse(message));           //Emits chat message to all clients
+      body: JSON.stringify(chatMessage),
+    }).then(message => {
+      io.emit('delete', JSON.parse(message));
     });
   });
 
   socket.on('mention', mention => {
     io.emit('mention', mention)
-  })
-
-  // socket.on('disconnect', (user) => {
-  //   socket.broadcast.emit('newUser', socket.username + ' Disconnected')
-  // });
+  });
 });
-
 
 http.listen(port, function () {
   console.log('listening on *:' + port);

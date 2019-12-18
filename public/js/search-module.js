@@ -17,10 +17,6 @@ export class Search {
             }).catch(error => {
                 console.error(error);
             })
-        } /*else {
-            this.targetElement.dispatchEvent(new CustomEvent('search-result', {
-                detail: []
-            }))
-        }*/
+        } 
     }
 }

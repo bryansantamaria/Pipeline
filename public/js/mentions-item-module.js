@@ -9,15 +9,11 @@ export class MentionsItem {
     }
 
     render() {
-        //console.log(this);
         this.html.container.innerText = this.user.alias;
         this.html.parent.appendChild(this.html.container);
 
         this.html.container.addEventListener('click', () => {
-
             this.html.parent.dispatchEvent(new CustomEvent('mention-user', {detail: this.user}));
-            //console.log('You mentioned user >');
-            //console.log(this.user);
         })
     }
 }

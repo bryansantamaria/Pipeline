@@ -63,9 +63,6 @@
             </div>
           <% } %>
         <% } %>
-        <%# for(let i=0; i < users.length; i++){ %>
-        <!--<div id="<%#= users[i]._id %>" class="requestChatroom"><i class="fas fa-circle"></i> <%#= users[i].alias %></div>-->
-        <%# } %>
       </private-message>
       <users-online>
         <div id="online-users-title"><i class="fas fa-circle"></i> Online users</div>
@@ -77,12 +74,9 @@
     <!-- chat module container-->
     <main-content>
       <overlay-root class="hidden"></overlay-root>
-
       <!--Top bar(git p inside this chatroom/conversation) 75px height, 100% width-->
       <top-bar id="topBar"></top-bar>
-
-      <message-root>
-      </message-root>
+      <message-root></message-root>
       <is-typing id="typing"></is-typing>
       <form id="msgForm">
         <input autocomplete="off" type="text" id="messageValue" class="form-control"><i class="far fa-smile" id="open-emoji-picker"></i><input type="submit"
