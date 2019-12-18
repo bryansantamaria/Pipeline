@@ -32,7 +32,10 @@ export class ChatModule {
 
         this.html.editBtn.addEventListener('click', () => {
             document.dispatchEvent(new CustomEvent('edit-init', {
-                detail: {html : this.html.message, content: this.content}
+                detail: {
+                    html: this.html.message,
+                    content: this.content
+                }
             }));
         });
 
@@ -74,7 +77,6 @@ export class ChatModule {
         console.log(messageWithMentions);
         this.html.message.innerHTML = `${messageWithMentions}`;
         this.html.timestamp.innerText = this.content.timestamp;
-        this.html.alias.innerText = this.content.alias;
         this.html.editBtn.innerHTML = '<i class="fas fa-pen"></i>';
         this.html.deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
 
@@ -97,5 +99,12 @@ export class ChatModule {
         targetNode.appendChild(this.html.container);
 
         this.html.container.scrollIntoView();
+    }
+
+    updateAlias() {
+        fetch('user/' + this.content.alias).then(res => res.json()).then(user => {
+            user = JSON.parse(user);
+            this.html.alias.innerText = user.alias;
+        });
     }
 }

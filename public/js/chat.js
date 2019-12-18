@@ -46,7 +46,7 @@ let html = {
 let uid = String(document.cookie).replace('user=', '');
 
 //Gets user from DB
-fetch('user/' + uid).then(userdata => {
+fetch('user/' + document.querySelector('#user-id').textContent).then(userdata => {
   return userdata.json();
 }).then(jsondata => {
   chatGlobals.user = JSON.parse(jsondata);
@@ -144,8 +144,9 @@ function joinChatRoom(e) {
       }
       chatMessages.push(chatMessage);
       chatMessage.render(document.querySelector('message-root'));
-
     });
+
+    updateAliases();
 
     //Render topbar
     let chatroomMembers = chatroom[0].members;
@@ -252,7 +253,7 @@ $("#msgForm").submit(function (e) {
   if ($("#messageValue").val() == "") { } else {
 
     let chatMessage = {
-      alias: chatGlobals.user.alias,
+      alias: chatGlobals.user._id,
       message: $("#messageValue").val(),
       avatar: chatGlobals.user.avatar,
       timestamp: getTodaysDate(),
@@ -371,6 +372,7 @@ socket.on('chat message', function (chatObject) {
   }
 
   chatMessages.push(chatMessage);
+  chatMessage.updateAlias();
   chatMessage.render(document.querySelector('message-root'));
 });
 
@@ -591,6 +593,7 @@ document.addEventListener('DOMContentLoaded', () => {
       };
     };
   });
+
   document.querySelector('#create-chatroom-modal').addEventListener('search-result', e => {
 
     while (chatroomUserList.firstChild) {
@@ -707,3 +710,13 @@ document.querySelector('mentions-root').addEventListener('mention-user', e => {
 let emojipicker = new EmojiPicker(document.querySelector('#open-emoji-picker'), document.querySelector('#messageValue'));
 
 emojipicker.render();
+
+/////////////////////////////////////////////////////
+/// UPDATE MESSAGES BY UID
+/////////////////////////////////////////////////////
+
+function updateAliases() {
+  chatMessages.forEach(message => {
+    message.updateAlias();
+  });
+};

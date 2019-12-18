@@ -23,6 +23,12 @@ $theme-colors: (
   animation-fill-mode: forwards;
 }*/
 
+#user-id {
+  display: none;
+  position: absolute;
+  z-index: -1000000;
+}
+
 .removed-msg, .hidden {
   transition: 1s all;
   clip-path: inset(0 100% 0 0) !important;
