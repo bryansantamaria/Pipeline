@@ -15,7 +15,7 @@
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
     "express": "~4.16.1",
-    "express-fileupload": "^1.1.6",
+    "express-fileupload": "^1.1.9",
     "express-session": "^1.17.0",
     "http-errors": "^1.7.3",
     "image-convert": "^0.1.33",
